@@ -141,7 +141,7 @@ public class CharacterController : MonoBehaviour
         if(_animationBlend < .01f) _animationBlend = 0f;
 
         //Normal Grounded Input
-        if (isGrounded && !_jumped && !(Input.IsKneel && CanKneel) && isMoveable)
+        if (isGrounded && !_jumped && !(Input.IsKneel && CanKneel))
         {
             //Handle Deceleration
             if (_inputDirection.magnitude == 0f && _velocity.magnitude >= IdleThreshold)
@@ -217,6 +217,7 @@ public class CharacterController : MonoBehaviour
             //Set Cooldown
             CurrentJumpCooldown = JumpCooldown;
             //Trigger Animation
+            if (HasAnimator) Animator.ResetTrigger(JumpID);
             if (HasAnimator) Animator.SetTrigger(JumpID);
         }
     }

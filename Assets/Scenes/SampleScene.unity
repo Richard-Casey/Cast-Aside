@@ -753,7 +753,7 @@ MonoBehaviour:
   StandingAnimationTimeScale: 6.5
   CrouchedAnimationTimeScale: 1.2
   JumpCooldown: 0.7
-  JumpMultiplier: 11
+  JumpMultiplier: 10
   AirMovementMultiplier: 45
   Radius: 0.2
   Offset: {x: 0, y: -0.1, z: 0}
@@ -874,7 +874,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 996911004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.26, z: 6.67}
+  m_LocalPosition: {x: -6.04, y: 0.26, z: 6.67}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
