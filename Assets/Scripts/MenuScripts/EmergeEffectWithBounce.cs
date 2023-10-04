@@ -4,13 +4,13 @@ using System.Collections;
 public class EmergeEffectWithBounce : MonoBehaviour
 {
     public float emergeTime = 1.5f;
-    public float bounceHeight = 10f; // The height of the bounce
-    public float bounceTime = 0.2f; // The time it takes to complete the bounce
-    public float scaleOvershoot = 1.2f; // The amount to overshoot the scale by
+    public float bounceHeight = 10f; 
+    public float bounceTime = 0.2f; 
+    public float scaleOvershoot = 1.2f; 
     private float timer = 0f;
     private Vector3 originalScale;
     private Vector3 originalPosition;
-    private bool hasBounced = false; // To track if the bounce has occurred
+    private bool hasBounced = false; 
 
     void Start()
     {

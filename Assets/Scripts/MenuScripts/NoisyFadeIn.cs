@@ -4,10 +4,10 @@ using System.Collections;
 
 public class NoisyFadeIn : MonoBehaviour
 {
-    public float fadeInTime = 2.0f; // Time for the fade-in to complete
-    public float noiseFrequency = 18.31f; // How "noisy" the fade-in is
-    public float startDelay = 4.0f; // Delay before the fade-in starts
-    public float flickerRange = 0.5f; // Range of the flickering effect
+    public float fadeInTime = 2.0f; 
+    public float noiseFrequency = 18.31f; 
+    public float startDelay = 4.0f; 
+    public float flickerRange = 0.5f; 
 
     private Image image;
     private Color originalColor;
@@ -18,7 +18,7 @@ public class NoisyFadeIn : MonoBehaviour
     {
         image = GetComponent<Image>();
         originalColor = image.color;
-        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f); // Start transparent
+        image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f); 
         StartCoroutine(FadeIn());
     }
 

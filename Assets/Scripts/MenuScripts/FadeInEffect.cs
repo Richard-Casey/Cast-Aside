@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class FadeInEffect : MonoBehaviour
 {
-    public float fadeInTime = 2.0f; // Time it takes to fade in, in seconds
-    public float delayTime = 2.5f; // Time to wait before starting the fade in, in seconds
+    public float fadeInTime = 2.0f; 
+    public float delayTime = 2.5f; 
     private CanvasGroup canvasGroup;
     private float timer = 0f;
     private bool startFading = false;
@@ -13,7 +13,7 @@ public class FadeInEffect : MonoBehaviour
     {
         canvasGroup = GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0f; // Start fully transparent
-        Invoke("StartFading", delayTime); // Invoke the StartFading function after delayTime seconds
+        Invoke("StartFading", delayTime); 
     }
 
     void StartFading()

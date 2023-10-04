@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class MoveAndScaleLogo : MonoBehaviour
 {
-    public float startYDelay = 4.0f; // Time to start the action
-    public float moveTime = 1.0f; // Time to complete the action
-    public float targetScale = 0.5f; // The scale to reduce to
-    public float moveYUnits = 10.0f; // Units to move up the screen
+    public float startYDelay = 4.0f; 
+    public float moveTime = 1.0f; 
+    public float targetScale = 0.5f; 
+    public float moveYUnits = 10.0f; 
 
     private Vector3 originalScale;
     private Vector3 originalPosition;
@@ -16,7 +16,7 @@ public class MoveAndScaleLogo : MonoBehaviour
     {
         originalScale = transform.localScale;
         originalPosition = transform.position;
-        Invoke("StartAction", startYDelay); // Start the action after startYDelay seconds
+        Invoke("StartAction", startYDelay); 
     }
 
     void StartAction()

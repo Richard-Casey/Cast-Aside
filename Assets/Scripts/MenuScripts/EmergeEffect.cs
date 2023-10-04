@@ -3,7 +3,7 @@ using UnityEngine;
 public class EmergeEffect : MonoBehaviour
 {
     public float emergeTime = 1.5f;
-    public float startYOffset = -100f; // Public variable to set the starting Y-offset in the Inspector
+    public float startYOffset = -100f; 
     private float timer = 0f;
     private Vector3 originalScale;
     private Vector3 originalPosition;
