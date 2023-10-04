@@ -1,24 +1,9 @@
 fileFormatVersion: 2
-guid: 7ba5859c35a89c240b8dec79f1cc1c45
+guid: 1fde9f58296fefa41978d6fc6214c097
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: BuildingColour
-    second: {fileID: 2100000, guid: b37a2c608672c40449b4da1ba40cf323, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: PillarEndAndThirdColour
-    second: {fileID: 2100000, guid: a2b5006aad752cb45b8057ed603bb627, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: SecondaryAnd Roof
-    second: {fileID: 2100000, guid: 65747ee39b1b26143aa698d0468f299f, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -29,6 +29,7 @@ public class SceneTransitions : MonoBehaviour
 
     public bool test = false;
     public AnimationsTypes type = AnimationsTypes.BatCover;
+    public int SceneId = 0;
     public void Start()
     {
         GetAnimatorIDS();
@@ -39,8 +40,14 @@ public class SceneTransitions : MonoBehaviour
         if (test)
         {
             test = false;
-            LoadScene(0, type);
+            LoadScene(SceneId, type);
         }
+    }
+
+
+    public void Transition()
+    {
+        LoadScene(SceneId, type);
     }
 
     public void LoadScene(int SceneID,AnimationsTypes AnimationType)
@@ -54,13 +61,14 @@ public class SceneTransitions : MonoBehaviour
         yield return new WaitForSeconds(1);
         DontDestroyOnLoad(this);
         SceneManager.LoadScene(SceneID, LoadSceneMode.Single);
+        yield return new WaitForSeconds(1);
         StartCoroutine(LoadIn());
     }
 
     IEnumerator LoadIn()
     {
-        yield return new WaitForSeconds(1);
         Destroy(gameObject);
+        yield return new WaitForSeconds(0);
     }
 
     public void TriggerAnimation(AnimationsTypes type)

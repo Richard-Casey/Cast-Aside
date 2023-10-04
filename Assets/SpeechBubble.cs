@@ -1,18 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
+
+//This script is temp
 public class SpeechBubble : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public List<string> DialougeToSay = new List<string>();
+    public string EmptyDialougeMessage = "Hey Ive Had Enough Of You Go Away....";
+
+
+    public TextMeshProUGUI textMeshPro;
+    int CurrentText = 0;
+
     void Start()
     {
-        
+        textMeshPro.text = DialougeToSay[CurrentText];
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ShowNextText()
     {
-        
+        CurrentText++;
+        if (CurrentText > DialougeToSay.Count - 1)
+        {
+            textMeshPro.text = EmptyDialougeMessage;
+        }
+        else
+        {
+            textMeshPro.text = DialougeToSay[CurrentText];
+        }
     }
 }

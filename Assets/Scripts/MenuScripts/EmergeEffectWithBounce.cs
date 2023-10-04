@@ -17,7 +17,7 @@ public class EmergeEffectWithBounce : MonoBehaviour
         originalScale = transform.localScale;
         originalPosition = transform.position;
         transform.localScale = Vector3.zero;
-        transform.position = new Vector3(transform.position.x, transform.position.y - 100, transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
     }
 
     void Update()
@@ -27,7 +27,7 @@ public class EmergeEffectWithBounce : MonoBehaviour
             timer += Time.deltaTime;
             float progress = timer / emergeTime;
             transform.localScale = Vector3.Lerp(Vector3.zero, originalScale, progress);
-            transform.position = Vector3.Lerp(new Vector3(transform.position.x, originalPosition.y - 100, transform.position.z), originalPosition, progress);
+            transform.position = Vector3.Lerp(new Vector3(transform.position.x, originalPosition.y - 10, transform.position.z), originalPosition, progress);
         }
         else if (!hasBounced)
         {
