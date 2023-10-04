@@ -45,4 +45,9 @@ public class Interactable : MonoBehaviour
         InputManager.Interaction.RemoveListener(OnInteraction.Invoke);
         OnLeaveInteractionArea?.Invoke(collider.gameObject);
     }
+
+    public void CreateGameObject(GameObject GO)
+    {
+        Instantiate(GO);
+    }
 }
