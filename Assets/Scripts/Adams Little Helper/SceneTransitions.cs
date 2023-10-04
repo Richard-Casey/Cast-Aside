@@ -11,7 +11,8 @@ public class SceneTransitions : MonoBehaviour
     {
         CircleSwipe,
         CurtainSwipe,
-        CurtainJoin
+        CurtainJoin,
+        BatCover
     }
     #region AnimatorIDS
 
@@ -22,11 +23,12 @@ public class SceneTransitions : MonoBehaviour
         AnimatorIDS.Add(Animator.StringToHash("CircleSwipe"));
         AnimatorIDS.Add(Animator.StringToHash("CurtainSwipe"));
         AnimatorIDS.Add(Animator.StringToHash("CurtainJoin"));
+        AnimatorIDS.Add(Animator.StringToHash("BatCover"));
     }
     #endregion
 
     public bool test = false;
-
+    public AnimationsTypes type = AnimationsTypes.BatCover;
     public void Start()
     {
         GetAnimatorIDS();
@@ -37,7 +39,7 @@ public class SceneTransitions : MonoBehaviour
         if (test)
         {
             test = false;
-            LoadScene(0, AnimationsTypes.CurtainJoin);
+            LoadScene(0, type);
         }
     }
 
