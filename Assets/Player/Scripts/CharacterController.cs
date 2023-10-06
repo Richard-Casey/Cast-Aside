@@ -64,13 +64,12 @@ public class CharacterController : MonoBehaviour
         HasAnimator = TryGetComponent<Animator>(out Animator);
         HasRigidbody = TryGetComponent<Rigidbody>(out rb);
         TryGetComponent<CapsuleCollider>(out collider);
-        _cameraFollow = VirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        //_cameraFollow = VirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
         if (HasAnimator)GetAnimatorIDs();
     }
 
     void Update()
     {
-        Look();
         Jump();
         isGrounded = GroundCheck();
     }
@@ -258,7 +257,7 @@ public class CharacterController : MonoBehaviour
     float CameraOffsetMax = 5f;
     float CameraOffsetMin = 0f;
     Cinemachine3rdPersonFollow _cameraFollow;
-    void Look()
+    /*void Look()
     {
         CameraPivot.transform.eulerAngles = new Vector3(CameraPivot.transform.eulerAngles.x, CameraPivot.transform.eulerAngles.y + (Input.RotateInput * RotationSensitivity),
                 CameraPivot.transform.eulerAngles.z);
@@ -268,7 +267,7 @@ public class CharacterController : MonoBehaviour
         _cameraFollow.ShoulderOffset.z = Mathf.Clamp(_cameraFollow.ShoulderOffset.z, CameraOffsetMin, CameraOffsetMax);
 
 
-    }
+    }*/
 
     #endregion
     
