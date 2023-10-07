@@ -9,16 +9,19 @@ public class CameraManager : MonoBehaviour
     [SerializeField] Transform StartingPosition;
     [SerializeField] float TransitionSpeed = 1f;
     [SerializeField] float TransitionHeight = 5f;
-    [SerializeField] Transform TestTarget;
     [SerializeField] List<Transform> RoomTargets;
 
     Transform CurrentTarget;
+    Camera camera;
     float CurrentTime = 0;
 
     public void Start()
     {
+        camera = GetComponent<Camera>();
+        
         CurrentTarget = StartingPosition;
-        StartTransition(TestTarget);
+        
+        transform.position = CurrentTarget.position;
     }
 
     public void StartTransition(Transform Target)
@@ -62,4 +65,10 @@ public class CameraManager : MonoBehaviour
             if (GUILayout.Button(target.name)) StartCoroutine(TransitionTo(target)); ;
         }
     }
+
+    public void SetOrthographicSize(float size)
+    {
+        camera.orthographicSize = size;
+    }
+
 }
