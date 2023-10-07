@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
@@ -8,6 +10,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] float TransitionSpeed = 1f;
     [SerializeField] float TransitionHeight = 5f;
     [SerializeField] Transform TestTarget;
+    [SerializeField] List<Transform> RoomTargets;
 
     Transform CurrentTarget;
     float CurrentTime = 0;
@@ -45,6 +48,18 @@ public class CameraManager : MonoBehaviour
             CurrentTime += Time.deltaTime * TransitionSpeed;
             yield return null;
         }
+
+        CurrentTarget = Target;
         CurrentTime = 0;
+
+
+    }
+    
+    public void OnGUI()
+    {
+        foreach (var target in RoomTargets)
+        {
+            if (GUILayout.Button(target.name)) StartCoroutine(TransitionTo(target)); ;
+        }
     }
 }
