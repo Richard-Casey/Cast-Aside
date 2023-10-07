@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 public class SceneTransitions : MonoBehaviour
 {
     [SerializeField] Animator CanvasAnimator;
 
+    public static UnityEvent<AnimationsTypes> PlayTransition = new UnityEvent<AnimationsTypes>();
 
     public enum AnimationsTypes
     {
@@ -33,6 +35,7 @@ public class SceneTransitions : MonoBehaviour
     public void Start()
     {
         GetAnimatorIDS();
+        PlayTransition.AddListener(PlayJustTransition);
     }
 
     public void Update()
@@ -44,6 +47,10 @@ public class SceneTransitions : MonoBehaviour
         }
     }
 
+    public void PlayJustTransition(AnimationsTypes typeToPlay)
+    {
+        TriggerAnimation(typeToPlay);
+    }
 
     public void Transition()
     {
