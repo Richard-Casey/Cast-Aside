@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: a154337ccdf9caa4eb72c6fdd26e2674
+guid: a49930b73ffa8ee4e9991b52a1ceb477
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Column Base Colour
+    second: {fileID: 2100000, guid: 116f7ae04eeea9142969d56c43cddc23, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Column Toppings Colour
+    second: {fileID: 2100000, guid: 125dad5a4fdb3b3418c6cd0d35fa18c3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ColumnDividers
+    second: {fileID: 2100000, guid: 354ff032d3725bc44a1f38f0ed223dc1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ColumnEnds
+    second: {fileID: 2100000, guid: 4ffbefac922c86e4fa076161f6ec023e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
