@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class CameraManager : MonoBehaviour
 {
     public static UnityEvent TransitionToCompleted = new UnityEvent();
+    public static UnityEvent TransitionCompleted = new UnityEvent();
 
     //Refrences
     [SerializeField] Transform PlayerTransform;
@@ -141,6 +142,7 @@ public class CameraManager : MonoBehaviour
         CurrentTime = 0;
 
         ShouldAutoUpdate = true;
+        TransitionCompleted?.Invoke();
     }
 
 
