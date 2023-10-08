@@ -9,6 +9,6 @@ public class RoomTrigger : MonoBehaviour
 
     void OnTriggerEnter()
     {
-        _cameraManager.SetTargetPosition(_roomCameraPivot.position);
+        //_cameraManager.SetTargetPosition(_roomCameraPivot.position);
     }
 }
