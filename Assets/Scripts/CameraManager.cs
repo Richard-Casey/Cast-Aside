@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -17,6 +18,7 @@ public class CameraManager : MonoBehaviour
 
     bool ShouldAutoUpdate = true;
     Vector3 _currentPositon = Vector3.zero;
+    Vector3 TargetPosition;
     float t = 0;
 
     Transform CurrentTarget;
@@ -30,6 +32,7 @@ public class CameraManager : MonoBehaviour
         camera = GetComponent<Camera>();
 
         CurrentTarget = StartingPosition;
+        TargetPosition = StartingPosition.position;
 
         transform.position = CurrentTarget.position;
         _currentPositon = transform.position;
@@ -46,22 +49,19 @@ public class CameraManager : MonoBehaviour
         return (Input / RoundTo) * RoundTo;
     }
 
+    public void SetTargetPosition(Vector3 newPosition)
+    {
+        TargetPosition = newPosition;
+    }
+
     public void Update()
     {
         if (ShouldAutoUpdate)
         {
-            //Take the players position and round it To The Nearest Multiple of 30
-            Vector3 TargetPosition = PlayerTransform.position;
-            
-            /*TargetPosition /= 30;
-
-            TargetPosition = new Vector3(Mathf.Round(TargetPosition.x), Mathf.Round(TargetPosition.y),
-                Mathf.Round(TargetPosition.z));
-
-            TargetPosition *= 30;*/
+            /*Vector3 TargetPosition = PlayerTransform.position;
             
             //Add The Cameras Offset To The Center Of The room
-            TargetPosition += new Vector3(15, 15, 15);
+            TargetPosition += new Vector3(15, 15, 15);*/
 
             //If The camera isnt already at the position move it over x amount of seconds
             if (TargetPosition != _currentPositon)
@@ -82,11 +82,62 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    [System.Serializable]
+    public enum TransitionType
+    {
+        Swipeup,
+        Zoomout
+    }
+
     //Public wrapper
-    public void StartTransition(Transform Target)
+    public void StartTransition(Transform Target,TransitionType type)
     {
         ShouldAutoUpdate = false;
-        StartCoroutine(TransitionTo(Target));
+        switch (type)
+        {
+            case TransitionType.Swipeup:
+                StartCoroutine(TransitionTo(Target));
+                break;
+            case TransitionType.Zoomout:
+                StartCoroutine(ZoomOut(Target));
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(type), type, null);
+        }
+    }
+
+
+    float DefaultZoom = 15;
+    [SerializeField] float TargetZoom = 100f;
+
+    IEnumerator ZoomOut(Transform Target)
+    {
+        while (camera.orthographicSize < TargetZoom)
+        {
+            camera.orthographicSize = Mathf.Lerp(DefaultZoom, TargetZoom, CurrentTime);
+            CurrentTime += Time.deltaTime * TransitionSpeed;
+            yield return null;
+        }
+
+        CurrentTime = 0;
+        transform.position = Target.position;
+        TransitionToCompleted?.Invoke();
+        StartCoroutine(ZoomIn(Target));
+    }
+
+    IEnumerator ZoomIn(Transform Target)
+    {
+        while (camera.orthographicSize > DefaultZoom)
+        {
+            camera.orthographicSize = Mathf.Lerp(TargetZoom, DefaultZoom, CurrentTime);
+            CurrentTime += Time.deltaTime * TransitionSpeed;
+            yield return null;
+        }
+
+        CurrentTarget = Target;
+        CurrentTime = 0;
+
+        ShouldAutoUpdate = true;
     }
 
 
