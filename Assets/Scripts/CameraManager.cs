@@ -5,23 +5,31 @@ using Unity.VisualScripting;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+
 public class CameraManager : MonoBehaviour
 {
     public static UnityEvent TransitionToCompleted = new UnityEvent();
+    public static UnityEvent TransitionCompleted = new UnityEvent();
 
-    [SerializeField] Transform StartingPosition;
+    //Refrences
+    [SerializeField] Transform PlayerTransform;
+    [SerializeField] RawImage FadeToBlackImage;
+
     [SerializeField] float TransitionSpeed = 1f;
     [SerializeField] float TransitionHeight = 5f;
-    [SerializeField] List<Transform> RoomTargets;
-    [SerializeField] Transform PlayerTransform;
+    
     [SerializeField] float FollowSpeed = 8f;
 
-    bool ShouldAutoUpdate = true;
-    Vector3 _currentPositon = Vector3.zero;
-    Vector3 TargetPosition;
-    float t = 0;
+    [SerializeField] bool ShouldFade = true;
 
-    Transform CurrentTarget;
+
+    bool ShouldAutoUpdate = true;
+    float t = 0;
+    Vector3 _currentPositon = Vector3.zero;
+    Vector3 CameraOffset = new Vector3(15,15,15);
+    
+
     Camera camera;
     float CurrentTime = 0;
 
@@ -31,10 +39,8 @@ public class CameraManager : MonoBehaviour
 
         camera = GetComponent<Camera>();
 
-        CurrentTarget = StartingPosition;
-        TargetPosition = StartingPosition.position;
 
-        transform.position = CurrentTarget.position;
+        transform.position = PlayerTransform.position + CameraOffset;
         _currentPositon = transform.position;
     }
  
@@ -49,19 +55,14 @@ public class CameraManager : MonoBehaviour
         return (Input / RoundTo) * RoundTo;
     }
 
-    public void SetTargetPosition(Vector3 newPosition)
-    {
-        TargetPosition = newPosition;
-    }
-
     public void Update()
     {
         if (ShouldAutoUpdate)
         {
-            /*Vector3 TargetPosition = PlayerTransform.position;
+            Vector3 TargetPosition = PlayerTransform.position;
             
             //Add The Cameras Offset To The Center Of The room
-            TargetPosition += new Vector3(15, 15, 15);*/
+            TargetPosition += new Vector3(15, 15, 15);
 
             //If The camera isnt already at the position move it over x amount of seconds
             if (TargetPosition != _currentPositon)
@@ -93,12 +94,14 @@ public class CameraManager : MonoBehaviour
     public void StartTransition(Transform Target,TransitionType type)
     {
         ShouldAutoUpdate = false;
+
         switch (type)
         {
             case TransitionType.Swipeup:
-                StartCoroutine(TransitionTo(Target));
+                //StartCoroutine();
                 break;
             case TransitionType.Zoomout:
+                if (ShouldFade) StartCoroutine(DoFade());
                 StartCoroutine(ZoomOut(Target));
                 break;
             default:
@@ -120,7 +123,9 @@ public class CameraManager : MonoBehaviour
         }
 
         CurrentTime = 0;
-        transform.position = Target.position;
+        transform.position = Target.position + new Vector3(15,15,15);
+        _currentPositon = transform.position;
+
         TransitionToCompleted?.Invoke();
         StartCoroutine(ZoomIn(Target));
     }
@@ -134,57 +139,48 @@ public class CameraManager : MonoBehaviour
             yield return null;
         }
 
-        CurrentTarget = Target;
         CurrentTime = 0;
 
         ShouldAutoUpdate = true;
+        TransitionCompleted?.Invoke();
     }
 
 
-    //Handles the transition to a point
-    IEnumerator TransitionTo(Transform Target)
+    float FadeTime = 0f;
+    IEnumerator DoFade()
     {
-        while (transform.position.y < CurrentTarget.position.y + TransitionHeight)
+        while (FadeToBlackImage.color.a < 1)
         {
-            transform.position = Vector3.Lerp(CurrentTarget.position, CurrentTarget.position + new Vector3(0,TransitionHeight,0), CurrentTime);
-            CurrentTime += Time.deltaTime * TransitionSpeed;
+            Color CurrentColor = FadeToBlackImage.color;
+            CurrentColor.a = Mathf.Lerp(0, 1, FadeTime);
+            FadeToBlackImage.color = CurrentColor;
+            FadeTime += Time.deltaTime * TransitionSpeed;
             yield return null;
         }
 
-        CurrentTime = 0;
-        transform.position = Target.position + new Vector3(0, TransitionHeight, 0);
-        TransitionToCompleted?.Invoke();
-        StartCoroutine(TransitionFrom(Target));
+        FadeTime = 0;
+        StartCoroutine(UndoFade());
     }
 
-    //Handles a transition from a point
-    IEnumerator TransitionFrom(Transform Target)
+    IEnumerator UndoFade()
     {
-        while (transform.position.y > Target.position.y)
+        while (FadeToBlackImage.color.a > 0)
         {
-            transform.position = Vector3.Slerp(Target.position+ new Vector3(0, TransitionHeight, 0), Target.position , CurrentTime);
-            CurrentTime += Time.deltaTime * TransitionSpeed;
+            Color CurrentColor = FadeToBlackImage.color;
+            CurrentColor.a = Mathf.Lerp(1, 0, FadeTime);
+            FadeToBlackImage.color = CurrentColor;
+            FadeTime += Time.deltaTime * TransitionSpeed;
             yield return null;
         }
 
-        CurrentTarget = Target;
-        CurrentTime = 0;
-
-        ShouldAutoUpdate = true;
+        FadeTime = 0;
     }
+
     
     //Dras a list of debug locations for the camera
     public void OnGUI()
     {
-        foreach (var target in RoomTargets)
-        {
-            if (GUILayout.Button(target.name)) StartCoroutine(TransitionTo(target)); ;
-        }
-    }
 
-    /*public void SetOrthographicSize(float size)
-    {
-        camera.orthographicSize = size;
-    }*/
+    }
 
 }

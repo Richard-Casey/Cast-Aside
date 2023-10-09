@@ -96,6 +96,7 @@ public class CharacterController : MonoBehaviour
     public float Gravity = -9.8f;
     public float Height = 2f;
     public float CrouchedHeight = 1.1f;
+    public bool LockMovement = false;
 
     [Header("Animations",order = 1)]
     public float RotationSmoothTime = .07f;
@@ -111,11 +112,13 @@ public class CharacterController : MonoBehaviour
     Vector2 _velocity = Vector2.zero;
     
     float _rotationVelocity;
+
+
     void Move()
     {
         isIdle = Input.MoveInput.sqrMagnitude < IdleThreshold;
 
-        isMoveable = Animator.GetCurrentAnimatorStateInfo(0).IsTag("Moveable");
+        isMoveable = (Animator.GetCurrentAnimatorStateInfo(0).IsTag("Moveable")&& !LockMovement);
 
         _inputDirection = Input.MoveInput.x * CameraPivot.right +
                           Input.MoveInput.y * new Vector3(CameraPivot.forward.x, 0, CameraPivot.forward.z);

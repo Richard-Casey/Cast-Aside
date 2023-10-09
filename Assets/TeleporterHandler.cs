@@ -8,7 +8,7 @@ public class TeleporterHandler : MonoBehaviour
     public static UnityEvent<Transform,CameraManager.TransitionType> Teleported = new UnityEvent<Transform, CameraManager.TransitionType>();
 
     [SerializeField] Transform TargetPoint;
-    [SerializeField] Transform CameraTarget;
+
     [SerializeField] public CameraManager.TransitionType transitionType;
 
     Transform LastCollidedTransform;
@@ -16,7 +16,7 @@ public class TeleporterHandler : MonoBehaviour
     public void OnTriggerEnter(Collider collision)
     {
         LastCollidedTransform = collision.transform;
-        Teleported?.Invoke(CameraTarget, transitionType);
+        Teleported?.Invoke(TargetPoint, transitionType);
     }
 
     public void Start()
