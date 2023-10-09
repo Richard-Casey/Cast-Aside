@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cinemachine;
 using UnityEngine;
 
@@ -90,6 +91,7 @@ public class CharacterController : MonoBehaviour
     public float CrouchWalkMultiplier = .7f;
     public float CrouchRunMultiplier = .5f;
     public float MovementMultiplier = 25f;
+    public float AccelerationTime = 1f;
     public float NewTargetMoveSpeed = 0f;
     public float TargetMoveSpeed = 3f;
     public float DecelerationSpeed = 12f;
@@ -129,7 +131,7 @@ public class CharacterController : MonoBehaviour
 
         NewTargetMoveSpeed = Input.IsSprining ? RunSpeed : WalkSpeed;
 
-        TargetMoveSpeed = Mathf.Lerp(TargetMoveSpeed, NewTargetMoveSpeed, Time.deltaTime);
+        TargetMoveSpeed = Mathf.Lerp(TargetMoveSpeed, NewTargetMoveSpeed, Time.deltaTime * AccelerationTime);
 
         float MultipliedTargetMoveSpeed = TargetMoveSpeed * MovementMultiplier;
 
@@ -139,7 +141,7 @@ public class CharacterController : MonoBehaviour
 
         NewAnimationTimeScale = Input.IsCrouch ? CrouchedAnimationTimeScale : StandingAnimationTimeScale;
         CurrentAnimationTimeScale = Mathf.Lerp(CurrentAnimationTimeScale, NewAnimationTimeScale, Time.deltaTime);
-        _animationBlend = Mathf.Lerp(_animationBlend, _velocity.normalized.magnitude, Time.fixedDeltaTime * CurrentAnimationTimeScale);
+        _animationBlend = Mathf.Lerp(_animationBlend, _velocity.normalized.magnitude * NewAnimationTimeScale, Time.fixedDeltaTime * CurrentAnimationTimeScale);
         if(_animationBlend < .01f) _animationBlend = 0f;
 
         //Normal Grounded Input
@@ -155,8 +157,9 @@ public class CharacterController : MonoBehaviour
                 Vector3 TargetVelocity =
                     Vector3.ClampMagnitude((_inputDirection * MultipliedTargetMoveSpeed * Time.fixedDeltaTime) + Vector3.down,
                         MultipliedTargetMoveSpeed / 50);
-                 Vector3 newVelocity = Vector3.MoveTowards(rb.velocity, TargetVelocity, 1);
+                 Vector3 newVelocity = Vector3.MoveTowards(rb.velocity, TargetVelocity, TargetMoveSpeed);
                 Vector3 Diffrence = newVelocity - rb.velocity;
+                Debug.Log(TargetVelocity);
                 rb.AddForce(Diffrence, ForceMode.VelocityChange);
 
             }
@@ -168,7 +171,7 @@ public class CharacterController : MonoBehaviour
         }
 
         //If we are in the air handle air movement and apply gravity down
-        else if (!isGrounded && !(Input.IsKneel && CanKneel))
+        else if (!isGrounded && !(Input.IsKneel && CanKneel) && false)
         {
             Vector3 TargetVelocity =
                 Vector3.ClampMagnitude((_inputDirection * MultipliedTargetMoveSpeed * Time.fixedDeltaTime),
@@ -180,9 +183,9 @@ public class CharacterController : MonoBehaviour
             rb.AddForce(Diffrence, ForceMode.VelocityChange);
             rb.AddForce(Vector3.up * Gravity , ForceMode.Acceleration);
         }
-
+        
         //Rotate Player In Direction Of Movement
-        if (Input.MoveInput != Vector2.zero && isMoveable || !isGrounded)
+        if (Input.MoveInput != Vector2.zero && isMoveable)
         {
             Vector3 RotationInputDirection = new Vector3(_inputDirection.x, 0, _inputDirection.z).normalized;
             float _targetRotation = Mathf.Atan2(RotationInputDirection.x, RotationInputDirection.z) * Mathf.Rad2Deg + CameraPivot.forward.y;
@@ -191,6 +194,12 @@ public class CharacterController : MonoBehaviour
                 RotationSmoothTime);
 
             transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+        }
+
+        //Prevent Slight Velocities
+        if (rb.velocity.magnitude < IdleThreshold)
+        {
+            rb.velocity = Vector3.zero;
         }
 
         //Handle Animations
