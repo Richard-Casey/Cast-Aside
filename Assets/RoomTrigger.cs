@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RoomTrigger : MonoBehaviour
 {
-    [SerializeField] CameraManager _cameraManager;
-    [SerializeField] Transform _roomCameraPivot;
+    public static UnityEvent<Vector3> RoomEntered = new UnityEvent<Vector3>();
 
     void OnTriggerEnter()
     {
-        //_cameraManager.SetTargetPosition(_roomCameraPivot.position);
+        RoomEntered?.Invoke(transform.position);
     }
 }
