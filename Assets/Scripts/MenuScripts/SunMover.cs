@@ -13,7 +13,7 @@ public class SunMover : MonoBehaviour
         RoomTrigger.RoomEntered.RemoveListener(Move);
     }
 
-    void Move(Vector3 position)
+    void Move(Vector3 position, RoomTrigger.Roomtypes type)
     {
         transform.position = position;
     }

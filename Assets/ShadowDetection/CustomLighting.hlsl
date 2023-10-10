@@ -4,19 +4,6 @@
 // Additinal Light Shadows
 //------------------------------------------------------------------------------------------------------
 
-#ifndef SHADERGRAPH_PREVIEW
-	#if VERSION_GREATER_EQUAL(9, 0)
-		#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
-		#if (SHADERPASS != SHADERPASS_FORWARD)
-			#undef REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR
-		#endif
-	#else
-		#ifndef SHADERPASS_FORWARD
-			#undef REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR
-		#endif
-	#endif
-#endif
-
 #pragma multi_compile _MAIN_LIGHT_SHADOWS
 #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
 #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
@@ -35,7 +22,9 @@ void MainLightShadows_float (float3 WorldPos, out float ShadowAtten){
 			ShadowAtten += light.shadowAttenuation;
 		}
 
-		ShadowAtten = ShadowAtten;
+
+
+		ShadowAtten = MainLightShadow(shadowCoord, WorldPos, half4(1, 1, 1, 1), _MainLightOcclusionProbes);
 #else
 		ShadowAtten = MainLightRealtimeShadow(shadowCoord);
 #endif
@@ -51,14 +40,13 @@ void MainLightShadows_float (float3 WorldPos, out float ShadowAtten){
 		int additionalLightsCount = GetAdditionalLightsCount();
 		#if VERSION_GREATER_EQUAL(10, 1)
 			
-			//ShadowAtten = MainLightShadow(shadowCoord, WorldPos, half4(1,1,1,1), _MainLightOcclusionProbes);
 			ShadowAtten = 0;
 			for (int i = 0; i < additionalLightsCount; ++i) {
 				Light light = GetAdditionalLight(i, WorldPos, half4(1, 1, 1, 1));
 				ShadowAtten += light.shadowAttenuation;
 			}
 
-			ShadowAtten = ShadowAtten;
+			ShadowAtten = MainLightShadow(shadowCoord, WorldPos, half4(1, 1, 1, 1), _MainLightOcclusionProbes);
 		#else
 			ShadowAtten = MainLightRealtimeShadow(shadowCoord);
 		#endif
