@@ -159,7 +159,7 @@ public class CharacterController : MonoBehaviour
                         MultipliedTargetMoveSpeed / 50);
                  Vector3 newVelocity = Vector3.MoveTowards(rb.velocity, TargetVelocity, TargetMoveSpeed);
                 Vector3 Diffrence = newVelocity - rb.velocity;
-                Debug.Log(TargetVelocity);
+
                 rb.AddForce(Diffrence, ForceMode.VelocityChange);
 
             }
