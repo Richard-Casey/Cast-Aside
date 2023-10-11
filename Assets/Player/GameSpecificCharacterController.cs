@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class GameSpecificCharacterController : MonoBehaviour
@@ -68,7 +69,9 @@ public class GameSpecificCharacterController : MonoBehaviour
     #endregion
 
     #region ManaController
+
     [Header("Mana Controller")]
+    [SerializeField] Slider ManaDisplay;
     [SerializeField] float CurrentMana = 0;
     [SerializeField] float MaxMana = 10;
     [SerializeField] float ManaCostPerSecond = 1;
@@ -98,7 +101,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     #region HealthController
 
     [Header("Health Stats")]
-    [SerializeField] TextMeshProUGUI HealthDisplay;
+    [SerializeField] Slider HealthDisplay;
     [SerializeField] float CurrentHealth = 0;
     [SerializeField] float MaxHealth = 10;
     [SerializeField] float HealthRechargeRate = 1f;
@@ -120,7 +123,12 @@ public class GameSpecificCharacterController : MonoBehaviour
     {
         if (HealthDisplay)
         {
-            HealthDisplay.text = CurrentHealth.ToString("0.0");
+            HealthDisplay.value = CurrentHealth;
+        }
+
+        if (ManaDisplay)
+        {
+            ManaDisplay.value = CurrentMana;
         }
     }
 

@@ -62,7 +62,7 @@ public class CameraManager : MonoBehaviour
             Vector3 TargetPosition = PlayerTransform.position;
             
             //Add The Cameras Offset To The Center Of The room
-            TargetPosition += new Vector3(15, 15, 15);
+            TargetPosition += CameraOffset;
 
             //If The camera isnt already at the position move it over x amount of seconds
             if (TargetPosition != _currentPositon)
