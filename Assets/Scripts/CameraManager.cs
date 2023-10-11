@@ -27,7 +27,7 @@ public class CameraManager : MonoBehaviour
     bool ShouldAutoUpdate = true;
     float t = 0;
     Vector3 _currentPositon = Vector3.zero;
-    Vector3 CameraOffset = new Vector3(15,15,15);
+    [SerializeField] Vector3 CameraOffset = new Vector3(15,15,15);
     
 
     Camera camera;
@@ -110,7 +110,7 @@ public class CameraManager : MonoBehaviour
     }
 
 
-    float DefaultZoom = 15;
+    [SerializeField] float DefaultZoom = 15;
     [SerializeField] float TargetZoom = 100f;
 
     IEnumerator ZoomOut(Transform Target)
