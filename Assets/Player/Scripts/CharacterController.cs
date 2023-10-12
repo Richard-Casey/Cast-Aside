@@ -145,7 +145,7 @@ public class CharacterController : MonoBehaviour
         if(_animationBlend < .01f) _animationBlend = 0f;
 
         //Normal Grounded Input
-        if (isGrounded && !_jumped && !(Input.IsKneel && CanKneel) && isMoveable)
+        if (isGrounded && !_jumped && !(Input.IsKneel && CanKneel) )
         {
             //Handle Deceleration
             if (_inputDirection.magnitude == 0f && _velocity.magnitude >= IdleThreshold)
@@ -171,7 +171,7 @@ public class CharacterController : MonoBehaviour
         }
 
         //If we are in the air handle air movement and apply gravity down
-        else if (!isGrounded && !(Input.IsKneel && CanKneel) && isMoveable)
+        else if (!isGrounded)
         {
             Vector3 TargetVelocity =
                 Vector3.ClampMagnitude((_inputDirection * MultipliedTargetMoveSpeed * Time.fixedDeltaTime),
@@ -185,7 +185,7 @@ public class CharacterController : MonoBehaviour
         }
         
         //Rotate Player In Direction Of Movement
-        if (Input.MoveInput != Vector2.zero && isMoveable)
+        if (Input.MoveInput != Vector2.zero)
         {
             Vector3 RotationInputDirection = new Vector3(_inputDirection.x, 0, _inputDirection.z).normalized;
             float _targetRotation = Mathf.Atan2(RotationInputDirection.x, RotationInputDirection.z) * Mathf.Rad2Deg + CameraPivot.forward.y;
