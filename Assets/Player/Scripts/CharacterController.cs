@@ -145,7 +145,7 @@ public class CharacterController : MonoBehaviour
         if(_animationBlend < .01f) _animationBlend = 0f;
 
         //Normal Grounded Input
-        if (isGrounded && !_jumped && !(Input.IsKneel && CanKneel))
+        if (isGrounded && !_jumped && !(Input.IsKneel && CanKneel) && isMoveable)
         {
             //Handle Deceleration
             if (_inputDirection.magnitude == 0f && _velocity.magnitude >= IdleThreshold)
@@ -171,7 +171,7 @@ public class CharacterController : MonoBehaviour
         }
 
         //If we are in the air handle air movement and apply gravity down
-        else if (!isGrounded && !(Input.IsKneel && CanKneel) && false)
+        else if (!isGrounded && !(Input.IsKneel && CanKneel) && isMoveable)
         {
             Vector3 TargetVelocity =
                 Vector3.ClampMagnitude((_inputDirection * MultipliedTargetMoveSpeed * Time.fixedDeltaTime),
