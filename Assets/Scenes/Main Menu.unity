@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: c56d6ca4c9143ee4888f3685655db690, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -11938,8 +11938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3077267ac4f14648b0108d7312decda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraManager: {fileID: 0}
-  _roomCameraPivot: {fileID: 0}
+  RoomType: 0
 --- !u!65 &1771485379
 BoxCollider:
   m_ObjectHideFlags: 0
