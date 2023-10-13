@@ -7998,9 +7998,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: 564decac7a3c056499214c1d4f13d5d5, type: 2}
-  masterVolumeParameterName: Master
-  musicVolumeParameterName: Music
-  sfxVolumeParameterName: SFX
+  masterVolumeParameterName: MasterVolume
+  musicVolumeParameterName: MusicVolume
+  sfxVolumeParameterName: SFXVolume
 --- !u!1 &1151340288
 GameObject:
   m_ObjectHideFlags: 0

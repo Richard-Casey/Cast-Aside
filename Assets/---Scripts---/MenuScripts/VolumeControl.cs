@@ -4,9 +4,9 @@ using UnityEngine.Audio;
 public class VolumeControl : MonoBehaviour
 {
     public AudioMixer audioMixer;  // Reference to the Audio Mixer asset
-    public string masterVolumeParameterName = "Master";
-    public string musicVolumeParameterName = "Music";
-    public string sfxVolumeParameterName = "SFX";
+    public string masterVolumeParameterName = "MasterVolume";
+    public string musicVolumeParameterName = "MusicVolume";
+    public string sfxVolumeParameterName = "SFXVolume";
 
 
     public void SetMasterVolume(float volume)

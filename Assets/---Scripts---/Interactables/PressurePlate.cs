@@ -11,6 +11,7 @@ public class PressurePlate : MonoBehaviour
     [SerializeField] float PlateSpeed = 1f;
     [SerializeField] UnityEvent OnPlateActivate = new UnityEvent();
     [SerializeField] UnityEvent OnPlateStay = new UnityEvent();
+    [SerializeField] UnityEvent OnPlateLeave = new UnityEvent();
 
     AudioSource audio;
 
@@ -38,7 +39,7 @@ public class PressurePlate : MonoBehaviour
     void OnTriggerExit()
     {
         if (isTransitioning) return;
-
+        OnPlateLeave?.Invoke();
         _StartPosition = transform.position;
         StartCoroutine(Up());
 
