@@ -30,6 +30,7 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField] bool CanCrouch = true;
     [SerializeField] bool CanKneel = false;
+    [SerializeField] bool IgnoreXZRotations = true;
     #endregion
 
     #region LayerMasks
@@ -64,6 +65,7 @@ public class CharacterController : MonoBehaviour
     {
         HasAnimator = TryGetComponent<Animator>(out Animator);
         HasRigidbody = TryGetComponent<Rigidbody>(out rb);
+        DefaultLookForward = CameraPivot.forward;
         TryGetComponent<CapsuleCollider>(out collider);
         //_cameraFollow = VirtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
         if (HasAnimator)GetAnimatorIDs();
@@ -99,6 +101,8 @@ public class CharacterController : MonoBehaviour
     public float Height = 2f;
     public float CrouchedHeight = 1.1f;
     public bool LockMovement = false;
+    Vector3 DefaultLookForward = -Vector3.one;
+
 
     [Header("Animations",order = 1)]
     public float RotationSmoothTime = .07f;
@@ -124,6 +128,14 @@ public class CharacterController : MonoBehaviour
 
         _inputDirection = Input.MoveInput.x * CameraPivot.right +
                           Input.MoveInput.y * new Vector3(CameraPivot.forward.x, 0, CameraPivot.forward.z);
+
+        Debug.Log(CameraPivot.forward.x);
+
+        if (IgnoreXZRotations)
+        {
+            _inputDirection = Input.MoveInput.x * CameraPivot.right +
+                              Input.MoveInput.y * new Vector3(DefaultLookForward.x, 0, DefaultLookForward.z);
+        }
 
         _inputDirection = _inputDirection.normalized;
 

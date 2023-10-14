@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+using DG.Tweening;
+
 public class CameraManager : MonoBehaviour
 {
     public static UnityEvent TransitionToCompleted = new UnityEvent();
@@ -28,7 +30,7 @@ public class CameraManager : MonoBehaviour
     float t = 0;
     Vector3 _currentPositon = Vector3.zero;
     [SerializeField] Vector3 CameraOffset = new Vector3(15,15,15);
-    
+    Vector3 CurrentCameraOffset;
 
     Camera camera;
     float CurrentTime = 0;
@@ -36,7 +38,7 @@ public class CameraManager : MonoBehaviour
     public void Start()
     {
         TeleporterHandler.Teleported.AddListener(StartTransition);
-
+        CurrentCameraOffset = CameraOffset;
         camera = GetComponent<Camera>();
 
 
@@ -60,9 +62,11 @@ public class CameraManager : MonoBehaviour
         if (ShouldAutoUpdate)
         {
             Vector3 TargetPosition = PlayerTransform.position;
+
             
+
             //Add The Cameras Offset To The Center Of The room
-            TargetPosition += CameraOffset;
+            TargetPosition += CurrentCameraOffset;
 
             //If The camera isnt already at the position move it over x amount of seconds
             if (TargetPosition != _currentPositon)
@@ -81,6 +85,20 @@ public class CameraManager : MonoBehaviour
                 _currentPositon = TargetPosition;
             }
         }
+    }
+
+
+    public void CameraAbove()
+    {
+        CurrentCameraOffset = new Vector3(0, CameraOffset.y, 0);
+        transform.DORotate(new Vector3(90f, transform.eulerAngles.y, transform.eulerAngles.z), 1F);
+        //transform.eulerAngles = new Vector3(90f, transform.eulerAngles.y, transform.eulerAngles.z);
+    }
+
+    public void CameraNormal()
+    {
+        CurrentCameraOffset = CameraOffset;
+        transform.DORotate(new Vector3(22.5f, transform.eulerAngles.y, transform.eulerAngles.z), 1f);
     }
 
     [System.Serializable]
@@ -123,7 +141,7 @@ public class CameraManager : MonoBehaviour
         }
 
         CurrentTime = 0;
-        transform.position = Target.position + new Vector3(15,15,15);
+        transform.position = Target.position + CurrentCameraOffset;
         _currentPositon = transform.position;
 
         TransitionToCompleted?.Invoke();
