@@ -374,6 +374,103 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 405816, guid: 62680723f4f555145a9a3adab705c30c, type: 3}
   m_PrefabInstance: {fileID: 1487224971}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &64141940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 64141941}
+  - component: {fileID: 64141944}
+  - component: {fileID: 64141943}
+  - component: {fileID: 64141942}
+  m_Layer: 6
+  m_Name: Ceiling
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &64141941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64141940}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.1250144, y: 4.5, z: -4.749999}
+  m_LocalScale: {x: 16.75004, y: 1, z: 7.5000215}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 923740817}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &64141942
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64141940}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &64141943
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64141940}
+  m_Enabled: 1
+  m_CastShadows: 3
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &64141944
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64141940}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &80212832
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,6 +910,10 @@ PrefabInstance:
     - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_03 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 453536, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_RootOrder
@@ -1606,6 +1707,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_03 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 453536, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_RootOrder
       value: 44
@@ -1663,6 +1768,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_015
       objectReference: {fileID: 0}
+    - target: {fileID: 172830, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 462868, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
       propertyPath: m_RootOrder
       value: 72
@@ -1719,6 +1828,10 @@ PrefabInstance:
     - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_03 (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 453536, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_RootOrder
@@ -1855,6 +1968,10 @@ PrefabInstance:
     - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_Name
       value: ST_Env_Wall_06 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 424740, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_RootOrder
@@ -2189,7 +2306,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 308844258}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Temple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2297,6 +2414,10 @@ PrefabInstance:
     - target: {fileID: 172830, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_015 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 172830, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 462868, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
       propertyPath: m_RootOrder
@@ -2411,6 +2532,10 @@ PrefabInstance:
     - target: {fileID: 172830, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_015 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 172830, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 462868, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
       propertyPath: m_RootOrder
@@ -2849,6 +2974,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Doorway_02
       objectReference: {fileID: 0}
+    - target: {fileID: 157840, guid: 77e3ea3fc3d2f2e4cb2a3dd80094e513, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 461494, guid: 77e3ea3fc3d2f2e4cb2a3dd80094e513, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2983,6 +3112,10 @@ PrefabInstance:
     - target: {fileID: 114568, guid: 18b31605899bfef4f860b2fb50054cf1, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_Grass_02 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114568, guid: 18b31605899bfef4f860b2fb50054cf1, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 448446, guid: 18b31605899bfef4f860b2fb50054cf1, type: 3}
       propertyPath: m_RootOrder
@@ -3200,6 +3333,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_Waterway_02
       objectReference: {fileID: 0}
+    - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 470188, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_RootOrder
       value: 75
@@ -3256,6 +3393,10 @@ PrefabInstance:
     - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_03 (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 453536, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_RootOrder
@@ -3402,6 +3543,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_03 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 453536, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_RootOrder
       value: 43
@@ -3531,6 +3676,10 @@ PrefabInstance:
     - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_Name
       value: ST_Env_Wall_06 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 424740, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_RootOrder
@@ -3892,6 +4041,10 @@ PrefabInstance:
     - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_03 (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 453536, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_RootOrder
@@ -4265,6 +4418,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_015 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 172830, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 462868, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
       propertyPath: m_RootOrder
       value: 18
@@ -4442,6 +4599,10 @@ PrefabInstance:
     - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_Name
       value: ST_Env_Wall_06 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 424740, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_RootOrder
@@ -4686,6 +4847,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_03 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 453536, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_RootOrder
       value: 45
@@ -4744,7 +4909,7 @@ GameObject:
   - component: {fileID: 699384755}
   - component: {fileID: 699384754}
   - component: {fileID: 699384753}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire_Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9591,6 +9756,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_Grass_01
       objectReference: {fileID: 0}
+    - target: {fileID: 191242, guid: 3b2870e1124ae984082924c4f5efaeb8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 450022, guid: 3b2870e1124ae984082924c4f5efaeb8, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -9647,6 +9816,10 @@ PrefabInstance:
     - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_03 (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 453536, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_RootOrder
@@ -10236,6 +10409,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Wall_06
       objectReference: {fileID: 0}
+    - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 424740, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -10292,6 +10469,10 @@ PrefabInstance:
     - target: {fileID: 139854, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_016 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 139854, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 422278, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
       propertyPath: m_RootOrder
@@ -10449,6 +10630,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Pillar_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 174468, guid: 7bcc2757e4bbc354691d5a367acea9a4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 472162, guid: 7bcc2757e4bbc354691d5a367acea9a4, type: 3}
       propertyPath: m_RootOrder
       value: 63
@@ -10542,6 +10727,10 @@ PrefabInstance:
     - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_Waterway_02 (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 470188, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_RootOrder
@@ -10647,6 +10836,10 @@ PrefabInstance:
     - target: {fileID: 122438, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
       propertyPath: m_Name
       value: ST_Env_Railing_02 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 122438, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 426214, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
       propertyPath: m_RootOrder
@@ -11069,6 +11262,10 @@ PrefabInstance:
     - target: {fileID: 122438, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
       propertyPath: m_Name
       value: ST_Env_Railing_02 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 122438, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 426214, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
       propertyPath: m_RootOrder
@@ -11514,7 +11711,7 @@ GameObject:
   - component: {fileID: 953974639}
   - component: {fileID: 953974638}
   - component: {fileID: 953974637}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12001,6 +12198,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Wall_05 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 184190, guid: 225b1186ecb30ad40ae5a0737e04d39c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 435290, guid: 225b1186ecb30ad40ae5a0737e04d39c, type: 3}
       propertyPath: m_RootOrder
       value: 55
@@ -12344,6 +12545,10 @@ PrefabInstance:
     - target: {fileID: 107314, guid: 08e6bfee86aaaa346a1f89837272b150, type: 3}
       propertyPath: m_Name
       value: ST_Prop_Vine_02 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 107314, guid: 08e6bfee86aaaa346a1f89837272b150, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 488780, guid: 08e6bfee86aaaa346a1f89837272b150, type: 3}
       propertyPath: m_RootOrder
@@ -17893,6 +18098,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Wall_06 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 424740, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_RootOrder
       value: 67
@@ -17951,7 +18160,7 @@ GameObject:
   - component: {fileID: 1255121817}
   - component: {fileID: 1255121816}
   - component: {fileID: 1255121815}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18071,6 +18280,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Water_01
       objectReference: {fileID: 0}
+    - target: {fileID: 160928, guid: 5c1dcfb87078e7b4b8eca65ebf9b7733, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 425978, guid: 5c1dcfb87078e7b4b8eca65ebf9b7733, type: 3}
       propertyPath: m_RootOrder
       value: 69
@@ -18131,6 +18344,10 @@ PrefabInstance:
     - target: {fileID: 139854, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_016 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 139854, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 422278, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
       propertyPath: m_RootOrder
@@ -18212,6 +18429,10 @@ PrefabInstance:
     - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_Waterway_02 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 470188, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_RootOrder
@@ -18549,6 +18770,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Railing_02 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 122438, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 426214, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
       propertyPath: m_RootOrder
       value: 27
@@ -18635,6 +18860,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Bridge_03
       objectReference: {fileID: 0}
+    - target: {fileID: 103486, guid: 16f8f481ee7058b4e929b183e85bef9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 440242, guid: 16f8f481ee7058b4e929b183e85bef9d, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -18691,6 +18920,10 @@ PrefabInstance:
     - target: {fileID: 107314, guid: 08e6bfee86aaaa346a1f89837272b150, type: 3}
       propertyPath: m_Name
       value: ST_Prop_Vine_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 107314, guid: 08e6bfee86aaaa346a1f89837272b150, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 488780, guid: 08e6bfee86aaaa346a1f89837272b150, type: 3}
       propertyPath: m_RootOrder
@@ -18761,6 +18994,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_03 (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 453536, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_RootOrder
       value: 49
@@ -18817,6 +19054,10 @@ PrefabInstance:
     - target: {fileID: 190756, guid: c75237c57ccc258498d438e631dba33b, type: 3}
       propertyPath: m_Name
       value: ST_Env_Railing_Pillar_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 190756, guid: c75237c57ccc258498d438e631dba33b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 415632, guid: c75237c57ccc258498d438e631dba33b, type: 3}
       propertyPath: m_RootOrder
@@ -18997,6 +19238,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_016 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 139854, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 422278, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -19053,6 +19298,10 @@ PrefabInstance:
     - target: {fileID: 174468, guid: 7bcc2757e4bbc354691d5a367acea9a4, type: 3}
       propertyPath: m_Name
       value: ST_Env_Pillar_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 174468, guid: 7bcc2757e4bbc354691d5a367acea9a4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 472162, guid: 7bcc2757e4bbc354691d5a367acea9a4, type: 3}
       propertyPath: m_RootOrder
@@ -19284,6 +19533,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_03 (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 453536, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_RootOrder
       value: 53
@@ -19416,6 +19669,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Railing_02 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 122438, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 426214, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
       propertyPath: m_RootOrder
       value: 33
@@ -19530,6 +19787,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_Grass_02
       objectReference: {fileID: 0}
+    - target: {fileID: 114568, guid: 18b31605899bfef4f860b2fb50054cf1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 448446, guid: 18b31605899bfef4f860b2fb50054cf1, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -19586,6 +19847,10 @@ PrefabInstance:
     - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_Waterway_02 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 470188, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_RootOrder
@@ -19766,7 +20031,7 @@ GameObject:
   - component: {fileID: 1516398566}
   - component: {fileID: 1516398565}
   - component: {fileID: 1516398564}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19861,6 +20126,10 @@ PrefabInstance:
     - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_03 (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 453536, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_RootOrder
@@ -19967,6 +20236,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Railing_Pillar_03 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 190756, guid: c75237c57ccc258498d438e631dba33b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 415632, guid: c75237c57ccc258498d438e631dba33b, type: 3}
       propertyPath: m_RootOrder
       value: 28
@@ -20023,6 +20296,10 @@ PrefabInstance:
     - target: {fileID: 132290, guid: a60fcf70b543c294d894bce4c83b8e47, type: 3}
       propertyPath: m_Name
       value: ST_Env_Bridge_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 132290, guid: a60fcf70b543c294d894bce4c83b8e47, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 496682, guid: a60fcf70b543c294d894bce4c83b8e47, type: 3}
       propertyPath: m_RootOrder
@@ -20105,6 +20382,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Railing_Pillar_03 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 190756, guid: c75237c57ccc258498d438e631dba33b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 415632, guid: c75237c57ccc258498d438e631dba33b, type: 3}
       propertyPath: m_RootOrder
       value: 34
@@ -20162,6 +20443,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Railing_02 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 122438, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 426214, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
       propertyPath: m_RootOrder
       value: 35
@@ -20218,6 +20503,10 @@ PrefabInstance:
     - target: {fileID: 162720, guid: 0d8ff258fa0756740b74421e3c07fde2, type: 3}
       propertyPath: m_Name
       value: ST_Prop_Brazier_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 162720, guid: 0d8ff258fa0756740b74421e3c07fde2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 412508, guid: 0d8ff258fa0756740b74421e3c07fde2, type: 3}
       propertyPath: m_RootOrder
@@ -20658,6 +20947,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Railing_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 122438, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 426214, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
       propertyPath: m_RootOrder
       value: 26
@@ -20804,6 +21097,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_015 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 172830, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 462868, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -20860,6 +21157,10 @@ PrefabInstance:
     - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_Waterway_02 (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 470188, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_RootOrder
@@ -21020,6 +21321,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_015 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 172830, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 462868, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
       propertyPath: m_RootOrder
       value: 19
@@ -21100,6 +21405,10 @@ PrefabInstance:
     - target: {fileID: 139854, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_016 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 139854, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 422278, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
       propertyPath: m_RootOrder
@@ -21352,6 +21661,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_016 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 139854, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 422278, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
       propertyPath: m_RootOrder
       value: 22
@@ -21481,6 +21794,10 @@ PrefabInstance:
     - target: {fileID: 139854, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_016
+      objectReference: {fileID: 0}
+    - target: {fileID: 139854, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 422278, guid: 5b0ffcb4e8f351c41baa8bac425b7447, type: 3}
       propertyPath: m_RootOrder
@@ -21698,6 +22015,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Wall_06 (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 424740, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_RootOrder
       value: 66
@@ -21754,6 +22075,10 @@ PrefabInstance:
     - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_Waterway_02 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 470188, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_RootOrder
@@ -21849,6 +22174,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_Waterway_02 (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 470188, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_RootOrder
       value: 48
@@ -21929,6 +22258,10 @@ PrefabInstance:
     - target: {fileID: 191242, guid: 3b2870e1124ae984082924c4f5efaeb8, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_Grass_01 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 191242, guid: 3b2870e1124ae984082924c4f5efaeb8, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 450022, guid: 3b2870e1124ae984082924c4f5efaeb8, type: 3}
       propertyPath: m_RootOrder
@@ -22245,6 +22578,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Prop_Brazier_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 162720, guid: 0d8ff258fa0756740b74421e3c07fde2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 412508, guid: 0d8ff258fa0756740b74421e3c07fde2, type: 3}
       propertyPath: m_RootOrder
       value: 37
@@ -22432,6 +22769,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_015 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 172830, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 462868, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
       propertyPath: m_RootOrder
       value: 20
@@ -22562,6 +22903,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_015 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 172830, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 462868, guid: 98a49b7a9dabdee49a9385c27c49b485, type: 3}
       propertyPath: m_RootOrder
       value: 23
@@ -22643,6 +22988,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Wall_06 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 424740, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_RootOrder
       value: 65
@@ -22699,6 +23048,10 @@ PrefabInstance:
     - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_03 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 146558, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 453536, guid: 5efcdc459ae90d54ba8ef53050978b0b, type: 3}
       propertyPath: m_RootOrder
@@ -22832,6 +23185,10 @@ PrefabInstance:
     - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_Waterway_02 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 470188, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_RootOrder
@@ -23179,6 +23536,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Water_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 160928, guid: 5c1dcfb87078e7b4b8eca65ebf9b7733, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 425978, guid: 5c1dcfb87078e7b4b8eca65ebf9b7733, type: 3}
       propertyPath: m_RootOrder
       value: 36
@@ -23435,6 +23796,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Railing_02 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 122438, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 426214, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
       propertyPath: m_RootOrder
       value: 30
@@ -23491,6 +23856,10 @@ PrefabInstance:
     - target: {fileID: 122438, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
       propertyPath: m_Name
       value: ST_Env_Railing_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 122438, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 426214, guid: 77c8e6cf2d527d445a8bf0da83740ae2, type: 3}
       propertyPath: m_RootOrder
@@ -23627,6 +23996,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Wall_05 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 184190, guid: 225b1186ecb30ad40ae5a0737e04d39c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 435290, guid: 225b1186ecb30ad40ae5a0737e04d39c, type: 3}
       propertyPath: m_RootOrder
       value: 51
@@ -23750,6 +24123,10 @@ PrefabInstance:
     - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_Name
       value: ST_Env_Wall_06 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 424740, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_RootOrder
@@ -23909,6 +24286,10 @@ PrefabInstance:
     - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_Name
       value: ST_Env_Block_Waterway_02 (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 470188, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_RootOrder
@@ -24228,6 +24609,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_Waterway_02 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 127576, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 470188, guid: 9f7302d700046fb40bd30316693cb8f2, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -24284,6 +24669,10 @@ PrefabInstance:
     - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_Name
       value: ST_Env_Wall_06 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 183350, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 424740, guid: 93c9fdcca70d3a04bbde25865b153909, type: 3}
       propertyPath: m_RootOrder
@@ -24426,6 +24815,10 @@ PrefabInstance:
     - target: {fileID: 190756, guid: c75237c57ccc258498d438e631dba33b, type: 3}
       propertyPath: m_Name
       value: ST_Env_Railing_Pillar_03 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 190756, guid: c75237c57ccc258498d438e631dba33b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 415632, guid: c75237c57ccc258498d438e631dba33b, type: 3}
       propertyPath: m_RootOrder
@@ -24634,7 +25027,7 @@ GameObject:
   - component: {fileID: 209834441130567483}
   - component: {fileID: 209834441130567482}
   - component: {fileID: 209834441130567484}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire_Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30391,7 +30784,7 @@ GameObject:
   - component: {fileID: 1045913732350868680}
   - component: {fileID: 5614911432548328599}
   - component: {fileID: 5614911432548328598}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
