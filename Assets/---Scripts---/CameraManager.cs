@@ -11,46 +11,35 @@ using DG.Tweening;
 
 public class CameraManager : MonoBehaviour
 {
+
+    //Events
     public static UnityEvent TransitionToCompleted = new UnityEvent();
     public static UnityEvent TransitionCompleted = new UnityEvent();
 
     //Refrences
     [SerializeField] Transform PlayerTransform;
     [SerializeField] RawImage FadeToBlackImage;
+    [SerializeField] Vector3 _cameraOffset = new Vector3(15,15,15);
+    [SerializeField] Ease _easeType = Ease.InOutCirc;
+    [SerializeField] float _transitionTime = 4f;
 
-    [SerializeField] float TransitionSpeed = 1f;
-    [SerializeField] float TransitionHeight = 5f;
-    
-    [SerializeField] float FollowSpeed = 8f;
-
-    [SerializeField] bool ShouldFade = true;
-
-
-    bool ShouldAutoUpdate = true;
-    float t = 0;
+    //Local Variables
+    Vector3 _currentCameraOffset;
+    Vector3 _cameraDefultRotation;
     Vector3 _currentPositon = Vector3.zero;
-    [SerializeField] Vector3 CameraOffset = new Vector3(15,15,15);
-    Vector3 CurrentCameraOffset;
+    bool _shouldAutoUpdate = true;
+    float _t = 0;
 
-    Camera camera;
-    float CurrentTime = 0;
 
     public void Start()
     {
-        TeleporterHandler.Teleported.AddListener(StartTransition);
-        CurrentCameraOffset = CameraOffset;
-        camera = GetComponent<Camera>();
+        _cameraDefultRotation = transform.eulerAngles;
+        _currentCameraOffset = _cameraOffset;
 
-
-        transform.position = PlayerTransform.position + CameraOffset;
+        transform.position = PlayerTransform.position + _cameraOffset;
         _currentPositon = transform.position;
     }
- 
-    public void OnDestroy()
-    {
-        TeleporterHandler.Teleported.RemoveListener(StartTransition);
-    }
-
+    
 
     private float Round(float Input, int RoundTo)
     {
@@ -59,24 +48,22 @@ public class CameraManager : MonoBehaviour
 
     public void Update()
     {
-        if (ShouldAutoUpdate)
+        if (_shouldAutoUpdate)
         {
             Vector3 TargetPosition = PlayerTransform.position;
 
-            
-
             //Add The Cameras Offset To The Center Of The room
-            TargetPosition += CurrentCameraOffset;
+            TargetPosition += _currentCameraOffset;
 
             //If The camera isnt already at the position move it over x amount of seconds
             if (TargetPosition != _currentPositon)
             {
-                t += Time.deltaTime;
-                transform.position = Vector3.Lerp(_currentPositon, TargetPosition,t);
+                _t += Time.deltaTime;
+                transform.position = Vector3.Lerp(_currentPositon, TargetPosition,_t);
             }
             else
             {
-                t = 0;
+                _t = 0;
             }
 
             //And ones its approached stop the move
@@ -88,117 +75,32 @@ public class CameraManager : MonoBehaviour
     }
 
 
-    public void CameraAbove()
+    public void SetCameraRotationX(float Rotation)
     {
-        CurrentCameraOffset = new Vector3(0, CameraOffset.y, 0);
-        transform.DORotate(new Vector3(90f, transform.eulerAngles.y, transform.eulerAngles.z), 1F);
-        //transform.eulerAngles = new Vector3(90f, transform.eulerAngles.y, transform.eulerAngles.z);
+        transform.DORotate(new Vector3(Rotation, transform.eulerAngles.y, transform.eulerAngles.z), _transitionTime).SetEase(_easeType); ;
+    }
+    public void SetCameraRotationY(float Rotation)
+    {
+        transform.DORotate(new Vector3(transform.eulerAngles.x, Rotation, transform.eulerAngles.z), _transitionTime).SetEase(_easeType); ;
+    }
+    public void SetCameraRotationZ(float Rotation)
+    {
+        transform.DORotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, Rotation), _transitionTime).SetEase(_easeType); ;
     }
 
-    public void CameraNormal()
+    public void SetCameraOffsetX(float x)
     {
-        CurrentCameraOffset = CameraOffset;
-        transform.DORotate(new Vector3(22.5f, transform.eulerAngles.y, transform.eulerAngles.z), 1f);
+        _currentCameraOffset = new Vector3(x,_cameraOffset.y, _cameraOffset.z);
     }
 
-    [System.Serializable]
-    public enum TransitionType
+    public void SetCameraOffsetz(float z)
     {
-        Swipeup,
-        Zoomout
+        _currentCameraOffset = new Vector3(_cameraOffset.x, _cameraOffset.y, z);
     }
 
-    //Public wrapper
-    public void StartTransition(Transform Target,TransitionType type)
+    public void ResetTransform()
     {
-        ShouldAutoUpdate = false;
-
-        switch (type)
-        {
-            case TransitionType.Swipeup:
-                //StartCoroutine();
-                break;
-            case TransitionType.Zoomout:
-                if (ShouldFade) StartCoroutine(DoFade());
-                StartCoroutine(ZoomOut(Target));
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(type), type, null);
-        }
+        _currentCameraOffset = _cameraOffset;
+        transform.DORotate(_cameraDefultRotation, _transitionTime).SetEase(_easeType);
     }
-
-
-    [SerializeField] float DefaultZoom = 15;
-    [SerializeField] float TargetZoom = 100f;
-
-    IEnumerator ZoomOut(Transform Target)
-    {
-        while (camera.orthographicSize < TargetZoom)
-        {
-            camera.orthographicSize = Mathf.Lerp(DefaultZoom, TargetZoom, CurrentTime);
-            CurrentTime += Time.deltaTime * TransitionSpeed;
-            yield return null;
-        }
-
-        CurrentTime = 0;
-        transform.position = Target.position + CurrentCameraOffset;
-        _currentPositon = transform.position;
-
-        TransitionToCompleted?.Invoke();
-        StartCoroutine(ZoomIn(Target));
-    }
-
-    IEnumerator ZoomIn(Transform Target)
-    {
-        while (camera.orthographicSize > DefaultZoom)
-        {
-            camera.orthographicSize = Mathf.Lerp(TargetZoom, DefaultZoom, CurrentTime);
-            CurrentTime += Time.deltaTime * TransitionSpeed;
-            yield return null;
-        }
-
-        CurrentTime = 0;
-
-        ShouldAutoUpdate = true;
-        TransitionCompleted?.Invoke();
-    }
-
-
-    float FadeTime = 0f;
-    IEnumerator DoFade()
-    {
-        while (FadeToBlackImage.color.a < 1)
-        {
-            Color CurrentColor = FadeToBlackImage.color;
-            CurrentColor.a = Mathf.Lerp(0, 1, FadeTime);
-            FadeToBlackImage.color = CurrentColor;
-            FadeTime += Time.deltaTime * TransitionSpeed;
-            yield return null;
-        }
-
-        FadeTime = 0;
-        StartCoroutine(UndoFade());
-    }
-
-    IEnumerator UndoFade()
-    {
-        while (FadeToBlackImage.color.a > 0)
-        {
-            Color CurrentColor = FadeToBlackImage.color;
-            CurrentColor.a = Mathf.Lerp(1, 0, FadeTime);
-            FadeToBlackImage.color = CurrentColor;
-            FadeTime += Time.deltaTime * TransitionSpeed;
-            yield return null;
-        }
-
-        FadeTime = 0;
-    }
-
-    
-    //Dras a list of debug locations for the camera
-    public void OnGUI()
-    {
-
-    }
-
 }

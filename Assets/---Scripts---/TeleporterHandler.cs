@@ -5,18 +5,18 @@ using UnityEngine;
 using UnityEngine.Events;
 public class TeleporterHandler : MonoBehaviour
 {
-    public static UnityEvent<Transform,CameraManager.TransitionType> Teleported = new UnityEvent<Transform, CameraManager.TransitionType>();
+    public static UnityEvent<Transform> Teleported = new UnityEvent<Transform>();
 
     [SerializeField] Transform TargetPoint;
 
-    [SerializeField] public CameraManager.TransitionType transitionType;
+    //[SerializeField] public CameraManager.TransitionType transitionType;
 
     Transform LastCollidedTransform;
 
     public void OnTriggerEnter(Collider collision)
     {
         LastCollidedTransform = collision.transform;
-        Teleported?.Invoke(TargetPoint, transitionType);
+        Teleported?.Invoke(TargetPoint);
     }
 
     public void Start()

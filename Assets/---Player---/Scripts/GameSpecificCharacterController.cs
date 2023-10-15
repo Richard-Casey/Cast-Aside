@@ -87,7 +87,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     }*/
 
 
-    void LockMovement(Transform transform, CameraManager.TransitionType type)
+    void LockMovement(Transform transform)
     {
         controller.LockMovement = true;
     }
