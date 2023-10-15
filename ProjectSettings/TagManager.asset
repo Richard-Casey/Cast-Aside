@@ -14,8 +14,8 @@ TagManager:
   - ShadowCasters
   - ShadowTesters
   - Player
-  - RoomTrigger
-  - Porthole
+  - Interactable
+  - 
   - 
   - 
   - 
