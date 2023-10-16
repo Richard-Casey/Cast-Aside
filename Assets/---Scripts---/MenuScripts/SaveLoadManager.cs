@@ -8,6 +8,7 @@ public class SaveLoadManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
+
     // Saving the settings
     public void SaveSettings(float masterVolume, float sfxVolume, float musicVolume, int resolutionIndex,
         bool isFullscreen, int qualityIndex)
