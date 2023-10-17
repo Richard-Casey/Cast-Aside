@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Jobs;
 
 public class TaskDisplay : MonoBehaviour
 {
@@ -31,8 +32,11 @@ public class TaskDisplay : MonoBehaviour
             Vector3 PosToSpawn = transform.position - new Vector3(Radius - ObjectWidth/2f, 0, 0);
             PosToSpawn.x += i * (ObjectSpacing + ObjectWidth);
 
+            //Move the point from local to world
+            PosToSpawn = MathUtil.RotateAroundPivot(PosToSpawn,transform.position,transform.rotation);
+
             //Create the object, scale, parent and change the color of its eyes
-            GameObject newObject = Instantiate(DisplayPrefab, PosToSpawn, Quaternion.identity);
+            GameObject newObject = Instantiate(DisplayPrefab, PosToSpawn, transform.rotation);
             newObject.transform.localScale = new Vector3(Scale, Scale, Scale);
             newObject.transform.parent = transform;
             Light[] lights = newObject.GetComponentsInChildren<Light>();
