@@ -8,11 +8,11 @@ using UnityEngine.Events;
 public class Interactable : MonoBehaviour
 {
 
-    [SerializeField] float InteractionDistance = 1f;
-    [SerializeField] UnityEvent<GameObject> OnEnterInteractionArea;
+    [SerializeField] float _interactionDistance = 1f;
+    [SerializeField] UnityEvent<GameObject> _onEnterInteractionArea;
     [SerializeField] protected UnityEvent<GameObject> OnInteraction;
-    [SerializeField] UnityEvent<GameObject> OnStay;
-    [SerializeField] UnityEvent<GameObject> OnLeaveInteractionArea;
+    [SerializeField] UnityEvent<GameObject> _onStay;
+    [SerializeField] UnityEvent<GameObject> _onLeaveInteractionArea;
 
     [ExecuteInEditMode]
     void Awake()
@@ -25,25 +25,25 @@ public class Interactable : MonoBehaviour
         }
 
         collider.isTrigger = true;
-        collider.radius = InteractionDistance;
+        collider.radius = _interactionDistance;
     }
 
 
     void OnTriggerEnter(Collider collider)
     {
-        OnEnterInteractionArea.Invoke(collider.gameObject);
+        _onEnterInteractionArea.Invoke(collider.gameObject);
         InputManager.Interaction.AddListener(OnInteraction.Invoke);
     }
 
     void OnTriggerStay(Collider collider)
     {
-        OnStay?.Invoke(collider.gameObject);
+        _onStay?.Invoke(collider.gameObject);
     }
 
     void OnTriggerExit(Collider collider)
     {
         InputManager.Interaction.RemoveListener(OnInteraction.Invoke);
-        OnLeaveInteractionArea?.Invoke(collider.gameObject);
+        _onLeaveInteractionArea?.Invoke(collider.gameObject);
     }
 
     public void CreateGameObject(GameObject GO)
