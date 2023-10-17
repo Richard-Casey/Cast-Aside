@@ -11,8 +11,12 @@ public class TaskDisplay : MonoBehaviour
     [SerializeField] float AvalibleSpace = 10f;
     [SerializeField] Gradient EyeColorGradient;
 
+    Transform[] Displayees;
+
     void Start()
     {
+        Displayees = new Transform[ObjectiveManager.ObjectiveCount];
+
         //Calculate the size based on the avalible space and the amount of totems we need to spawn
         float Scale = AvalibleSpace / (ObjectiveManager.ObjectiveCount * (ObjectWidth + ObjectSpacing));
 
@@ -37,14 +41,24 @@ public class TaskDisplay : MonoBehaviour
 
             //Create the object, scale, parent and change the color of its eyes
             GameObject newObject = Instantiate(DisplayPrefab, PosToSpawn, transform.rotation);
+            Displayees[i] = newObject.transform;
             newObject.transform.localScale = new Vector3(Scale, Scale, Scale);
             newObject.transform.parent = transform;
             Light[] lights = newObject.GetComponentsInChildren<Light>();
             Color color = EyeColorGradient.Evaluate((float)i / (float)ObjectiveManager.ObjectiveCount);
-
             lights[0].color = color;
             lights[1].color = color;
+            lights[0].enabled = false;
+            lights[1].enabled = false;
         }
+    }
+
+
+    public void SetTaskDisplayComplete(int index)
+    {
+        Light[] lights = Displayees[index].GetComponentsInChildren<Light>();
+        lights[0].enabled = true;
+        lights[1].enabled = true;
     }
 
 }

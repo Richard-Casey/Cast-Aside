@@ -9,7 +9,7 @@ public class PressurePlate : MonoBehaviour
 {
     [SerializeField] float HeightDisplacment = -.2f;
     [SerializeField] float PlateSpeed = 1f;
-    [SerializeField] UnityEvent OnPlateActivate = new UnityEvent();
+    [SerializeField] public UnityEvent<GameObject> OnPlateActivate = new UnityEvent<GameObject>();
     [SerializeField] UnityEvent OnPlateStay = new UnityEvent();
     [SerializeField] UnityEvent OnPlateLeave = new UnityEvent();
 
@@ -27,7 +27,7 @@ public class PressurePlate : MonoBehaviour
         StartCoroutine(Down());
 
         audio.Play(0);
-        OnPlateActivate?.Invoke();
+        OnPlateActivate?.Invoke(gameObject);
 
     }
 

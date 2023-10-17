@@ -129,8 +129,6 @@ public class CharacterController : MonoBehaviour
         _inputDirection = Input.MoveInput.x * CameraPivot.right +
                           Input.MoveInput.y * new Vector3(CameraPivot.forward.x, 0, CameraPivot.forward.z);
 
-        Debug.Log(CameraPivot.forward.x);
-
         if (IgnoreXZRotations)
         {
             _inputDirection = Input.MoveInput.x * CameraPivot.right +

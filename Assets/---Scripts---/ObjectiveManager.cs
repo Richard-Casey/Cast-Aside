@@ -9,7 +9,8 @@ public class ObjectiveManager : MonoBehaviour
     //The amount of tasks we wish to select this run
     public static int ObjectiveCount = 4;
 
-    [SerializeField] private List<int> _activeObjectIDs;
+    [SerializeField] List<int> _activeObjectIDs;
+    [SerializeField] TaskDisplay taskDisplayer;
 
     //Unity events
     public static UnityEvent<int> ObjectiveComplete = new UnityEvent<int>();
@@ -18,10 +19,12 @@ public class ObjectiveManager : MonoBehaviour
 
     //Dict of all tasks in the level sorted by their IDs
     private static Dictionary<int, Objective> ObjectivesInLevel { set; get; } = new Dictionary<int, Objective>();
-
+    int[] AllTasks;
     private void Start()
     {
         _activeObjectIDs = GetRandomTaskIDs(ObjectiveCount);
+        AllTasks = new int[ObjectiveManager.ObjectiveCount];
+        _activeObjectIDs.CopyTo(AllTasks);
         ObjectiveComplete.AddListener(OnObjectiveComplete);
     }
 
@@ -29,6 +32,7 @@ public class ObjectiveManager : MonoBehaviour
     private void OnObjectiveComplete(int id)
     {
         _activeObjectIDs.Remove(id);
+        taskDisplayer.SetTaskDisplayComplete(AllTasks.ToList().IndexOf(id));
         if (CheckIfAllTasksCompleted()) OnAllTasksCompleted();
     }
 
