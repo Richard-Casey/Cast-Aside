@@ -74,6 +74,12 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    public void SetCameraPosition(Transform target)
+    {
+        _shouldAutoUpdate = false;
+        transform.DOMove(target.position,_transitionTime,false);
+        transform.DORotate(target.eulerAngles, _transitionTime);
+    }
 
     public void SetCameraRotationX(float Rotation)
     {
@@ -100,6 +106,7 @@ public class CameraManager : MonoBehaviour
 
     public void ResetTransform()
     {
+        _shouldAutoUpdate = true;
         _currentCameraOffset = _cameraOffset;
         transform.DORotate(_cameraDefultRotation, _transitionTime).SetEase(_easeType);
     }

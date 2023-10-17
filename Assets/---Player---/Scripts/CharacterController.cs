@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Cinemachine;
 using UnityEngine;
 
+using DG.Tweening;
+
 public class CharacterController : MonoBehaviour
 {
     #region Refrences
@@ -81,6 +83,11 @@ public class CharacterController : MonoBehaviour
     {
         ControlDrag();
         Move();
+    }
+
+    public void SetIgnoreRotation(bool value)
+    {
+        IgnoreXZRotations = value;
     }
 
     #region Movement
