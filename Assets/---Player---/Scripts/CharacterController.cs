@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Cinemachine;
 using UnityEngine;
 
+using DG.Tweening;
+
 public class CharacterController : MonoBehaviour
 {
     #region Refrences
@@ -83,6 +85,11 @@ public class CharacterController : MonoBehaviour
         Move();
     }
 
+    public void SetIgnoreRotation(bool value)
+    {
+        IgnoreXZRotations = value;
+    }
+
     #region Movement
 
     [Header("Movement",order = 0)] 
@@ -128,8 +135,6 @@ public class CharacterController : MonoBehaviour
 
         _inputDirection = Input.MoveInput.x * CameraPivot.right +
                           Input.MoveInput.y * new Vector3(CameraPivot.forward.x, 0, CameraPivot.forward.z);
-
-        Debug.Log(CameraPivot.forward.x);
 
         if (IgnoreXZRotations)
         {

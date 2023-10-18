@@ -19,11 +19,22 @@ public class Objective : MonoBehaviour
     bool isComplete = false;
     bool isActive = false;
     [SerializeField] int id;
+    [SerializeField] bool _forceSetComplete = false;
 
     void Start()
     {
         //Add To Global List of map Objectives
         int? idValue = ObjectiveManager.AddObjective(this);
         if (idValue.HasValue) id = idValue.Value;
+    }
+
+
+    void Update()
+    {
+        if (_forceSetComplete)
+        {
+            SetComplete();
+            _forceSetComplete = false;
+        }
     }
 }
