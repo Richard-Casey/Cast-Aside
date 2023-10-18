@@ -4,37 +4,76 @@ using UnityEngine;
 
 public class Customisation : MonoBehaviour
 {
-    public GameObject floatingHead;
-    private MeshFilter meshFilter;
-
-    private Mesh[] headMeshes;
-    private int currentHeadIndex = 0;
+    public Transform playerParent; // The parent GameObject where the player should be instantiated
+    private GameObject[] playerPrefabs;
+    private GameObject currentPlayer;
+    private int currentPlayerIndex = 0;
 
     void Start()
     {
-        meshFilter = floatingHead.GetComponent<MeshFilter>();
+        // Load all the player prefabs from the Resources/PlayerPrefabs folder into the array
+        playerPrefabs = Resources.LoadAll<GameObject>("PlayerPrefabs");
 
-        // Load all the heads in the Resources/Heads folder into the array
-        headMeshes = Resources.LoadAll<Mesh>("Heads");
-
-        // Set the initial head mesh
-        meshFilter.mesh = headMeshes[currentHeadIndex];
+        // Instantiate the initial player prefab
+        currentPlayer = Instantiate(playerPrefabs[currentPlayerIndex], playerParent.position, Quaternion.identity, playerParent);
     }
 
-    public void NextHead()
+    void Update()
     {
-        currentHeadIndex = (currentHeadIndex + 1) % headMeshes.Length;
-        meshFilter.mesh = headMeshes[currentHeadIndex];
-    }
-
-    public void PreviousHead()
-    {
-        currentHeadIndex--;
-        if (currentHeadIndex < 0)
+        if (Input.GetKeyDown(KeyCode.O))
         {
-            currentHeadIndex = headMeshes.Length - 1;
+            Debug.Log("O key pressed. Trying to switch to next player.");
+            NextPlayer();
         }
 
-        meshFilter.mesh = headMeshes[currentHeadIndex];
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.Log("P key pressed. Trying to switch to previous player.");
+            PreviousPlayer();
+        }
     }
+
+
+    public void NextPlayer()
+    {
+        Vector3 currentPosition = currentPlayer.transform.position;
+        Transform currentTarget = currentPlayer.GetComponent<WaypointRunner>().GetCurrentTarget();
+        bool isPaused = currentPlayer.GetComponent<WaypointRunner>().IsPaused();
+
+        Destroy(currentPlayer);
+
+        currentPlayerIndex = (currentPlayerIndex + 1) % playerPrefabs.Length;
+        currentPlayer = Instantiate(playerPrefabs[currentPlayerIndex], playerParent.position, Quaternion.identity, playerParent);
+
+        SetInitialState(currentPosition, currentTarget, isPaused);
+    }
+
+    public void PreviousPlayer()
+    {
+        Vector3 currentPosition = currentPlayer.transform.position;
+        Transform currentTarget = currentPlayer.GetComponent<WaypointRunner>().GetCurrentTarget();
+        bool isPaused = currentPlayer.GetComponent<WaypointRunner>().IsPaused();
+
+        Destroy(currentPlayer);
+
+        currentPlayerIndex--;
+        if (currentPlayerIndex < 0)
+        {
+            currentPlayerIndex = playerPrefabs.Length - 1;
+        }
+        currentPlayer = Instantiate(playerPrefabs[currentPlayerIndex], playerParent.position, Quaternion.identity, playerParent);
+
+        SetInitialState(currentPosition, currentTarget, isPaused);
+    }
+
+
+    public void SetInitialState(Vector3 position, Transform target, bool isPaused)
+    {
+        currentPlayer.transform.position = position;  // This line should set the new prefab's position
+        WaypointRunner waypointRunner = currentPlayer.GetComponent<WaypointRunner>();
+        waypointRunner.SetInitialState(target, isPaused);
+    }
+
+
+
 }
