@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
 
     #endregion
 
+
     //public Texture2D CrosshairTexture;
 
     public Vector2 MouseInputDelta       { private set; get; }
@@ -45,21 +46,20 @@ public class InputManager : MonoBehaviour
         isAttack2 = value;
     }
 
-    void OnAttack1(InputValue value)
+    public void OnAttack1(InputAction.CallbackContext value)
     {
-        isAttack1 = value.isPressed;
+        isAttack1 = value.performed;
 
     }
 
 
-    void OnAttack2(InputValue value)
+    public void OnAttack2(InputAction.CallbackContext value)
     {
-        SetAttack2(value.isPressed);
-
+        SetAttack2(value.performed);
     }
 
 
-    void OnInteract(InputValue value) => SetInteract(value.isPressed);
+    public void OnInteract(InputAction.CallbackContext value) => SetInteract(value.started);
 
     private void SetInteract(bool value)
     {
@@ -68,7 +68,7 @@ public class InputManager : MonoBehaviour
     }
 
 
-    void Update()
+    public void Update()
     {
         //Debug.Log(isInteract);
     }
@@ -89,34 +89,34 @@ public class InputManager : MonoBehaviour
     #endregion
 
     #region Move
-    void OnMove(InputValue value) => SetNewMoveInput(value.Get<Vector2>());
+    public void OnMove(InputAction.CallbackContext value) => SetNewMoveInput(value.ReadValue<Vector2>());
     private void SetNewMoveInput(Vector2 newMoveInput)
     {
         MoveInput = newMoveInput;
     }
 
-    void OnSprint(InputValue value) => SetNewSprintInput(value.isPressed);
+    public void OnSprint(InputAction.CallbackContext value) => SetNewSprintInput(value.performed);
 
     private void SetNewSprintInput(bool newSprintInput)
     {
         IsSprining = newSprintInput;
     }
 
-    void OnJump(InputValue value) => SetNewJumpInput(value.isPressed);
+    public void OnJump(InputAction.CallbackContext value) => SetNewJumpInput(value.performed);
 
     private void SetNewJumpInput(bool newJumpInput)
     {
         IsJumping = newJumpInput;
     }
 
-    void OnKneel(InputValue value) => SetNewKneelInput(value.isPressed);
+    public void OnKneel(InputAction.CallbackContext value) => SetNewKneelInput(value.performed);
 
     private void SetNewKneelInput(bool newKneelInput)
     {
         if (newKneelInput) IsKneel = !IsKneel;
     }
 
-    void OnCrouch(InputValue value) => SetNewCrouchInput(value.isPressed);
+    public void OnCrouch(InputAction.CallbackContext value) => SetNewCrouchInput(value.performed);
 
     private void SetNewCrouchInput(bool newCrouchInput)
     {
@@ -125,7 +125,7 @@ public class InputManager : MonoBehaviour
     #endregion
 
     #region Look
-    void OnLook(InputValue value) => SetNewMouseDelta(value.Get<Vector2>());
+    public void OnLook(InputAction.CallbackContext value) => SetNewMouseDelta(value.ReadValue<Vector2>());
     private void SetNewMouseDelta(Vector2 newDelta)
     {
         MouseInputDelta = newDelta;
@@ -134,7 +134,7 @@ public class InputManager : MonoBehaviour
 
     #region Rotate
 
-    void OnRotate(InputValue value) => SetNewLockState(value.Get<float>());
+    public void OnRotate(InputAction.CallbackContext value) => SetNewLockState(value.ReadValue<float>());
     private void SetNewLockState(float newInput)
     {
         RotateInput = newInput;
@@ -144,7 +144,7 @@ public class InputManager : MonoBehaviour
 
     #region InOut
 
-    void OnInOut(InputValue value) => SetNewInOut(value.Get<float>());
+    public void OnInOut(InputAction.CallbackContext value) => SetNewInOut(value.ReadValue<float>());
     private void SetNewInOut(float newIo)
     {
         InOutInput = newIo;
