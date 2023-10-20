@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using DG.Tweening;
 using JetBrains.Annotations;
 using Unity.Mathematics;
+using Unity.Profiling;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BlockPushMechanic : MonoBehaviour
 {
@@ -16,6 +18,10 @@ public class BlockPushMechanic : MonoBehaviour
     [SerializeField] float BlockSize = 2f;
     [SerializeField] [Range(0, 1)] float ShadowAngleThreshold = .8f;
     [SerializeField] [Range(0, 5)] float ShadowLengthThresholdInCells = 2;
+    [SerializeField] Vector3 ShakeStrength = new Vector3(.1f, .1f, .1f);
+    [SerializeField] UnityEvent OnCompletion = new UnityEvent();
+    int NumberOfBlocksInTargets = 0;
+    bool PuzzleActive = false;
     #endregion
 
     #region Enums
@@ -29,6 +35,11 @@ public class BlockPushMechanic : MonoBehaviour
         yellow,
         blue,
         Count
+    }
+
+    enum colors
+    {
+        red,blue,green,yellow,none
     }
 
     #endregion
@@ -48,21 +59,20 @@ public class BlockPushMechanic : MonoBehaviour
 
     [SerializeField] GameObject PillarPrefab;
     [SerializeField] GameObject PushableBlockPrefab;
+    [SerializeField] GameObject FloorPartPrefab;
     [SerializeField] Material DefaultPushableMaterial;
-    [SerializeField] Material Red;
-    [SerializeField] Material Yellow;
-    [SerializeField] Material Blue;
-    [SerializeField] Material Green;
-
+    [SerializeField] List<Material> TargetMaterials = new List<Material>();
+    [SerializeField] List<GameObject> TargetPrefabs = new List<GameObject>();
     #endregion
-
-
+    static readonly ProfilerMarker s_PreparePerfMarker = new ProfilerMarker("MikePuzzle");
+    static readonly ProfilerMarker s_PreparePerfMarkercore = new ProfilerMarker("MikePuzzleCore");
     #region Structs
 
     class BlockData
     {
         public int ID;
         public BlockType type;
+        public colors color;
         public Vector2 CellIndex;
         public GameObject gObject;
 
@@ -71,6 +81,7 @@ public class BlockPushMechanic : MonoBehaviour
             ID = _id;
             type = _type;
             CellIndex = _CellIndex;
+            this.color = colors.none;
         }
     }
 
@@ -80,23 +91,40 @@ public class BlockPushMechanic : MonoBehaviour
 
     List<GameObject> Pillars = new List<GameObject>();
     Dictionary<Vector2Int, BlockData> PushableBlocks = new Dictionary<Vector2Int, BlockData>();
-    
+    Dictionary<colors, Vector2> Targets = new Dictionary<colors, Vector2>();
+
     [SerializeField] List<bool> CubesInShadow = new List<bool>();
     Bounds[,] CellBounds;
+    (GameObject,Material)[,] FloorParts;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        CopyMaterials();
         CalculateCellCenters();
+        CreateFloor();
         CreatePillars();
+        CreateTargets();
         CreatePushableBlocks();
+        GetComponent<BoxCollider>().size = new Vector3(CellSize * GridDimensions.x, 5, CellSize * GridDimensions.y);
+    }
+
+    //we copy materials so we can change variables without worrying about it chaning permenantly
+    void CopyMaterials()
+    {
+        for (int i = 0; i < TargetMaterials.Count; i++)
+        {
+            TargetMaterials[i] = new Material(TargetMaterials[i]);
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        DirectionCheck();
+        s_PreparePerfMarker.Begin();
+        if (PuzzleActive) DirectionCheck();
+        s_PreparePerfMarker.End();
     }
 
     void DirectionCheck()
@@ -134,6 +162,8 @@ public class BlockPushMechanic : MonoBehaviour
 
         }
     }
+
+
 
 
     #region DeprecaiatedCode
@@ -259,12 +289,129 @@ public class BlockPushMechanic : MonoBehaviour
         //Assign Them To The Correct Layer Bc ya know prefabs dont carry layers??
         foreach (var pillar in Pillars)
         {
-            pillar.layer = LayerMask.NameToLayer("ShadowCaster2");
+            pillar.layer = LayerMask.NameToLayer("ShadowCasters");
+            pillar.transform.localScale = pillar.transform.localScale * CellSize;
             pillar.name = index.ToString();
             index++;
         }
     }
 
+    void CreateFloor()
+    {
+        FloorParts = new(GameObject,Material)[GridDimensions.x, GridDimensions.y];
+        Material DefaultFloorMaterial = FloorPartPrefab.transform.GetComponentInChildren<MeshRenderer>().sharedMaterial;
+        for (int y = 0; y < GridDimensions.y; y++)
+        {
+            for (int x = 0; x < GridDimensions.x; x++)
+            {
+                FloorPartPrefab.transform.localScale = new Vector3(CellSize*.2f, 1, CellSize * .2f);
+                GameObject Floor = Instantiate(FloorPartPrefab, CellBounds[y, x].center, transform.rotation, transform);
+
+                Material FloorMaterial = new Material(DefaultFloorMaterial);
+                Floor.GetComponentInChildren<MeshRenderer>().material = FloorMaterial;
+                FloorParts[y, x] = (Floor, FloorMaterial);
+            }
+        }
+    }
+
+    void ChangeFloorColor()
+    {
+
+        for (int y = 0; y < GridDimensions.y; y++)
+        {
+            for (int x = 0; x < GridDimensions.x; x++)
+            {
+                Color TargetColor = Color.white;
+                if (CubesInShadow[x + (GridDimensions.y * y)] == true)
+                {
+                    TargetColor *= .5f;
+                }
+
+                if(FloorParts[y, x].Item2.color != TargetColor)
+                {
+
+                    FloorParts[y, x].Item2.DOColor(TargetColor,.7f);
+
+
+                }
+            }
+        }
+    }
+
+    IEnumerator UpdateFloorColor()
+    {
+        while (PuzzleActive)
+        {
+            yield return new WaitForSeconds(.75f);
+            s_PreparePerfMarkercore.Begin();
+            ChangeFloorColor();
+            s_PreparePerfMarkercore.End();
+
+
+        }
+    }
+
+    void CreateTargets()
+    {
+        Vector3 TransformPoint = transform.position;
+        TransformPoint.x -= (CellSize * GridDimensions.x) / 2f;
+        TransformPoint.z -= (CellSize * GridDimensions.x) / 2f;
+
+        //Find Cell Target Is In
+
+         Vector3 TargetPositionLocal;
+         Vector2Int CellLocationOfTarget;
+         int x;
+         int z;
+
+        //scale all target prefabs
+        foreach (var prefab in TargetPrefabs)
+        {
+            prefab.transform.localScale = new Vector3(CellSize * .1f,1, CellSize * .1f);
+        }
+
+
+        //n
+        Vector3 RedSpawnPosition =
+            new Vector3(transform.position.x,transform.position.y, transform.position.z - (CellSize * GridDimensions.y / 2f) - CellSize/2f);
+        GameObject RedSpawn = Instantiate(TargetPrefabs[(int)colors.red], RedSpawnPosition, transform.rotation, transform);
+        RedSpawn.GetComponent<MeshRenderer>().material = TargetMaterials[(int)colors.red];
+        TargetPositionLocal = RedSpawnPosition - TransformPoint;
+        x = (int)(Mathf.Floor(TargetPositionLocal.x / CellSize));
+        z = (int)(Mathf.Floor(TargetPositionLocal.z / CellSize));
+        CellLocationOfTarget = new Vector2Int(x, z);
+        Targets.Add(colors.red, CellLocationOfTarget);
+        //e
+        Vector3 BlueSpawnPosition =
+            new Vector3(transform.position.x - (CellSize * GridDimensions.y / 2f) - CellSize / 2f, transform.position.y, transform.position.z );
+        GameObject BlueSpawn = Instantiate(TargetPrefabs[(int)colors.blue], BlueSpawnPosition, transform.rotation, transform);
+        BlueSpawn.GetComponent<MeshRenderer>().material = TargetMaterials[(int)colors.blue];
+        TargetPositionLocal = BlueSpawnPosition - TransformPoint;
+        x = (int)(Mathf.Floor(TargetPositionLocal.x / CellSize));
+        z = (int)(Mathf.Floor(TargetPositionLocal.z / CellSize));
+        CellLocationOfTarget = new Vector2Int(x, z);
+        Targets.Add(colors.blue, CellLocationOfTarget);
+        //s
+        Vector3 GreenSpawnPosition =
+            new Vector3(transform.position.x, transform.position.y, transform.position.z + (CellSize * GridDimensions.y / 2f) + CellSize / 2f);
+        GameObject GreenSpawn = Instantiate(TargetPrefabs[(int)colors.green], GreenSpawnPosition, transform.rotation, transform);
+        GreenSpawn.GetComponent<MeshRenderer>().material = TargetMaterials[(int)colors.green];
+        TargetPositionLocal = GreenSpawnPosition - TransformPoint;
+        x = (int)(Mathf.Floor(TargetPositionLocal.x / CellSize));
+        z = (int)(Mathf.Floor(TargetPositionLocal.z / CellSize));
+        CellLocationOfTarget = new Vector2Int(x, z);
+        Targets.Add(colors.green, CellLocationOfTarget);
+        //w
+        Vector3 YellowSpawnPosition =
+            new Vector3(transform.position.x + (CellSize * GridDimensions.y / 2f) + CellSize / 2f, transform.position.y, transform.position.z);
+        GameObject YellowSpawn = Instantiate(TargetPrefabs[(int)colors.yellow], YellowSpawnPosition, transform.rotation, transform);
+        YellowSpawn.GetComponent<MeshRenderer>().material = TargetMaterials[(int)colors.yellow];
+        TargetPositionLocal = YellowSpawnPosition - TransformPoint;
+        x = (int)(Mathf.Floor(TargetPositionLocal.x / CellSize));
+        z = (int)(Mathf.Floor(TargetPositionLocal.z / CellSize));
+        CellLocationOfTarget = new Vector2Int(x, z);
+        Targets.Add(colors.yellow, CellLocationOfTarget);
+    }
 
 
     [ItemCanBeNull]
@@ -303,27 +450,31 @@ public class BlockPushMechanic : MonoBehaviour
                         break;
                     case BlockType.red:
                         ItemToSpawn = Instantiate(PushableBlockPrefab, PosToSpawn, transform.rotation, transform);
-                        ItemToSpawn.GetComponent<MeshRenderer>().material = Red;
+                        ItemToSpawn.GetComponent<MeshRenderer>().material = new Material(TargetMaterials[(int)colors.red]);
 
                         BlockStartingPositions[y, x].gObject = ItemToSpawn;
+                        BlockStartingPositions[y, x].color = colors.red;
                         break;
                     case BlockType.green:
                         ItemToSpawn = Instantiate(PushableBlockPrefab, PosToSpawn, transform.rotation, transform);
-                        ItemToSpawn.GetComponent<MeshRenderer>().material = Green;
+                        ItemToSpawn.GetComponent<MeshRenderer>().material = new Material(TargetMaterials[(int)colors.green]);
 
                         BlockStartingPositions[y, x].gObject = ItemToSpawn;
+                        BlockStartingPositions[y, x].color = colors.green;
                         break;
                     case BlockType.yellow:
                         ItemToSpawn = Instantiate(PushableBlockPrefab, PosToSpawn, transform.rotation, transform);
-                        ItemToSpawn.GetComponent<MeshRenderer>().material = Yellow;
-                        
+                        ItemToSpawn.GetComponent<MeshRenderer>().material = new Material(TargetMaterials[(int)colors.yellow]);
+
                         BlockStartingPositions[y, x].gObject = ItemToSpawn;
+                        BlockStartingPositions[y, x].color = colors.yellow;
                         break;
                     case BlockType.blue:
                         ItemToSpawn = Instantiate(PushableBlockPrefab, PosToSpawn, transform.rotation, transform);
-                        ItemToSpawn.GetComponent<MeshRenderer>().material = Blue;
+                        ItemToSpawn.GetComponent<MeshRenderer>().material = new Material(TargetMaterials[(int)colors.blue]);
 
                         BlockStartingPositions[y, x].gObject = ItemToSpawn;
+                        BlockStartingPositions[y, x].color = colors.blue;
                         break;
                     case BlockType.Count:
                         break;
@@ -338,11 +489,15 @@ public class BlockPushMechanic : MonoBehaviour
     void OnTriggerEnter(Collider collision)
     {
         InputManager.Interaction?.AddListener(OnPlayerInteract);
+        PuzzleActive = true;
+        StartCoroutine(UpdateFloorColor());
     }
 
-    void OnTriggerLeave()
+    void OnTriggerExit()
     {
         InputManager.Interaction?.RemoveListener(OnPlayerInteract);
+        PuzzleActive = false;
+        StopCoroutine(UpdateFloorColor());
     }
 
 
@@ -358,10 +513,11 @@ public class BlockPushMechanic : MonoBehaviour
         int x = (int)(Mathf.Floor(PlayerPositionLocal.x / CellSize));
         int z = (int)(Mathf.Floor(PlayerPositionLocal.z / CellSize));
         Vector2Int CellLocationOfPlayer = new Vector2Int(x, z);
-
+        if(CellLocationOfPlayer.x < 0 || CellLocationOfPlayer.x >= GridDimensions.x || CellLocationOfPlayer.y < 0 || CellLocationOfPlayer.y >= GridDimensions.y)return;
 
         if (CubesInShadow[CellLocationOfPlayer.x + (GridDimensions.y * CellLocationOfPlayer.y)] == true)
         {
+            if (PushableBlocks[CellLocationOfPlayer].gObject == null) return;
             //Get the direction of the player from the cell so we know which direction the player is trying to move the block
             Vector3 CenterOfCell = PushableBlocks[CellLocationOfPlayer].gObject.transform.position;
             Vector3 DirectionToPlayer = (Interactor.transform.position - CenterOfCell).normalized;
@@ -374,30 +530,62 @@ public class BlockPushMechanic : MonoBehaviour
             //Check if the next cube over is free
             Vector2Int IndexOfNextCell = new Vector2Int((CellLocationOfPlayer.x + (int)FlattenedDirection.x), (CellLocationOfPlayer.y + (int)FlattenedDirection.z));
 
-            //Check if next cell is out of range
-            if (IndexOfNextCell.x < 0 || IndexOfNextCell.y < 0 || IndexOfNextCell.x >= GridDimensions.x ||
-                IndexOfNextCell.y >= GridDimensions.y) return;
 
-            if (PushableBlocks[IndexOfNextCell].type == BlockType.none)
+            //Check if next cell is out of range
+            if ((IndexOfNextCell.x < 0 || IndexOfNextCell.y < 0 || IndexOfNextCell.x >= GridDimensions.x ||
+                IndexOfNextCell.y >= GridDimensions.y)&&PushableBlocks[CellLocationOfPlayer].type == BlockType.Blocker) return;
+
+            if (PushableBlocks[CellLocationOfPlayer].color != colors.none &&
+                Targets[PushableBlocks[CellLocationOfPlayer].color] == IndexOfNextCell)
             {
+                //This is when a target block moves into the correct target holder
                 PushableBlocks[CellLocationOfPlayer].gObject.transform.DOMove(
-                    PushableBlocks[CellLocationOfPlayer].gObject.transform.position + (FlattenedDirection * CellSize), 1f, false);
-                PushableBlocks[IndexOfNextCell].type = PushableBlocks[CellLocationOfPlayer].type;
-                PushableBlocks[IndexOfNextCell].gObject = PushableBlocks[CellLocationOfPlayer].gObject;
+                    PushableBlocks[CellLocationOfPlayer].gObject.transform.position + (FlattenedDirection * CellSize), 1f, false).OnComplete(() => TargetMaterials[(int)PushableBlocks[CellLocationOfPlayer].color].SetColor("_EmissionColor", TargetMaterials[(int)PushableBlocks[CellLocationOfPlayer].color].color * 2f));
+
+                
 
                 PushableBlocks[CellLocationOfPlayer].type = BlockType.none;
                 PushableBlocks[CellLocationOfPlayer].gObject = null;
+
+                NumberOfBlocksInTargets++;
+
+
+
+                //If all blocks are in trigger win
+                if (NumberOfBlocksInTargets >= 4)
+                {
+                    OnCompletion?.Invoke();
+                    Camera.main.transform.DOShakePosition(1.5f,Vector3.one*.2f);
+                }
+            }
+            else if (!(IndexOfNextCell.x < 0 || IndexOfNextCell.y < 0 || IndexOfNextCell.x >= GridDimensions.x ||
+                      IndexOfNextCell.y >= GridDimensions.y))
+            {
+                if(PushableBlocks[IndexOfNextCell].type == BlockType.none)
+                {
+                    PushableBlocks[CellLocationOfPlayer].gObject.transform.DOMove(
+                        PushableBlocks[CellLocationOfPlayer].gObject.transform.position +
+                        (FlattenedDirection * CellSize), 1f, false);
+                    PushableBlocks[IndexOfNextCell].color = PushableBlocks[CellLocationOfPlayer].color;
+                    PushableBlocks[IndexOfNextCell].type = PushableBlocks[CellLocationOfPlayer].type;
+                    PushableBlocks[IndexOfNextCell].gObject = PushableBlocks[CellLocationOfPlayer].gObject;
+
+                    PushableBlocks[CellLocationOfPlayer].type = BlockType.none;
+                    PushableBlocks[CellLocationOfPlayer].gObject = null;
+                    PushableBlocks[CellLocationOfPlayer].color = colors.none;
+                }
             }
         }
         else
         {
-            Debug.Log("NotShadow");
+            if (PushableBlocks[CellLocationOfPlayer].gObject == null) return;
+            PushableBlocks[CellLocationOfPlayer].gObject.transform.DOShakePosition(1f, ShakeStrength).SetEase(Ease.InOutCirc);
         }
 
 
     }
 
-    //Draw debug grid in inspector
+    /*//Draw debug grid in inspector
     void OnDrawGizmos()
     {
         float HalfY = ((GridDimensions.y * CellSize) / 2f) - CellSize / 2f;
@@ -423,5 +611,5 @@ public class BlockPushMechanic : MonoBehaviour
             }
         }
 
-    }
+    }*/
 }

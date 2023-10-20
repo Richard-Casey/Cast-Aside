@@ -13,6 +13,7 @@ public class GameSpecificCharacterController : MonoBehaviour
 
     [SerializeField] InputManager Input;
     [SerializeField] CharacterController controller;
+
     void Start()
     {
         TeleporterHandler.Teleported.AddListener(LockMovement);
@@ -109,6 +110,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] float HealthRechargeDelay = 1f;
     [SerializeField] float HealthCostPerRotationFrame = 1;
     [SerializeField] float MaxDamage = 1f;
+    [SerializeField] bool PauseManaDrain = true;
     float TimeSinceLastDamage = 0f;
     bool Dead = false;
     public void RechargeHealth()
@@ -161,7 +163,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] float HealthDrainPerSecond = .1f;
     public void ListenForShadow()
     {
-        if (!shadowDetection.InShadow)
+        if (!shadowDetection.InShadow && !PauseManaDrain)
         {
             OnTakeDamage(HealthDrainPerSecond*Time.deltaTime);
             TimeSinceLastDamage = 0f;
