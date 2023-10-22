@@ -11,6 +11,10 @@ GameObject:
   - component: {fileID: 439410}
   - component: {fileID: 3328478}
   - component: {fileID: 2369998}
+  - component: {fileID: 4500287773053265500}
+  - component: {fileID: 7737596214510406284}
+  - component: {fileID: 6078911005372654437}
+  - component: {fileID: 3126207497619796700}
   m_Layer: 0
   m_Name: ST_Env_Structure_01
   m_TagString: Untagged
@@ -28,6 +32,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -51,6 +56,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -81,3 +87,55 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4500287773053265500
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195980}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.493813, y: 6.3722057, z: 1.5601468}
+  m_Center: {x: -1.8071746, y: 3.1861029, z: 1.7739486}
+--- !u!65 &7737596214510406284
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195980}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5487425, y: 6.3722057, z: 1.5603496}
+  m_Center: {x: 1.779633, y: 3.1861029, z: 1.7738352}
+--- !u!65 &6078911005372654437
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195980}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.6268321, y: 6.3722057, z: 1.5400654}
+  m_Center: {x: 1.7405887, y: 3.1861029, z: -1.7840508}
+--- !u!65 &3126207497619796700
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195980}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5159953, y: 6.3722057, z: 1.4596987}
+  m_Center: {x: -1.7960814, y: 3.1861029, z: -1.8242413}
