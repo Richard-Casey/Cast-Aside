@@ -2,32 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Text3D : MonoBehaviour
 {
+    
     [SerializeField] List<GameObject> NumberPrefabs = new List<GameObject>();
     [SerializeField] public string NumberToDisplay = "9999";
     [SerializeField] float Spacing = 1f;
+    [SerializeField] float RandomSpawningRadius = 5f;
     [SerializeField] bool CenterAlignText = true;
     [SerializeField] bool ShouldBeRandomNumber = false;
     [SerializeField] int RandomNumberDigits = 4;
     [SerializeField] int RandomDigitLimit = 4;
+    [SerializeField] Vector3 NumberScale = new Vector3(1, 1, 1);
     [SerializeField] Material DefaultMaterial;
     [SerializeField] bool _shouldSpawnAtTransforms = false;
+    [SerializeField] bool _shouldSpawnRandomly = false;
+    [SerializeField] bool _shouldAutoSpawn = true;
     [SerializeField] List<Transform> spawnTransforms = new List<Transform>();
-
+    
 
     List<GameObject> CurrentlyDisplayedNumber = new List<GameObject>();
 
     void Start()
     {
         DefaultMaterial = new Material(DefaultMaterial);
-        if (ShouldBeRandomNumber)
+        if (_shouldAutoSpawn)
         {
-            DisplayNumber(NumberToDisplay);
-        } else
-        {
-            DisplayRandom(RandomNumberDigits);
+            if (ShouldBeRandomNumber)
+            {
+                DisplayNumber(NumberToDisplay);
+            }
+            else
+            {
+                DisplayRandom(RandomNumberDigits);
+            }
         }
     }
 
@@ -37,6 +47,22 @@ public class Text3D : MonoBehaviour
         for (int i = 0; i < Digits; i++)
         {
             sb.Append(Random.Range(0, RandomDigitLimit));
+        }
+
+        NumberToDisplay = sb.ToString();
+        DisplayNumber(NumberToDisplay);
+    }
+
+    public void DisplayRandomUnique(int Digits)
+    {
+        List<int> digits = new List<int>() {0,1,2,3,4,5,6,7,8,9};
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < Digits && i < 10; i++)
+        {
+            int index = Random.Range(0, digits.Count);
+            sb.Append(digits[index]);
+            digits.RemoveAt(index);
         }
 
         NumberToDisplay = sb.ToString();
@@ -65,11 +91,22 @@ public class Text3D : MonoBehaviour
             {
                 newNumber = Instantiate(NumberPrefabs[Numbers[i]],
                     spawnTransforms[i].position, spawnTransforms[i].rotation);
+                newNumber.transform.localScale = NumberScale;
             }
             else
             {
-                 newNumber = Instantiate(NumberPrefabs[Numbers[i]],
-                    transform.position - new Vector3(halfWidth + (i * Spacing), 0, 0), Quaternion.identity);
+                if (_shouldSpawnRandomly)
+                {
+                    newNumber = Instantiate(NumberPrefabs[Numbers[i]],
+                        transform.position + new Vector3(Random.Range(-RandomSpawningRadius,RandomSpawningRadius),1, Random.Range(-RandomSpawningRadius, RandomSpawningRadius)), Quaternion.LookRotation(Vector3.up));
+                    newNumber.transform.localScale = NumberScale;
+                }
+                else
+                {
+                    newNumber = Instantiate(NumberPrefabs[Numbers[i]],
+                        transform.position - new Vector3(halfWidth + (i * Spacing), 0, 0), Quaternion.identity);
+                    newNumber.transform.localScale = NumberScale;
+                }
             }
             CurrentlyDisplayedNumber.Add(newNumber);
             if (DefaultMaterial) newNumber.GetComponent<MeshRenderer>().material = DefaultMaterial;

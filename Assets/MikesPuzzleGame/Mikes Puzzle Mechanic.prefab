@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7905283801321242034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7905283801321242032}
+  - component: {fileID: 7905283801321242033}
+  - component: {fileID: 7905283801321242047}
+  - component: {fileID: 7905283801321242046}
+  - component: {fileID: 7905283801321242045}
+  m_Layer: 0
+  m_Name: Mikes Puzzle Mechanic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7905283801321242032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7905283801321242034}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 218.56042, y: 40.216675, z: 485.71338}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7905283801321242033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7905283801321242034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d9a820cab4829f4f907df5813bdb03b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GridDimensions: {x: 5, y: 5}
+  CellSize: 6
+  BlockSize: 2
+  ShadowAngleThreshold: 0.55
+  ShadowLengthThresholdInCells: 2
+  ShakeStrength: {x: 0.1, y: 0.1, z: 0.1}
+  OnCompletion:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7905283801321242045}
+        m_TargetAssemblyTypeName: Objective, Assembly-CSharp
+        m_MethodName: SetComplete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  Ground: {fileID: 0}
+  Sun: {fileID: 0}
+  PillarPrefab: {fileID: 119450, guid: 54548404c9c9a284b8bf51d1c86b38c9, type: 3}
+  PushableBlockPrefab: {fileID: 3384759908612450404, guid: e9d1861225ed05f4ba459bb477f3aa0f, type: 3}
+  FloorPartPrefab: {fileID: 5213684210763061862, guid: 08a6788735a83264689bad1b0b9d4335, type: 3}
+  DefaultPushableMaterial: {fileID: 2100000, guid: ffd51962d2f36604b95bac2286b294c8, type: 2}
+  TargetMaterials:
+  - {fileID: 2100000, guid: 798b57e3bd416c34cb2e43b76d554fa8, type: 2}
+  - {fileID: 2100000, guid: 68aaff2a89b51e649b8eed5007123e0a, type: 2}
+  - {fileID: 2100000, guid: 9ec9b2c51f3185845a5b4a29458802f9, type: 2}
+  - {fileID: 2100000, guid: b64fa015d6288974c9051ded94b70272, type: 2}
+  TargetPrefabs:
+  - {fileID: 858331687376541737, guid: 4dbb2805ce4a4d44ab2c7fdf826f9d9f, type: 3}
+  - {fileID: 3206474978580216934, guid: 30cbdd893622c734ca5403a4c21cba99, type: 3}
+  - {fileID: 2680573268727404851, guid: ee560213ba7bc5747a556f51dcf31696, type: 3}
+  - {fileID: 2676727342923136582, guid: 6057481b82bbdfc44a472ddd6833488a, type: 3}
+  CubesInShadow: 
+--- !u!65 &7905283801321242047
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7905283801321242034}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 15, y: 5, z: 15}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &7905283801321242046
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7905283801321242034}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &7905283801321242045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7905283801321242034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3acfc22da3d49e43bb36502547584ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectiveDescription: Default Description
+  id: 0
+  _forceSetComplete: 0
