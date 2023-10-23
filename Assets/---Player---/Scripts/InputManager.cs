@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour
     #region Events
 
     public static UnityEvent<GameObject> Interaction = new UnityEvent<GameObject>();
+    public static UnityEvent<int> CameraRotation = new UnityEvent<int>();
 
     #endregion
 
@@ -26,8 +27,10 @@ public class InputManager : MonoBehaviour
     public bool    IsKneel               { private set; get; }
     public bool    IsCrouch              { private set; get; }
     public float   RotateInput           { private set; get; }
+    public bool   CameraRotateLeftInput { private set; get; }
+    public bool   CameraRotateRightInput{ private set; get; }
     public float   InOutInput            { private set; get; }
-    public bool    isInteract             { private set; get; }
+    public bool    isInteract            { private set; get; }
     public bool    isAttack1             { private set; get; }
     public bool    isAttack2             { private set; get; }
     #region Attack
@@ -134,10 +137,25 @@ public class InputManager : MonoBehaviour
 
     #region Rotate
 
-    public void OnRotate(InputAction.CallbackContext value) => SetNewLockState(value.ReadValue<float>());
-    private void SetNewLockState(float newInput)
+    public void OnRotate(InputAction.CallbackContext value) => SetNewRotate(value.ReadValue<float>());
+    private void SetNewRotate(float newInput)
     {
         RotateInput = newInput;
+    }
+
+    public void OnCameraRotateLeft(InputAction.CallbackContext value) => SetNewCameraRotateLeft(value.started);
+    private void SetNewCameraRotateLeft(bool newInput)
+    {
+        //add events
+        CameraRotateRightInput = newInput;
+        if (newInput) CameraRotation?.Invoke(-1);
+    }
+
+    public void OnCameraRotateRight(InputAction.CallbackContext value) => SetNewCameraRotateRight(value.started);
+    private void SetNewCameraRotateRight(bool newInput)
+    {
+        CameraRotateRightInput = newInput;
+        if(newInput)CameraRotation?.Invoke(1);
     }
 
     #endregion

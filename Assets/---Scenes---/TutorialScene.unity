@@ -34521,6 +34521,106 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: a1f189f0aa5118b4c8f03cdaa0910ae0, type: 3}
+--- !u!1 &872270956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 872270960}
+  - component: {fileID: 872270957}
+  - component: {fileID: 872270962}
+  - component: {fileID: 872270961}
+  m_Layer: 6
+  m_Name: Fire_Pink
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &872270957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872270956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c2829fa881c8bb418590eb012d4fa49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RaiseDistance: 0
+  MaxSize: 5
+  RaiseTime: 5
+  MoveToTargetTime: 5
+--- !u!4 &872270960
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872270956}
+  m_LocalRotation: {x: 0.092296205, y: 0.7010575, z: 0.7010573, w: -0.09229623}
+  m_LocalPosition: {x: 176.76228, y: 48.58, z: 474.70422}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 195}
+--- !u!33 &872270961
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872270956}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &872270962
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872270956}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 798b57e3bd416c34cb2e43b76d554fa8, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &873557201 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 339724864350116162, guid: 2b49829e6a48f534994b212af04253d5, type: 3}
@@ -92311,7 +92411,7 @@ MonoBehaviour:
   Input: {fileID: 2267010154204958200}
   CanCrouch: 0
   CanKneel: 0
-  IgnoreXZRotations: 1
+  IgnoreXZRotations: 0
   GroundLayer:
     serializedVersion: 2
     m_Bits: 9
@@ -92378,9 +92478,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Input: {fileID: 2267010154204958200}
   controller: {fileID: 2267010154204958201}
+  cameraManager: {fileID: 2979980904546620245}
   SunTransform: {fileID: 1955605259}
   RotationSpeed: 100
   TimeSinceLastRotation: 0
+  CameraRotationStep: 90
   HealthDisplay: {fileID: 289616825}
   CurrentHealth: 10
   MaxHealth: 10
@@ -92535,22 +92637,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2267010154204958200}
         m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 85d24b18-d879-47a9-a013-daecd4467e34
-    m_ActionName: Player/VerticalRotation[/Keyboard/downArrow,/Keyboard/upArrow]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2267010154204958200}
-        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
         m_MethodName: OnInOut
         m_Mode: 0
         m_Arguments:
@@ -92659,6 +92745,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 896e757c-fd97-4e1c-b7f6-648f5892ff6a
     m_ActionName: Player/Interact[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2267010154204958200}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnCameraRotateLeft
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ca8bd795-b1c9-4d26-ab9e-219122a1cb5e
+    m_ActionName: Player/RotateCameraLeft[/Keyboard/leftArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2267010154204958200}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: OnCameraRotateRight
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 43cfd2d9-9de9-4abd-961b-3cad6caf0e3f
+    m_ActionName: Player/RotateCameraRight[/Keyboard/rightArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: MouseNKeyboard
   m_DefaultActionMap: Player

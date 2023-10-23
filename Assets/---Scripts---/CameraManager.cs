@@ -48,6 +48,8 @@ public class CameraManager : MonoBehaviour
 
     public void Update()
     {
+
+        
         if (_shouldAutoUpdate)
         {
             Vector3 TargetPosition = PlayerTransform.position;
@@ -94,6 +96,19 @@ public class CameraManager : MonoBehaviour
         transform.DORotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, Rotation), _transitionTime).SetEase(_easeType); ;
     }
 
+    public void SetCameraRotationX(float Rotation,float time, Ease ease)
+    {
+        transform.DORotate(new Vector3(Rotation, transform.eulerAngles.y, transform.eulerAngles.z), time).SetEase(ease); ;
+    }
+    public void SetCameraRotationY(float Rotation, float time, Ease ease)
+    {
+        transform.DORotate(new Vector3(transform.eulerAngles.x, Rotation, transform.eulerAngles.z), time).SetEase(ease); ;
+    }
+    public void SetCameraRotationZ(float Rotation, float time, Ease ease)
+    {
+        transform.DORotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, Rotation), time).SetEase(ease); ;
+    }
+
     public void SetCameraOffsetX(float x)
     {
         _currentCameraOffset = new Vector3(x,_cameraOffset.y, _cameraOffset.z);
@@ -102,6 +117,11 @@ public class CameraManager : MonoBehaviour
     public void SetCameraOffsetz(float z)
     {
         _currentCameraOffset = new Vector3(_cameraOffset.x, _cameraOffset.y, z);
+    }
+
+    public Vector3 GetCameraEuler()
+    {
+        return transform.eulerAngles;
     }
 
     public void ResetTransform()

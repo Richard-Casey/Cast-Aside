@@ -9,6 +9,7 @@ public class Text3D : MonoBehaviour
     
     [SerializeField] List<GameObject> NumberPrefabs = new List<GameObject>();
     [SerializeField] public string NumberToDisplay = "9999";
+
     [SerializeField] float Spacing = 1f;
     [SerializeField] float RandomSpawningRadius = 5f;
     [SerializeField] bool CenterAlignText = true;
@@ -23,8 +24,8 @@ public class Text3D : MonoBehaviour
     [SerializeField] List<Transform> spawnTransforms = new List<Transform>();
     
 
-    List<GameObject> CurrentlyDisplayedNumber = new List<GameObject>();
-
+    public List<(GameObject,int)> CurrentlyDisplayedNumber = new List<(GameObject, int)>();
+    
     void Start()
     {
         DefaultMaterial = new Material(DefaultMaterial);
@@ -84,6 +85,8 @@ public class Text3D : MonoBehaviour
         float TotalWidth = (Numbers.Count - 1) * Spacing;
         float halfWidth = TotalWidth / 2f;
 
+        float SpawningStep = (RandomSpawningRadius * 2f) / Numbers.Count;
+
         for (int i = 0 ; i < Numbers.Count ; i++)
         {
             GameObject newNumber;
@@ -98,7 +101,7 @@ public class Text3D : MonoBehaviour
                 if (_shouldSpawnRandomly)
                 {
                     newNumber = Instantiate(NumberPrefabs[Numbers[i]],
-                        transform.position + new Vector3(Random.Range(-RandomSpawningRadius,RandomSpawningRadius),1, Random.Range(-RandomSpawningRadius, RandomSpawningRadius)), Quaternion.LookRotation(Vector3.up));
+                        transform.position + new Vector3(-RandomSpawningRadius + (i* SpawningStep),1, Random.Range(-RandomSpawningRadius, RandomSpawningRadius)), Quaternion.LookRotation(Vector3.up,transform.right));
                     newNumber.transform.localScale = NumberScale;
                 }
                 else
@@ -108,7 +111,7 @@ public class Text3D : MonoBehaviour
                     newNumber.transform.localScale = NumberScale;
                 }
             }
-            CurrentlyDisplayedNumber.Add(newNumber);
+            CurrentlyDisplayedNumber.Add((newNumber,Numbers[i]));
             if (DefaultMaterial) newNumber.GetComponent<MeshRenderer>().material = DefaultMaterial;
             newNumber.transform.parent = transform;
         }

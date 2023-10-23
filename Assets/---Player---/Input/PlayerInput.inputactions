@@ -42,15 +42,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "VerticalRotation",
-                    "type": "Value",
-                    "id": "85d24b18-d879-47a9-a013-daecd4467e34",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "InOut",
                     "type": "Value",
                     "id": "ce513320-0876-450c-9794-f1d2ff9f065e",
@@ -108,6 +99,24 @@
                     "name": "Interact",
                     "type": "Value",
                     "id": "896e757c-fd97-4e1c-b7f6-648f5892ff6a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RotateCameraLeft",
+                    "type": "Value",
+                    "id": "ca8bd795-b1c9-4d26-ab9e-219122a1cb5e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RotateCameraRight",
+                    "type": "Value",
+                    "id": "43cfd2d9-9de9-4abd-961b-3cad6caf0e3f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -369,37 +378,26 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "UpDown",
-                    "id": "9f8d82be-a815-4e87-931a-053ce9559b1c",
-                    "path": "1DAxis",
+                    "name": "",
+                    "id": "a11c925d-e882-4858-be5c-8551392a5d67",
+                    "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "VerticalRotation",
-                    "isComposite": true,
+                    "action": "RotateCameraLeft",
+                    "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "5839eeb9-ecf3-4aaf-9b65-ac95a2ef2b1b",
-                    "path": "<Keyboard>/downArrow",
+                    "name": "",
+                    "id": "d501d6ec-0d36-4254-ab7a-39260bfbe7c5",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "VerticalRotation",
+                    "action": "RotateCameraRight",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "bcdfcc19-8cfc-42c3-97ae-ee262729a9ed",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "VerticalRotation",
-                    "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 }
             ]
         }

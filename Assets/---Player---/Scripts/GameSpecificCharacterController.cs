@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,11 +14,13 @@ public class GameSpecificCharacterController : MonoBehaviour
 
     [SerializeField] InputManager Input;
     [SerializeField] CharacterController controller;
+    [SerializeField] CameraManager cameraManager;
 
     void Start()
     {
         TeleporterHandler.Teleported.AddListener(LockMovement);
         CameraManager.TransitionCompleted.AddListener(UnlockMovement);
+        InputManager.CameraRotation.AddListener(RotateCamera);
         DealDamage.AddListener(OnTakeDamage);
     }
 
@@ -25,6 +28,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     {
         TeleporterHandler.Teleported.RemoveListener(LockMovement);
         CameraManager.TransitionCompleted.RemoveListener(UnlockMovement);
+        InputManager.CameraRotation.RemoveListener(RotateCamera);
         DealDamage.RemoveListener(OnTakeDamage);
     }
 
@@ -34,6 +38,7 @@ public class GameSpecificCharacterController : MonoBehaviour
         SunRotate();
         ListenForShadow();
         RechargeHealth();
+
     }
 
     void FixedUpdate()
@@ -65,6 +70,14 @@ public class GameSpecificCharacterController : MonoBehaviour
         Vector3 SunsRotation = SunTransform.eulerAngles;
         SunsRotation.y += HorizontalRotation * Time.deltaTime * RotationSpeed;
         SunTransform.eulerAngles = SunsRotation;
+    }
+
+    [Header("Camera")]
+    [SerializeField] float CameraRotationStep = 90f;
+    void RotateCamera(int Direction)
+    {
+        Vector3 CamerasCurrentEuler = cameraManager.GetCameraEuler();
+        cameraManager.SetCameraRotationY(CamerasCurrentEuler.y + (Direction * CameraRotationStep),.75f,Ease.InOutSine);
     }
 
     #endregion
