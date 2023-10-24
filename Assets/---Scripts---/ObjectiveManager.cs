@@ -8,38 +8,69 @@ public class ObjectiveManager : MonoBehaviour
 {
     //The amount of tasks we wish to select this run
     public static int ObjectiveCount = 4;
+    [SerializeField] bool CompleteAll = false;
 
-    [SerializeField] List<int> _activeObjectIDs;
+    [SerializeField] public static List<Objective> AllCurrentActiveObjectives;
+
     [SerializeField] TaskDisplay taskDisplayer;
+    [SerializeField] GameObject CompletionParticle;
 
     //Unity events
-    public static UnityEvent<int> ObjectiveComplete = new UnityEvent<int>();
+    public static UnityEvent<Objective> ObjectiveComplete = new UnityEvent<Objective>();
 
     public static UnityEvent AllObjectivesComplete = new UnityEvent();
 
     //Dict of all tasks in the level sorted by their IDs
-    private static Dictionary<int, Objective> ObjectivesInLevel { set; get; } = new Dictionary<int, Objective>();
-    int[] AllTasks;
+    private static List<Objective> ObjectivesInLevel { set; get; } = new List<Objective>();
+
     private void Start()
     {
-        _activeObjectIDs = GetRandomTaskIDs(ObjectiveCount);
-        AllTasks = new int[ObjectiveManager.ObjectiveCount];
-        _activeObjectIDs.CopyTo(AllTasks);
+        AllCurrentActiveObjectives = GetRandomTasks(ObjectiveCount);
+        ObjectivesInLevel = new List<Objective>();
+
         ObjectiveComplete.AddListener(OnObjectiveComplete);
     }
 
-    //called when a single task has been completed via a public event
-    private void OnObjectiveComplete(int id)
+    void Update()
     {
-        _activeObjectIDs.Remove(id);
-        taskDisplayer.SetTaskDisplayComplete(AllTasks.ToList().IndexOf(id));
+        if (CompleteAll)
+        {
+            CompleteAll = false;
+            for (int i = AllCurrentActiveObjectives.Count - 1; i >= 0; i--)
+            {
+                AllCurrentActiveObjectives[i].SetComplete();
+            }
+        }
+    }
+
+    //called when a single task has been completed via a public event
+    private void OnObjectiveComplete(Objective completedObjective)
+    {
+        AllCurrentActiveObjectives.Remove(completedObjective);
+
+        Vector3 ObjectivePosition = completedObjective.transform.position;
+        Vector3 DisplayeePosition = TaskDisplay.Displayees[completedObjective].position;
+        Color DisplayeeColor = TaskDisplay.Colors[completedObjective];
+
+        GameObject CompletionParticleInstance = Instantiate(CompletionParticle, ObjectivePosition, Quaternion.identity);
+        CompletionParticle component = CompletionParticleInstance.GetComponentInChildren<CompletionParticle>();
+        component.SetObjective(completedObjective);
+        component.OnComplete?.AddListener(UpdateTaskDisplayOnCompletion);
+        component.StartTransition(DisplayeePosition,DisplayeeColor);
+
+
+    }
+
+    private void UpdateTaskDisplayOnCompletion(Objective completedObjective)
+    {
+        taskDisplayer.SetTaskDisplayComplete(completedObjective);
         if (CheckIfAllTasksCompleted()) OnAllTasksCompleted();
     }
 
     //Check if all tasks have been completed
     private bool CheckIfAllTasksCompleted()
     {
-        if (_activeObjectIDs.Count <= 0) return true;
+        if (AllCurrentActiveObjectives.Count <= 0) return true;
         return false;
     }
 
@@ -50,35 +81,29 @@ public class ObjectiveManager : MonoBehaviour
     }
 
     //Called by each individual objective when it is created so its registered before we pick all tasks
-    public static int? AddObjective(Objective objectiveToAdd)
+    public static void AddObjective(Objective objectiveToAdd)
     {
-        if (ObjectivesInLevel.ContainsValue(objectiveToAdd)) return null;
-        int id = ObjectivesInLevel.Count;
-        ObjectivesInLevel.Add(id, objectiveToAdd);
-        return id;
+        if(!ObjectivesInLevel.Contains(objectiveToAdd)) ObjectivesInLevel.Add(objectiveToAdd);
     }
 
-    //Gets the task by its associated id
-    [CanBeNull]
-    public static Objective GetObjectiveById(int id)
-    {
-        if (ObjectivesInLevel.TryGetValue(id, out Objective valueToReturn)) return valueToReturn;
-        return null;
-    }
 
     //Gets a random list of tasks defined within the count, that can only select a single task once
-    public static List<int> GetRandomTaskIDs(int count)
+    public static List<Objective> GetRandomTasks(int count)
     {
-        List<int> allAvailableIds = ObjectivesInLevel.Keys.ToList();
-        List<int> returnValues = new List<int>();
+        Objective[] allAvailableObjectivesArray = new Objective[ObjectivesInLevel.Count];
+        ObjectivesInLevel.CopyTo(allAvailableObjectivesArray);
+        List<Objective> allAvailableObjectives = allAvailableObjectivesArray.ToList();
+        List<Objective> returnValues = new List<Objective>();
 
-        count = Mathf.Min(count, allAvailableIds.Count);
+        count = Mathf.Min(count, allAvailableObjectives.Count);
 
         for (int i = 0; i < count; i++)
         {
-            int Rand = Random.Range(0, allAvailableIds.Count - 1);
-            returnValues.Add(allAvailableIds[Rand]);
-            allAvailableIds.RemoveAt(Rand);
+            int Rand = Random.Range(0, allAvailableObjectives.Count - 1);
+            returnValues.Add(allAvailableObjectives[Rand]);
+            allAvailableObjectives[Rand].SetActive();
+            allAvailableObjectives[Rand].SetId(i);
+            allAvailableObjectives.RemoveAt(Rand);
         }
 
         return returnValues;

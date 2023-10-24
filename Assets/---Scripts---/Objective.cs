@@ -2,30 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+[System.Serializable] [DisallowMultipleComponent]
 public class Objective : MonoBehaviour
 {
     [SerializeField] string ObjectiveDescription = "Default Description";
 
     public bool IsComplete() => isComplete;
-    public void SetComplete(){
-        
+    public void SetComplete()
+    {
+
+        if (!isActive) return;
+        isActive = false;
         isComplete = true;
-        ObjectiveManager.ObjectiveComplete?.Invoke(id);
+        ObjectiveManager.ObjectiveComplete?.Invoke(this);
     }
     public int GetId() => id;
+    public int SetId(int id) => this.id = id;
     public void SetActive() => isActive = true;
 
     bool isComplete = false;
-    bool isActive = false;
+    [SerializeField] bool isActive = false;
     [SerializeField] int id;
     [SerializeField] bool _forceSetComplete = false;
 
     void Start()
     {
         //Add To Global List of map Objectives
-        int? idValue = ObjectiveManager.AddObjective(this);
-        if (idValue.HasValue) id = idValue.Value;
+        ObjectiveManager.AddObjective(this);
     }
 
 

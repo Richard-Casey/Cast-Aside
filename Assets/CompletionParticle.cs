@@ -2,43 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CompletionParticle : MonoBehaviour
 {
-    [SerializeField] float RaiseDistance;
-    [SerializeField] float MaxSize = 5f;
-    [SerializeField] float RaiseTime = 1f;
+    [SerializeField] Animation RaiseClip;
+    [SerializeField] Transform parentTransform;
+    Material material;
+    [SerializeField] MeshRenderer renderer;
     [SerializeField] float MoveToTargetTime = 5f;
 
-    Vector3 StartingPos;
+    public UnityEvent<Objective> OnComplete = new UnityEvent<Objective>();
+
+
     Vector3 TargetPos;
-    ParticleSystem.MainModule psMain;
+    Objective thisObjective;
+    public void SetObjective(Objective set) => thisObjective = set;
     void Start()
     {
-        StartTransition(Vector3.one, Color.green);
+
     }
 
     public void StartTransition(Vector3 TargetPos, Color ParticleColor)
     {
-        StartingPos = transform.position;
+        material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        material.color = ParticleColor;
+        material.EnableKeyword("_EMISSION");
+        material.SetColor("_EmissionColor",ParticleColor * 5f);
+        renderer.material = material;
+
         this.TargetPos = TargetPos;
-        RaiseUp();
+        RaiseClip.Play();
     }
 
-    void RaiseUp()
+
+    public void MoveTo()
     {
-        
-        transform.DOMoveY(StartingPos.y + RaiseDistance, RaiseTime).SetEase(Ease.InOutCubic).OnComplete(MoveTo);
-        transform.DOShakeRotation(RaiseTime, Vector3.one * 10f);
-        /*DOVirtual.Float(0, MaxSize, RaiseTime, (value) =>
-        {
-            transform.localScale = Vector3.one * value;
-        });*/
+        parentTransform.DOMove(TargetPos, MoveToTargetTime, false).SetEase(Ease.InOutCirc).OnComplete(OnFinish);
     }
 
-    void MoveTo()
+    void OnFinish()
     {
-        transform.DOMove(TargetPos, MoveToTargetTime, false).SetEase(Ease.InOutCirc);
-        
+        Debug.Log("Test");
+        OnComplete?.Invoke(thisObjective);
+        Destroy(gameObject);
     }
 }
