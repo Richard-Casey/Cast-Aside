@@ -75,7 +75,7 @@ MonoBehaviour:
   FloorPartPrefab: {fileID: 5213684210763061862, guid: 08a6788735a83264689bad1b0b9d4335, type: 3}
   DefaultPushableMaterial: {fileID: 2100000, guid: ffd51962d2f36604b95bac2286b294c8, type: 2}
   TargetMaterials:
-  - {fileID: 2100000, guid: 798b57e3bd416c34cb2e43b76d554fa8, type: 2}
+  - {fileID: 2100000, guid: 12b22da658b7eff478601b6a751d983f, type: 2}
   - {fileID: 2100000, guid: 68aaff2a89b51e649b8eed5007123e0a, type: 2}
   - {fileID: 2100000, guid: 9ec9b2c51f3185845a5b4a29458802f9, type: 2}
   - {fileID: 2100000, guid: b64fa015d6288974c9051ded94b70272, type: 2}
@@ -127,5 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectiveDescription: Default Description
+  isActive: 0
   id: 0
   _forceSetComplete: 0
