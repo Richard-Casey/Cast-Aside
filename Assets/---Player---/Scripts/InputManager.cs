@@ -148,14 +148,14 @@ public class InputManager : MonoBehaviour
     {
         //add events
         CameraRotateRightInput = newInput;
-        if (newInput) CameraRotation?.Invoke(-1);
+        if (newInput) CameraRotation?.Invoke(1);
     }
 
     public void OnCameraRotateRight(InputAction.CallbackContext value) => SetNewCameraRotateRight(value.started);
     private void SetNewCameraRotateRight(bool newInput)
     {
         CameraRotateRightInput = newInput;
-        if(newInput)CameraRotation?.Invoke(1);
+        if(newInput)CameraRotation?.Invoke(-1);
     }
 
     #endregion

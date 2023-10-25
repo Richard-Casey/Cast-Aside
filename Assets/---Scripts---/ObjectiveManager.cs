@@ -7,25 +7,26 @@ using UnityEngine.Events;
 public class ObjectiveManager : MonoBehaviour
 {
     //The amount of tasks we wish to select this run
-    public static int ObjectiveCount = 4;
-    [SerializeField] bool CompleteAll = false;
+    public static int NumberOfObjectives = 4;
 
+    #region Refrences 
+    [SerializeField] bool _debugCompleteAll = false;
     [SerializeField] public static List<Objective> AllCurrentActiveObjectives;
-
     [SerializeField] TaskDisplay taskDisplayer;
     [SerializeField] GameObject CompletionParticle;
-
-    //Unity events
+    #endregion
+       
+    #region Events
     public static UnityEvent<Objective> ObjectiveComplete = new UnityEvent<Objective>();
-
     public static UnityEvent AllObjectivesComplete = new UnityEvent();
+    #endregion
 
     //Dict of all tasks in the level sorted by their IDs
     private static List<Objective> ObjectivesInLevel { set; get; } = new List<Objective>();
 
     private void Start()
     {
-        AllCurrentActiveObjectives = GetRandomTasks(ObjectiveCount);
+        AllCurrentActiveObjectives = GetRandomTasks(NumberOfObjectives);
         ObjectivesInLevel = new List<Objective>();
 
         ObjectiveComplete.AddListener(OnObjectiveComplete);
@@ -33,9 +34,9 @@ public class ObjectiveManager : MonoBehaviour
 
     void Update()
     {
-        if (CompleteAll)
+        if (_debugCompleteAll)
         {
-            CompleteAll = false;
+            _debugCompleteAll = false;
             for (int i = AllCurrentActiveObjectives.Count - 1; i >= 0; i--)
             {
                 AllCurrentActiveObjectives[i].SetComplete();

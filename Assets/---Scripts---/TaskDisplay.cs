@@ -19,14 +19,14 @@ public class TaskDisplay : MonoBehaviour
 
 
         //Calculate the size based on the avalible space and the amount of totems we need to spawn
-        float Scale = AvalibleSpace / (ObjectiveManager.ObjectiveCount * (ObjectWidth + ObjectSpacing));
+        float Scale = AvalibleSpace / (ObjectiveManager.NumberOfObjectives * (ObjectWidth + ObjectSpacing));
 
         //Apply this scale to the spacing and width to scaley them relative to the size of the totem
         ObjectSpacing *= Scale;
         ObjectWidth *= Scale;
 
         //Calculate the total area needed to spawn the objects
-        float TotalWidth = (ObjectWidth + ObjectSpacing) * ObjectiveManager.ObjectiveCount;
+        float TotalWidth = (ObjectWidth + ObjectSpacing) * ObjectiveManager.NumberOfObjectives;
 
         //Find half the total width so we can spawn left to right
         float Radius = TotalWidth / 2f;
@@ -46,7 +46,7 @@ public class TaskDisplay : MonoBehaviour
             newObject.transform.localScale = new Vector3(Scale, Scale, Scale);
             newObject.transform.parent = transform;
             Light[] lights = newObject.GetComponentsInChildren<Light>();
-            Color color = EyeColorGradient.Evaluate((float)i / (float)ObjectiveManager.ObjectiveCount);
+            Color color = EyeColorGradient.Evaluate((float)i / (float)ObjectiveManager.NumberOfObjectives);
             lights[0].color = color;
             lights[1].color = color;
             lights[0].enabled = false;
