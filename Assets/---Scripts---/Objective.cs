@@ -20,6 +20,8 @@ public class Objective : MonoBehaviour
     public int SetId(int id) => this.id = id;
     public void SetActive() => isActive = true;
 
+    public bool IsActive() => isActive;
+
     bool isComplete = false;
     [SerializeField] bool isActive = false;
     [SerializeField] int id;

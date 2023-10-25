@@ -54,9 +54,25 @@ public class Text3D : MonoBehaviour
         DisplayNumber(NumberToDisplay);
     }
 
+    public List<int> GetSolution()
+    {
+        List<int> Return = new List<int>();
+        foreach (var tuuple in CurrentlyDisplayedNumber)
+        {
+            Return.Add(tuuple.Item2);
+        }
+
+        return Return;
+    }
+
     public void DisplayRandomUnique(int Digits)
     {
-        List<int> digits = new List<int>() {0,1,2,3,4,5,6,7,8,9};
+        List<int> digits = new List<int>();
+
+        for (int i = 0; i < Digits; i++)
+        {
+            digits.Add(i);
+        }
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < Digits && i < 10; i++)

@@ -43,7 +43,6 @@ public class CompletionParticle : MonoBehaviour
 
     void OnFinish()
     {
-        Debug.Log("Test");
         OnComplete?.Invoke(thisObjective);
         Destroy(gameObject);
     }

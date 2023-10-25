@@ -94,7 +94,7 @@ public class BlockPushMechanic : MonoBehaviour
     Dictionary<colors, Vector2> Targets = new Dictionary<colors, Vector2>();
 
     [SerializeField] List<bool> CubesInShadow = new List<bool>();
-    Bounds[,] CellBounds;
+    static Bounds[,] CellBounds;
     (GameObject,Material)[,] FloorParts;
     #endregion
 
@@ -113,6 +113,7 @@ public class BlockPushMechanic : MonoBehaviour
     //we copy materials so we can change variables without worrying about it chaning permenantly
     void CopyMaterials()
     {
+
         for (int i = 0; i < TargetMaterials.Count; i++)
         {
             TargetMaterials[i] = new Material(TargetMaterials[i]);
@@ -132,7 +133,7 @@ public class BlockPushMechanic : MonoBehaviour
         //Compare suns rotation with that of the pillar
         CubesInShadow.Clear();
         Vector3 SunDirectionOnPlane = Vector3.ProjectOnPlane(Sun.forward,Vector3.up);
-        
+        if (CellBounds == null) CalculateCellCenters();
         foreach (var CellBound in CellBounds)
         {
             bool inShadow = false;
@@ -164,6 +165,10 @@ public class BlockPushMechanic : MonoBehaviour
     }
 
 
+    void Awake()
+    {
+        CalculateCellCenters();
+    }
 
 
     #region DeprecaiatedCode

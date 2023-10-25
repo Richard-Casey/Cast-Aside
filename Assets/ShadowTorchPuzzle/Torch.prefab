@@ -5108,6 +5108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   torchLight: {fileID: 4727993907294561458}
+  TorchHead: {fileID: 4639990577453593775}
   particleSystem: {fileID: 9101717856001346386}
 --- !u!1001 &4639990577453180085
 PrefabInstance:
