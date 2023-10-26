@@ -1,18 +1,19 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+
 public class TeleporterHandler : MonoBehaviour
 {
     public static UnityEvent<Transform> Teleported = new UnityEvent<Transform>();
 
-    [SerializeField] Transform TargetPoint;
+    private Transform LastCollidedTransform;
+    [SerializeField] private Transform TargetPoint;
+
+    public void Destory()
+    {
+        CameraManager.TransitionToCompleted.RemoveListener(Teleport);
+    }
 
     //[SerializeField] public CameraManager.TransitionType transitionType;
-
-    Transform LastCollidedTransform;
-
     public void OnTriggerEnter(Collider collision)
     {
         LastCollidedTransform = collision.transform;
@@ -23,13 +24,7 @@ public class TeleporterHandler : MonoBehaviour
     {
         CameraManager.TransitionToCompleted.AddListener(Teleport);
     }
-
-    public void Destory()
-    {
-        CameraManager.TransitionToCompleted.RemoveListener(Teleport);
-    }
-
-    void Teleport()
+    private void Teleport()
     {
         if (LastCollidedTransform != null)
         {

@@ -1,26 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class GameSpecificCharacterController : MonoBehaviour
 {
     public static UnityEvent<float> DealDamage = new UnityEvent<float>();
     public static UnityEvent OnDeath = new UnityEvent();
+    [SerializeField] CameraManager cameraManager;
+    [SerializeField] CharacterController controller;
 
     [SerializeField] InputManager Input;
-    [SerializeField] CharacterController controller;
-    [SerializeField] CameraManager cameraManager;
 
     void Start()
     {
         TeleporterHandler.Teleported.AddListener(LockMovement);
         CameraManager.TransitionCompleted.AddListener(UnlockMovement);
         InputManager.CameraRotation.AddListener(RotateCamera);
+        OnDeath.AddListener(OnPlayerDeath);
         DealDamage.AddListener(OnTakeDamage);
     }
 
@@ -29,6 +26,7 @@ public class GameSpecificCharacterController : MonoBehaviour
         TeleporterHandler.Teleported.RemoveListener(LockMovement);
         CameraManager.TransitionCompleted.RemoveListener(UnlockMovement);
         InputManager.CameraRotation.RemoveListener(RotateCamera);
+        OnDeath.RemoveListener(OnPlayerDeath);
         DealDamage.RemoveListener(OnTakeDamage);
     }
 
@@ -38,7 +36,6 @@ public class GameSpecificCharacterController : MonoBehaviour
         SunRotate();
         ListenForShadow();
         RechargeHealth();
-
     }
 
     void FixedUpdate()
@@ -53,17 +50,17 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] Transform SunTransform;
     [SerializeField] float RotationSpeed = 1f;
 
-    public float TimeSinceLastRotation = 0f;
+    public float TimeSinceLastRotation;
 
     void SunRotate()
     {
         TimeSinceLastRotation += Time.deltaTime;
 
         //Check if the user is trying to rotate or that a rotate is possible
-        if (CurrentHealth - (HealthCostPerRotationFrame * Time.deltaTime ) < 0 || Input.RotateInput == 0) return;
+        if (CurrentHealth - HealthCostPerRotationFrame * Time.deltaTime < 0 || Input.RotateInput == 0) return;
 
         //Drain mana and roatate the sun by a fixed amount based on users input
-        CurrentHealth -= (HealthCostPerRotationFrame * Time.deltaTime);
+        CurrentHealth -= HealthCostPerRotationFrame * Time.deltaTime;
         TimeSinceLastDamage = 0;
         float HorizontalRotation = Input.RotateInput;
 
@@ -74,10 +71,11 @@ public class GameSpecificCharacterController : MonoBehaviour
 
     [Header("Camera")]
     [SerializeField] float CameraRotationStep = 90f;
+
     void RotateCamera(int Direction)
     {
         Vector3 CamerasCurrentEuler = cameraManager.GetCameraEuler();
-        cameraManager.SetCameraRotationY(CamerasCurrentEuler.y + (Direction * CameraRotationStep),.75f,Ease.InOutSine);
+        cameraManager.SetCameraRotationY(CamerasCurrentEuler.y + Direction * CameraRotationStep, .75f, Ease.InOutSine);
     }
 
     #endregion
@@ -110,13 +108,14 @@ public class GameSpecificCharacterController : MonoBehaviour
     {
         controller.LockMovement = false;
     }
+
     #endregion
 
     #region HealthController
 
     [Header("Health Stats")]
     [SerializeField] Slider HealthDisplay;
-    [SerializeField] float CurrentHealth = 0;
+    [SerializeField] float CurrentHealth;
     [SerializeField] float MaxHealth = 10;
     [SerializeField] float HealthRechargeRate = 1f;
     [SerializeField] float HealthRestoredPerTick = 1f;
@@ -124,15 +123,16 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] float HealthCostPerRotationFrame = 1;
     [SerializeField] float MaxDamage = 1f;
     [SerializeField] bool PauseManaDrain = true;
-    float TimeSinceLastDamage = 0f;
-    bool Dead = false;
+    float TimeSinceLastDamage;
+    bool Dead;
+
     public void RechargeHealth()
     {
         TimeSinceLastDamage += Time.deltaTime;
 
         //Dont regen straight after taking damage
         if (TimeSinceLastDamage < HealthRechargeDelay) return;
-        CurrentHealth = Mathf.Clamp(CurrentHealth + (HealthRestoredPerTick * Time.deltaTime), 0, MaxHealth);
+        CurrentHealth = Mathf.Clamp(CurrentHealth + HealthRestoredPerTick * Time.deltaTime, 0, MaxHealth);
     }
 
 
@@ -149,11 +149,6 @@ public class GameSpecificCharacterController : MonoBehaviour
         {
             HeadParticles.emissionRate = CurrentHealth * 8f;
         }
-
-/*        if (ManaDisplay)
-        {
-            ManaDisplay.value = CurrentMana;
-        }*/
     }
 
     public void OnTakeDamage(float Damage)
@@ -166,23 +161,31 @@ public class GameSpecificCharacterController : MonoBehaviour
 
         TimeSinceLastDamage = 0f;
 
-        if (CurrentHealth <= 0) Dead = true;
-        OnDeath?.Invoke();
+        if (CurrentHealth <= 0)
+        {
+            Dead = true;
+            OnDeath?.Invoke();
+        }
     }
 
     [Header("Shadow-Tick-Damage")]
-
     [SerializeField] ShadowCube shadowDetection;
     [SerializeField] float HealthDrainPerSecond = .1f;
+
     public void ListenForShadow()
     {
         if (!shadowDetection.InShadow && !PauseManaDrain)
         {
-            OnTakeDamage(HealthDrainPerSecond*Time.deltaTime);
+            OnTakeDamage(HealthDrainPerSecond * Time.deltaTime);
             TimeSinceLastDamage = 0f;
         }
     }
 
+
+    public void OnPlayerDeath()
+    {
+
+    }
 
     #endregion
 }

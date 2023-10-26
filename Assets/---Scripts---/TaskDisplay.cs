@@ -1,23 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Jobs;
 
 public class TaskDisplay : MonoBehaviour
 {
-    [SerializeField] GameObject DisplayPrefab;
-    [SerializeField] float ObjectWidth = 3f;
-    [SerializeField] float ObjectSpacing = .5f;
-    [SerializeField] float AvalibleSpace = 10f;
-    [SerializeField] Gradient EyeColorGradient;
+    [SerializeField] private GameObject DisplayPrefab;
+    [SerializeField] private float ObjectWidth = 3f;
+    [SerializeField] private float ObjectSpacing = .5f;
+    [SerializeField] private float AvalibleSpace = 10f;
+    [SerializeField] private Gradient EyeColorGradient;
 
     public static Dictionary<Objective, Transform> Displayees = new Dictionary<Objective, Transform>();
     public static Dictionary<Objective, Color> Colors = new Dictionary<Objective, Color>();
 
-    void Start()
+    private void Start()
     {
-
-
         //Calculate the size based on the avalible space and the amount of totems we need to spawn
         float Scale = AvalibleSpace / (ObjectiveManager.NumberOfObjectives * (ObjectWidth + ObjectSpacing));
 
@@ -34,11 +30,11 @@ public class TaskDisplay : MonoBehaviour
         for (int i = 0; i < ObjectiveManager.AllCurrentActiveObjectives.Count; i++)
         {
             //Calculate the spawn position based of its index of spawning and width of object
-            Vector3 PosToSpawn = transform.position - new Vector3(Radius - ObjectWidth/2f, 0, 0);
+            Vector3 PosToSpawn = transform.position - new Vector3(Radius - ObjectWidth / 2f, 0, 0);
             PosToSpawn.x += i * (ObjectSpacing + ObjectWidth);
 
             //Move the point from local to world
-            PosToSpawn = MathUtil.RotateAroundPivot(PosToSpawn,transform.position,transform.rotation);
+            PosToSpawn = MathUtil.RotateAroundPivot(PosToSpawn, transform.position, transform.rotation);
 
             //Create the object, scale, parent and change the color of its eyes
             GameObject newObject = Instantiate(DisplayPrefab, PosToSpawn, transform.rotation);
@@ -57,12 +53,10 @@ public class TaskDisplay : MonoBehaviour
         }
     }
 
-
     public void SetTaskDisplayComplete(Objective completedObjective)
     {
         Light[] lights = Displayees[completedObjective].GetComponentsInChildren<Light>();
         lights[0].enabled = true;
         lights[1].enabled = true;
     }
-
 }
