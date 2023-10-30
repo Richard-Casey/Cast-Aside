@@ -2,6 +2,8 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class GameSpecificCharacterController : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     public static UnityEvent OnDeath = new UnityEvent();
     [SerializeField] CameraManager cameraManager;
     [SerializeField] CharacterController controller;
+    [SerializeField] Animator Animator;
 
     [SerializeField] InputManager Input;
 
@@ -129,6 +132,11 @@ public class GameSpecificCharacterController : MonoBehaviour
     float TimeSinceLastDamage;
     bool Dead;
 
+    [Header("Respawn", order = 1)]
+    [SerializeField] float DeathAnimationLength = 3.4f;
+    [SerializeField] float HalfSceneTransitionLength = .5f;
+    [SerializeField] Transform MostRecentSpawnPoint = null;
+    [SerializeField] Vector3 FallBackSpawnPosition;
     public void RechargeHealth()
     {
         TimeSinceLastDamage += Time.deltaTime;
@@ -156,6 +164,7 @@ public class GameSpecificCharacterController : MonoBehaviour
 
     public void OnTakeDamage(float Damage)
     {
+        if(Dead)return;
         float DamageTaken = Mathf.Clamp(Damage, 0, MaxDamage);
 
         //Stop Negative and zero damage
@@ -166,7 +175,6 @@ public class GameSpecificCharacterController : MonoBehaviour
 
         if (CurrentHealth <= 0)
         {
-            Dead = true;
             OnDeath?.Invoke();
         }
     }
@@ -185,8 +193,32 @@ public class GameSpecificCharacterController : MonoBehaviour
     }
 
 
+    public void SetSpawnPoint(Transform spawnpoint)
+    {
+        MostRecentSpawnPoint = spawnpoint;
+    }
+
     public void OnPlayerDeath()
     {
+        Dead = true;
+        //Play Dead Animation
+        Animator.SetBool("IsDead",true);
+        StartCoroutine(PlayTransitionAfterDeath());
+    }
+
+    IEnumerator PlayTransitionAfterDeath()
+    {
+        yield return new WaitForSeconds(DeathAnimationLength);
+        SceneTransitions.PlayTransition?.Invoke(SceneTransitions.AnimationsTypes.CircleSwipe);
+        StartCoroutine(Teleport());
+    }
+
+    IEnumerator Teleport()
+    {
+        yield return new WaitForSeconds(HalfSceneTransitionLength);
+        if (MostRecentSpawnPoint) transform.position = MostRecentSpawnPoint.position;
+        else transform.position = FallBackSpawnPosition;
+        Animator.SetBool("IsDead", false);
 
     }
 
