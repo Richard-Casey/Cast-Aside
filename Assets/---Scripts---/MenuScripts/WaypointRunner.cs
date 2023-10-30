@@ -14,7 +14,7 @@ public class WaypointRunner : MonoBehaviour
     void Start()
     {
         // Dynamically find and assign the waypoints
-        Transform roomTransform = GameObject.Find("Room").transform;
+        Transform roomTransform = GameObject.Find("MainMenuFountain").transform;
         Transform triggerPointsTransform = roomTransform.Find("TriggerPoints");
 
         corridorWaypoints = new Transform[4];

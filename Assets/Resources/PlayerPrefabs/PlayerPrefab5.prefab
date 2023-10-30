@@ -6408,7 +6408,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2441974495585376661}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e62f7576b609b64495c14e82920b033, type: 3}
   m_Name: 
@@ -6420,7 +6420,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2441974495585376661}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
@@ -6476,11 +6476,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6214fc7ed2944447ab8791ce9f8a72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Input: {fileID: 2562330954718552459}
+  cameraManager: {fileID: 0}
   controller: {fileID: 1120714012268833728}
+  Input: {fileID: 2562330954718552459}
   SunTransform: {fileID: 0}
   RotationSpeed: 100
   TimeSinceLastRotation: 0
+  CameraRotationStep: 90
   HealthDisplay: {fileID: 0}
   CurrentHealth: 10
   MaxHealth: 10
@@ -6489,6 +6491,7 @@ MonoBehaviour:
   HealthRechargeDelay: 1
   HealthCostPerRotationFrame: 1
   MaxDamage: 1
+  PauseManaDrain: 1
   HeadParticles: {fileID: 1161859903979018500}
   shadowDetection: {fileID: 2551703345296602139}
   HealthDrainPerSecond: 1
@@ -6510,7 +6513,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   centerWaypoint: {fileID: 0}
-  speed: 5
+  speed: 105
   pauseTime: 2.5
 --- !u!1 &2581479930500840073
 GameObject:
