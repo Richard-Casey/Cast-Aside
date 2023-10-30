@@ -53,5 +53,6 @@ void MainLightShadows_float (float3 WorldPos, out float ShadowAtten){
 
 
 	#endif
+
 }
 #endif

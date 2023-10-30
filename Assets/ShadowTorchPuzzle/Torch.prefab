@@ -51,7 +51,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -5021,6 +5021,7 @@ GameObject:
   - component: {fileID: 8460377775542791562}
   - component: {fileID: 3564583293094379303}
   - component: {fileID: -4944595129806281029}
+  - component: {fileID: 111144104431241379}
   m_Layer: 0
   m_Name: Torch
   m_TagString: Untagged
@@ -5118,6 +5119,8 @@ MonoBehaviour:
   _lightClip: {fileID: 8300000, guid: 042c9a303a6d5a04b8c8d2444d38e323, type: 3}
   _idleClip: {fileID: 8300000, guid: ed7fc1c69c445ee46bf0b23e64fc4e8f, type: 3}
   _extinguishClip: {fileID: 8300000, guid: 98e5d61fdb603324bb0f4708c8669fa8, type: 3}
+  ToggleState: 0
+  Animator: {fileID: 111144104431241379}
 --- !u!82 &-4944595129806281029
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5129,8 +5132,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 2752406434035488218, guid: 564decac7a3c056499214c1d4f13d5d5, type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.041
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5139,9 +5142,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -5149,23 +5152,59 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      time: 0.06482391
+      value: 0.4110489
+      inSlope: -20.007967
+      outSlope: -20.007967
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.1254135
+      value: 0.18840027
+      inSlope: -3.4002943
+      outSlope: -3.4002943
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.29553926
+    - serializedVersion: 3
+      time: 0.2614166
+      value: 0.10977173
+      inSlope: -1.2504979
+      outSlope: -1.2504979
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.4
+      value: 0.125
+      inSlope: -0.31262448
+      outSlope: -0.31262448
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.8
+      value: 0.02
+      inSlope: -0.07815612
+      outSlope: -0.07815612
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.05001994
+      outSlope: -0.05001994
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -5189,7 +5228,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.46944445
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -5214,6 +5253,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &111144104431241379
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8460377775544468348}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2518fdd76923afe41a0cd755ba26071b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &4639990577453180085
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -50,10 +50,13 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] Transform SunTransform;
     [SerializeField] float RotationSpeed = 1f;
 
+
+    public static Vector3 CurrentSunForward;
     public float TimeSinceLastRotation;
 
     void SunRotate()
     {
+        CurrentSunForward = SunTransform.forward;
         TimeSinceLastRotation += Time.deltaTime;
 
         //Check if the user is trying to rotate or that a rotate is possible

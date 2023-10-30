@@ -13,16 +13,25 @@ public class Torch : MonoBehaviour
     [SerializeField] AudioClip _lightClip;
     [SerializeField] AudioClip _idleClip;
     [SerializeField] AudioClip _extinguishClip;
-
+    [SerializeField] bool ToggleState = false;
+    [SerializeField] Animator Animator;
     public void Start()
     {
 
     }
 
+    public void Update()
+    {
+        if (audio.clip != _idleClip && !audio.isPlaying && TorchActive) PlayIdleAudio();
+        if (ToggleState)
+        {
+            ToggleState = false;
+            ToggleParticles(!torchLight.enabled);
+        };
+    }
+
     public void ParentUpdate()
     {
-        if(audio.clip != _idleClip && !audio.isPlaying) PlayIdleAudio();
-
         if (!TorchActive) return;
         //Calculate the angle between the head of the torch and the shadow caster
         Vector3 SunDirection = Puzzle.sunTransform.forward;
@@ -54,19 +63,33 @@ public class Torch : MonoBehaviour
         audio.Play();
     }
 
+
+    public void Light()
+    {
+        particleSystem.Play();
+
+        audio.loop = false;
+        audio.clip = _lightClip;
+        audio.Play();
+
+        TorchActive = true;
+        torchLight.enabled = true;
+    }
+
+    public void Extinguish()
+    {
+        particleSystem.Stop();
+        audio.Pause();
+        audio.loop = false;
+        audio.clip = _extinguishClip;
+        audio.Play();
+
+        TorchActive = false;
+        torchLight.enabled = false;
+    }
+
     public void ToggleParticles(bool ShouldBeLit)
     {
-        if (torchLight.enabled != ShouldBeLit)
-        {
-            audio.loop = false;
-            if (ShouldBeLit) audio.clip = _lightClip;
-            else audio.clip = _extinguishClip;
-            audio.Play();
-        }
-
-        TorchActive = ShouldBeLit;
-        torchLight.enabled = ShouldBeLit;
-        if (ShouldBeLit && !particleSystem.isEmitting) particleSystem.Play();
-        else if (!ShouldBeLit) particleSystem.Stop();
+        Animator.SetBool("IsLit", ShouldBeLit);
     }
 }
