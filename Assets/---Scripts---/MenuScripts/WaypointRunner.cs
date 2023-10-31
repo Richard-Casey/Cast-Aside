@@ -29,7 +29,13 @@ public class WaypointRunner : MonoBehaviour
         animator = GetComponent<Animator>();
 
         int randomIndex = Random.Range(0, corridorWaypoints.Length);
-        transform.position = corridorWaypoints[randomIndex].position;
+
+        Vector3 spawnPosition = corridorWaypoints[randomIndex].position;
+        spawnPosition.y += 1;
+
+        //transform.position = corridorWaypoints[randomIndex].position;
+
+        transform.position = spawnPosition;
 
         currentTarget = centerWaypoint;
     }
