@@ -6299,7 +6299,7 @@ GameObject:
   - component: {fileID: 7795349891390766047}
   - component: {fileID: 2441974495585376660}
   m_Layer: 8
-  m_Name: PlayerPrefab7
+  m_Name: PlayerPrefab70
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
