@@ -23,7 +23,11 @@ void MainLightShadows_float (float3 WorldPos, out float ShadowAtten){
 		}
 
 #else
-		//ShadowAtten = MainLightRealtimeShadow(shadowCoord);
+		ShadowAtten = 0;
+		for (int i = 0; i < additionalLightsCount; ++i) {
+			Light light = GetAdditionalLight(i, WorldPos, half4(1, 1, 1, 1));
+			ShadowAtten += light.shadowAttenuation;
+		}
 #endif
 
 	#endif
@@ -44,7 +48,11 @@ void MainLightShadows_float (float3 WorldPos, out float ShadowAtten){
 			}
 
 		#else
-			//ShadowAtten = MainLightRealtimeShadow(shadowCoord);
+		ShadowAtten = 0;
+		for (int i = 0; i < additionalLightsCount; ++i) {
+			Light light = GetAdditionalLight(i, WorldPos, half4(1, 1, 1, 1));
+			ShadowAtten += light.shadowAttenuation;
+		}
 		#endif
 
 
