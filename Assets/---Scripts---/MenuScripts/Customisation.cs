@@ -42,7 +42,10 @@ public class Customisation : MonoBehaviour
 
     void Update()
     {
-   
+        for (int i = 0; i < prefabSelectors.Count; i++)
+        {
+            prefabSelectors[i].UpdateVisualRepresentation((IsPrefabUnlocked(i)));
+        }
     }
 
 
