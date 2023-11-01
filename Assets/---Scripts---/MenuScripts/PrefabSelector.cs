@@ -28,11 +28,13 @@ public class PrefabSelector : MonoBehaviour, IPointerClickHandler, IPointerEnter
         Debug.Log("PrefabSelector clicked with index: " + index);
         customisationScript.SelectPrefab(index);
         SetAlpha(255);
+        AudioManager.instance.PlayUIClick();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         SetAlpha(255);
+        AudioManager.instance.PlayUIHover();
     }
 
     public void OnPointerExit(PointerEventData eventData)
