@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class Customisation : MonoBehaviour
     private GameObject[] playerPrefabs;
     private GameObject currentPlayer;
     private int currentPlayerIndex = 0;
+
+    public event Action<int> OnPrefabSelected;
 
     void Start()
     {
@@ -80,6 +83,7 @@ public class Customisation : MonoBehaviour
         Debug.Log("SelectPrefab called with index: " + index);
         // Store the selected prefab index for later use
         currentPlayerIndex = index;
+        OnPrefabSelected?.Invoke(index);
     }
 
 
@@ -91,8 +95,9 @@ public class Customisation : MonoBehaviour
         currentPlayer = Instantiate(playerPrefabs[currentPlayerIndex], playerParent.position, Quaternion.identity, playerParent);
     }
 
-
-
-
-
+    public int GetCurrentPlayerIndex()
+    {
+        return currentPlayerIndex;
+    }
+    
 }
