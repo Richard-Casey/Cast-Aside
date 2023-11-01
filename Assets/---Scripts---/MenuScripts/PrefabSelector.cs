@@ -21,15 +21,34 @@ public class PrefabSelector : MonoBehaviour, IPointerClickHandler, IPointerEnter
         {
             SetAlpha(180);
         }
+
+        if (customisationScript.IsPrefabUnlocked((index)))
+        {
+            SetAlpha(255);
+            SetRGB(255);
+        }
+        else
+        {
+            SetAlpha(180);
+            SetRGB(65);
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("PrefabSelector clicked with index: " + index);
-        customisationScript.SelectPrefab(index);
-        SetAlpha(255);
-        AudioManager.instance.PlayUIClick();
+        if (customisationScript.IsPrefabUnlocked(index))
+        {
+            Debug.Log("PrefabSelector clicked with index: " + index);
+            customisationScript.SelectPrefab(index);
+            SetAlpha(255);
+            AudioManager.instance.PlayUIClick();
+        }
+        else
+        {
+            Debug.Log("This prefab is locked.");
+        }
     }
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -68,4 +87,28 @@ public class PrefabSelector : MonoBehaviour, IPointerClickHandler, IPointerEnter
             SetAlpha(180);
         }
     }
+
+    private void SetRGB(byte value)
+    {
+        Color color = prefabImage.color;
+        color.r = value / 255f;
+        color.g = value / 255f;
+        color.b = value / 255f;
+        prefabImage.color = color;
+    }
+
+    public void UpdateVisualRepresentation(bool isUnlocked)
+    {
+        if (isUnlocked)
+        {
+            SetAlpha(255);
+            SetRGB(255);
+        }
+        else
+        {
+            SetAlpha(180);
+            SetRGB(65);
+        }
+    }
+
 }

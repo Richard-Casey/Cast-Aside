@@ -12,6 +12,9 @@ public class Customisation : MonoBehaviour
 
     public event Action<int> OnPrefabSelected;
 
+    public bool[] debugUnlockStatus;
+    public List<PrefabSelector> prefabSelectors;
+
     void Start()
     {
         // Load all the player prefabs from the Resources/PlayerPrefabs folder into the array
@@ -19,22 +22,27 @@ public class Customisation : MonoBehaviour
         Debug.Log("Loaded prefabs: " + string.Join(", ", System.Array.ConvertAll(playerPrefabs, prefab => prefab.name)));
         // Instantiate the initial player prefab
         currentPlayer = Instantiate(playerPrefabs[currentPlayerIndex], playerParent.position, Quaternion.identity, playerParent);
+
+        // Initialise unlock status for each orefab
+        for (int i = 0; i < playerPrefabs.Length; i++)
+        {
+            if (!PlayerPrefs.HasKey("Prefab_" + i))
+            {
+                PlayerPrefs.SetInt("Prefab_" + i, i == 0 ? 1 : 0); // First prefab is unlocked by default
+            }
+        }
+
+        debugUnlockStatus = new bool[playerPrefabs.Length];
+        for (int i = 0; i < playerPrefabs.Length; i++)
+        {
+            debugUnlockStatus[i] = IsPrefabUnlocked(i);
+        }
     }
 
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            Debug.Log("O key pressed. Trying to switch to next player.");
-            NextPlayer();
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("P key pressed. Trying to switch to previous player.");
-            PreviousPlayer();
-        }
+   
     }
 
 
@@ -99,5 +107,53 @@ public class Customisation : MonoBehaviour
     {
         return currentPlayerIndex;
     }
-    
+
+    public bool IsPrefabUnlocked(int index)
+    {
+        return PlayerPrefs.GetInt("Prefab_" + index, 0) == 1;
+    }
+
+    public void UnlockPrefab(int index)
+    {
+        PlayerPrefs.SetInt("Prefab_" + index, 1);
+    }
+
+    public void LockPrefab(int index)
+    {
+        PlayerPrefs.SetInt("Prefab_" + index, 0);
+    }
+
+
+    public void UpdateUnlockStatusFromDebugArray()
+    {
+        for (int i = 0; i < debugUnlockStatus.Length; i++)
+        {
+            if (debugUnlockStatus[i])
+            {
+                UnlockPrefab(i);
+            }
+            else
+            {
+                LockPrefab(i);
+            }
+        }
+    }
+
+    void OnValidate()
+    {
+        UpdateUnlockStatusFromDebugArray();
+        UpdateVisualRepresentationOfPrefabs();
+    }
+
+    public void UpdateVisualRepresentationOfPrefabs()
+    {
+        for (int i = 0; i < debugUnlockStatus.Length; i++)
+        {
+            bool isUnlocked = IsPrefabUnlocked(i);
+            prefabSelectors[i].UpdateVisualRepresentation(isUnlocked);
+        }
+    }
+
+
+
 }
