@@ -30,7 +30,7 @@ public class CameraManager : MonoBehaviour
     bool _shouldAutoUpdate = true;
     float _t = 0;
 
-
+    public Vector3 GetOffset => _cameraOffset;
     public void Start()
     {
         _cameraDefultRotation = transform.eulerAngles;
