@@ -16,6 +16,9 @@ public class MaterialCheck : MonoBehaviour
     readonly List<MeshRenderer> RenderesActiveThisFrame = new();
     readonly List<MeshRenderer> AllActiveRenderers = new();
 
+    public Material SeeThrough;
+    public Material NonSeeThrough;
+
     public float OpeningSize = 2f;
     public float MaxSize = 1f;
     float MinSize = 0f;
@@ -43,6 +46,7 @@ public class MaterialCheck : MonoBehaviour
             Material material;
             if (data.transform.gameObject.TryGetComponent(out renderer))
             {
+
                 if (renderer.material.shader.name == "Shader Graphs/SeeThroughCircle")
                 {
                     if (!RenderesActiveThisFrame.Contains(renderer))
