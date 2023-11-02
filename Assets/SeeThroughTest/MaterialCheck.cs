@@ -35,9 +35,9 @@ public class MaterialCheck : MonoBehaviour
 
         Shader.SetGlobalFloat("_Size", CurrentSize);
 
-        var Distance = (transform.position + Vector3.up - camera.transform.position).magnitude - 1;
-        var Direction = -(camManager.GetOffset.normalized);
-        var ray = new Ray(camera.transform.position - (Direction * -camera.nearClipPlane), Direction);
+        var Distance = (transform.position - camera.transform.position).magnitude - 1;
+        var Direction = -camera.transform.forward;
+        var ray = new Ray(transform.position, Direction);
         RaycastHit[] Hits = Physics.SphereCastAll(ray.origin, .5f, ray.direction, Distance + (Direction * -camera.nearClipPlane).magnitude, mask);
         Debug.DrawRay(ray.origin,ray.direction,Color.red,2f);
         foreach (var data in Hits)
@@ -79,8 +79,10 @@ public class MaterialCheck : MonoBehaviour
     void OnDrawGizmos()
     {
         var Direction = (transform.position - camera.transform.position).normalized;
+
+        Direction = camera.transform.rotation*Direction;
         Debug.Log(Direction);
-        var Distance = (transform.position + Vector3.up - camera.transform.position).magnitude - 1;
+        var Distance = (transform.position - (camera.transform.position - camManager.GetOffset)).magnitude - 1;
         Vector3 Start = camera.transform.position - (Direction * -camera.nearClipPlane);
         Vector3 End = Start + Direction * Distance + (Direction * -camera.nearClipPlane);
 
