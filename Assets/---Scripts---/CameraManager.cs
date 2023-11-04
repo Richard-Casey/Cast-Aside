@@ -21,7 +21,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] Vector3 _cameraOffset = new Vector3(15,15,15);
     [SerializeField] Ease _easeType = Ease.InOutCirc;
     [SerializeField] float _transitionTime = 4f;
-
+    [SerializeField] CharacterController controller;
     //Local Variables
     Vector3 _currentCameraOffset;
     Vector3 _cameraDefultRotation;
@@ -93,6 +93,13 @@ public class CameraManager : MonoBehaviour
     public void SetCameraRotationZ(float Rotation)
     {
         transform.DORotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, Rotation), _transitionTime).SetEase(_easeType); ;
+    }
+
+
+    public void SetCameraRotation(float x, float y, float z)
+    {
+        transform.DORotate(new Vector3(x, y, z), _transitionTime).SetEase(_easeType);
+
     }
 
     public void SetCameraRotationX(float Rotation,float time, Ease ease)

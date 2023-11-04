@@ -13,7 +13,7 @@ public class CharacterController : MonoBehaviour
 
     //Public
     public InputManager Input;
-
+    [SerializeField] Transform Camera;
 
     //Private
     Animator Animator;
@@ -33,6 +33,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] bool CanCrouch = true;
     [SerializeField] bool CanKneel = false;
     [SerializeField] bool IgnoreXZRotations = true;
+    [SerializeField] bool UseUpAxis = false;
     #endregion
 
     #region LayerMasks
@@ -127,6 +128,16 @@ public class CharacterController : MonoBehaviour
     float _rotationVelocity;
 
 
+    public void SetUseUpAxis()
+    {
+        UseUpAxis = true;
+    }
+
+    public void ResetCustomAxis()
+    {
+        UseUpAxis = false;
+    }
+
     void Move()
     {
         isIdle = Input.MoveInput.sqrMagnitude < IdleThreshold;
@@ -136,6 +147,12 @@ public class CharacterController : MonoBehaviour
         _inputDirection = Input.MoveInput.x * CameraPivot.right +
                           Input.MoveInput.y * new Vector3(CameraPivot.forward.x, 0, CameraPivot.forward.z);
 
+        if (UseUpAxis)
+        {
+            _inputDirection = Input.MoveInput.x * CameraPivot.right +
+                Input.MoveInput.y * Camera.up;
+
+        }
         if (IgnoreXZRotations)
         {
             _inputDirection = Input.MoveInput.x * CameraPivot.right +

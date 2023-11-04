@@ -20,15 +20,35 @@ public class GameSpecificCharacterController : MonoBehaviour
         TeleporterHandler.Teleported.AddListener(LockMovement);
         CameraManager.TransitionCompleted.AddListener(UnlockMovement);
         InputManager.CameraRotation.AddListener(RotateCamera);
+        ObjectiveManager.ObjectiveComplete.AddListener(OnObjectivesComplete);
         OnDeath.AddListener(OnPlayerDeath);
         DealDamage.AddListener(OnTakeDamage);
     }
 
+    public CameraManager GetCameraManager()
+    {
+        if (cameraManager) return cameraManager;
+        return null;
+    }
+
+    [SerializeField] float TimeSinceLastObjective = 0;
+    public void OnObjectivesComplete(Objective objective)
+    {
+        TimeSinceLastObjective = 0;
+        PauseHintCounter = false;
+    }       
+
+    public CharacterController GetcCharacterController()
+    {
+        if (controller) return controller;
+        return null;
+    }
     void OnDestroy()
     {
         TeleporterHandler.Teleported.RemoveListener(LockMovement);
         CameraManager.TransitionCompleted.RemoveListener(UnlockMovement);
         InputManager.CameraRotation.RemoveListener(RotateCamera);
+        ObjectiveManager.ObjectiveComplete.RemoveListener(OnObjectivesComplete);
         OnDeath.RemoveListener(OnPlayerDeath);
         DealDamage.RemoveListener(OnTakeDamage);
     }
@@ -36,6 +56,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!PauseHintCounter) TimeSinceLastObjective += Time.deltaTime;
         SunRotate();
         ListenForShadow();
         RechargeHealth();
@@ -43,9 +64,61 @@ public class GameSpecificCharacterController : MonoBehaviour
 
     void FixedUpdate()
     {
+        Hint();
         Display();
     }
 
+    
+
+    [Header("Puzzle Hints")]
+    [SerializeField] [Tooltip("Time In Seconds")] float HintTime = 120f;
+    [SerializeField] GameObject PuzzleHint;
+    [SerializeField] float HeightOffset = 3;
+    [SerializeField] float DistanceOFfset = 3;
+    [SerializeField] float DistanceBeforeRehint = 25f;
+    Objective ClosestObjective;
+    bool PauseHintCounter = false;
+    
+    void Hint()
+    {
+
+        if(!ClosestObjective && ObjectiveManager.AllCurrentActiveObjectives.Count > 0) FindClosestObjective();
+        if (!ClosestObjective) return;
+        if (Vector3.Distance(ClosestObjective.transform.position, transform.position) > DistanceBeforeRehint)
+        {
+            PauseHintCounter = false;
+        }
+        else
+        {
+            PauseHintCounter = true;
+        }
+        if (TimeSinceLastObjective < HintTime)
+        {
+            return;
+        }
+        var hint = Instantiate(PuzzleHint, transform.position, Quaternion.identity);
+        hint.GetComponent<PuzzleHint>().SetTarget(ClosestObjective.transform,transform);
+        TimeSinceLastObjective = 0;
+        PauseHintCounter = true;
+
+    }
+
+    void FindClosestObjective()
+    {
+        float ClosestDistance = Mathf.Infinity;
+        Objective Closest = null;
+        foreach (var objective in ObjectiveManager.AllCurrentActiveObjectives)
+        {
+            float distance = Vector3.Distance(transform.position, objective.transform.position);
+            if (distance < ClosestDistance)
+            {
+                ClosestDistance = distance;
+                Closest = objective;
+            }
+        }
+
+        ClosestObjective =  Closest;
+    }
 
     #region LightController
 
@@ -104,7 +177,13 @@ public class GameSpecificCharacterController : MonoBehaviour
         CurrentMana = Mathf.Clamp(CurrentMana + (ManaRechargedPerCharge * Time.deltaTime), 0, MaxMana);
     }*/
 
-
+    void OnTriggerEnter(Collider trigger)
+    {
+        if (trigger.transform.tag == "Water")
+        {
+            OnDeath?.Invoke();
+        }
+    }
     void LockMovement(Transform transform)
     {
         controller.LockMovement = true;
@@ -201,6 +280,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     public void OnPlayerDeath()
     {
         Dead = true;
+        controller.enabled = false;
         //Play Dead Animation
         Animator.SetBool("IsDead",true);
         StartCoroutine(PlayTransitionAfterDeath());
@@ -219,7 +299,12 @@ public class GameSpecificCharacterController : MonoBehaviour
         if (MostRecentSpawnPoint) transform.position = MostRecentSpawnPoint.position;
         else transform.position = FallBackSpawnPosition;
         Animator.SetBool("IsDead", false);
+        OnRespawn();
+    }
 
+    void OnRespawn()
+    {
+        controller.enabled = true;
     }
 
     #endregion

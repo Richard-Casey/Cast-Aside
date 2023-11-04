@@ -30,7 +30,7 @@ public class BlockPushMechanic : MonoBehaviour
         CreatePillars();
         CreateTargets();
         CreatePushableBlocks();
-        GetComponent<BoxCollider>().size = new Vector3(CellSize * GridDimensions.x, 5, CellSize * GridDimensions.y);
+        GetComponent<BoxCollider>().size = new Vector3(CellSize * GridDimensions.x + 2f, 30f, CellSize * GridDimensions.y + 2f);
     }
 
     //we copy materials so we can change variables without worrying about it chaning permenantly
@@ -325,14 +325,24 @@ public class BlockPushMechanic : MonoBehaviour
     void OnTriggerEnter(Collider collision)
     {
         InputManager.Interaction?.AddListener(OnPlayerInteract);
+        if (collision.TryGetComponent<GameSpecificCharacterController>(out GameSpecificCharacterController controller))
+        {
+            controller.GetCameraManager().SetCameraRotation(90,180,0);
+            controller.GetcCharacterController().SetUseUpAxis();
+        }
         PuzzleActive = true;
         StartCoroutine(UpdateFloorColor());
     }
 
-    void OnTriggerExit()
+    void OnTriggerExit(Collider collision)
     {
         InputManager.Interaction?.RemoveListener(OnPlayerInteract);
         PuzzleActive = false;
+        if (collision.TryGetComponent<GameSpecificCharacterController>(out GameSpecificCharacterController controller))
+        {
+            controller.GetCameraManager().ResetTransform();
+            controller.GetcCharacterController().ResetCustomAxis();
+        }
         StopCoroutine(UpdateFloorColor());
     }
 
