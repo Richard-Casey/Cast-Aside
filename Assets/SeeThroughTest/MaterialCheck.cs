@@ -76,12 +76,12 @@ public class MaterialCheck : MonoBehaviour
 
     }
 
+    /*
     void OnDrawGizmos()
     {
         var Direction = (transform.position - camera.transform.position).normalized;
 
         Direction = camera.transform.rotation*Direction;
-        Debug.Log(Direction);
         var Distance = (transform.position - (camera.transform.position - camManager.GetOffset)).magnitude - 1;
         Vector3 Start = camera.transform.position - (Direction * -camera.nearClipPlane);
         Vector3 End = Start + Direction * Distance + (Direction * -camera.nearClipPlane);
@@ -90,7 +90,7 @@ public class MaterialCheck : MonoBehaviour
         Gizmos.DrawSphere(End, 1);
 
 
-    }
+    }*/
 
     #endregion
 }

@@ -135,9 +135,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ThisAgent: {fileID: 3734470422443886492}
-  DistanceFromPlayer: 10
-  DistanceFromTarget: 10
-  MaxDistanceFromPlayer: 15
+  thisParticleSystem: {fileID: 7907639716593804952}
+  DistanceFromPlayer: 20
+  DistanceFromTarget: 2
+  MaxDistanceFromPlayer: 25
+  CorrectionSpeed: 15
 --- !u!1 &7907639716593804933
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,14 +165,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7907639716593804933}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0.70710677, y: 0.00000022351739, z: -0.00000022462832, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 6.25, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7907639715230919347}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 360}
 --- !u!198 &7907639716593804952
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -739,7 +741,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 50
+    maxNumParticles: 100
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -799,7 +801,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
+    type: 6
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -867,7 +869,7 @@ ParticleSystem:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-    m_Mesh: {fileID: 0}
+    m_Mesh: {fileID: 4300000, guid: 506749b8b4289ca4d99b1458973d1ab0, type: 3}
     m_MeshRenderer: {fileID: 0}
     m_SkinnedMeshRenderer: {fileID: 0}
     m_Sprite: {fileID: 0}
@@ -882,7 +884,7 @@ ParticleSystem:
     m_TextureColorAffectsParticles: 1
     m_TextureAlphaAffectsParticles: 1
     m_TextureBilinearFiltering: 0
-    randomDirectionAmount: 1
+    randomDirectionAmount: 0
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
@@ -1005,7 +1007,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 12
+      scalar: 33
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -1690,7 +1692,7 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.6
+      scalar: 0.05
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4920,7 +4922,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ac21db1b46b581e47855054366634975, type: 2}
+  - {fileID: 2100000, guid: ac37227b3ee4f8741834ba282afda443, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4941,7 +4943,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_RenderMode: 0
+  m_RenderMode: 4
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0

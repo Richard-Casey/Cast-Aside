@@ -73,6 +73,8 @@ public class GameSpecificCharacterController : MonoBehaviour
     [Header("Puzzle Hints")]
     [SerializeField] [Tooltip("Time In Seconds")] float HintTime = 120f;
     [SerializeField] GameObject PuzzleHint;
+    [SerializeField] GameObject HintPointer;
+    [SerializeField] PuzzleHintPointer HintPointerScript;
     [SerializeField] float HeightOffset = 3;
     [SerializeField] float DistanceOFfset = 3;
     [SerializeField] float DistanceBeforeRehint = 25f;
@@ -100,6 +102,24 @@ public class GameSpecificCharacterController : MonoBehaviour
         hint.GetComponent<PuzzleHint>().SetTarget(ClosestObjective.transform,transform);
         TimeSinceLastObjective = 0;
         PauseHintCounter = true;
+
+
+        /*
+        if (!ClosestObjective && ObjectiveManager.AllCurrentActiveObjectives.Count > 0) FindClosestObjective();
+        if (!ClosestObjective) return;
+        if (Vector3.Distance(ClosestObjective.transform.position, transform.position) > DistanceBeforeRehint)
+        {
+            PauseHintCounter = false;
+            HintPointer.SetActive(true);
+        }
+
+        if (TimeSinceLastObjective > HintTime)
+        {
+            HintPointerScript.SetPlayer(transform);
+            HintPointerScript.SetTarget(ClosestObjective.transform);
+            HintPointer.SetActive(true);
+        }*/
+
 
     }
 

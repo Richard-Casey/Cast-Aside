@@ -7,11 +7,13 @@ using UnityEngine.AI;
 public class PuzzleHint : MonoBehaviour
 {
     [SerializeField] NavMeshAgent ThisAgent;
+    [SerializeField] ParticleSystem thisParticleSystem;
     Transform Player;
     Transform Target;
     [SerializeField] float DistanceFromPlayer;
     [SerializeField] float DistanceFromTarget;
     [SerializeField] float MaxDistanceFromPlayer;
+    [SerializeField] float CorrectionSpeed = 1f;
     public void SetTarget(Transform Target , Transform Player)
     {
         if (ThisAgent)
@@ -37,9 +39,9 @@ public class PuzzleHint : MonoBehaviour
 
         if (distance > MaxDistanceFromPlayer)
         {
-            var newParticle = Instantiate(gameObject, Player.position, Quaternion.identity);
-            newParticle.GetComponent<PuzzleHint>().SetTarget(Target,Player);
-            Destroy(gameObject);
+            Vector3 Direction = (Player.position - transform.position).normalized;
+            ThisAgent.Move(Direction * CorrectionSpeed * Time.fixedDeltaTime);
+
         }
 
         float localDistanceFromTarget = Vector3.Distance(transform.position, Target.position);
@@ -48,6 +50,13 @@ public class PuzzleHint : MonoBehaviour
 
     public void OnDisappear()
     {
+        thisParticleSystem.Stop();
+        StartCoroutine(WaitForFinish());
+    }
+
+    IEnumerator WaitForFinish()
+    {
+        while (thisParticleSystem.IsAlive()) yield return null;
         Destroy(gameObject);
     }
 }
