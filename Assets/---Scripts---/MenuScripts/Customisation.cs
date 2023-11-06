@@ -15,6 +15,7 @@ public class Customisation : MonoBehaviour
     public bool[] debugUnlockStatus;
     public List<PrefabSelector> prefabSelectors;
 
+
     void Start()
     {
         // Load all the player prefabs from the Resources/PlayerPrefabs folder into the array
