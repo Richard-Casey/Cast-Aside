@@ -16,8 +16,9 @@ public class PuzzleHint : MonoBehaviour
     [SerializeField] float CorrectionSpeed = 1f;
     public void SetTarget(Transform Target , Transform Player)
     {
-        if (ThisAgent)
+        if (ThisAgent )
         {
+            if (!ThisAgent.isOnNavMesh) return;
             ThisAgent.SetDestination(Target.position);
         }
 

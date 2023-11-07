@@ -37,7 +37,7 @@ public class MaterialCheck : MonoBehaviour
 
         var Distance = (transform.position - camera.transform.position).magnitude - 1;
         var Direction = -camera.transform.forward;
-        var ray = new Ray(transform.position, Direction);
+        var ray = new Ray(transform.position + Direction + Vector3.up, Direction);
         RaycastHit[] Hits = Physics.SphereCastAll(ray.origin, .5f, ray.direction, Distance + (Direction * -camera.nearClipPlane).magnitude, mask);
         Debug.DrawRay(ray.origin,ray.direction,Color.red,2f);
         foreach (var data in Hits)

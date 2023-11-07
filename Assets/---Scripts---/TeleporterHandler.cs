@@ -1,35 +1,27 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class TeleporterHandler : MonoBehaviour
 {
-    public static UnityEvent<Transform> Teleported = new UnityEvent<Transform>();
+    [SerializeField] Transform TargetPoint;
+    [SerializeField] float HalfSceneTransitionLength = .5f;
 
-    private Transform LastCollidedTransform;
-    [SerializeField] private Transform TargetPoint;
-
-    public void Destory()
+    public void OnTriggerEnter(Collider collider)
     {
-        CameraManager.TransitionToCompleted.RemoveListener(Teleport);
+        StartTeleport(collider.transform);
     }
 
-    //[SerializeField] public CameraManager.TransitionType transitionType;
-    public void OnTriggerEnter(Collider collision)
-    {
-        LastCollidedTransform = collision.transform;
-        Teleported?.Invoke(TargetPoint);
+    public void StartTeleport(Transform player){
+    SceneTransitions.PlayTransition?.Invoke(SceneTransitions.AnimationsTypes.CircleSwipe);
+    StartCoroutine(Teleport(player));
     }
 
-    public void Start()
-    {
-        CameraManager.TransitionToCompleted.AddListener(Teleport);
-    }
-    private void Teleport()
-    {
-        if (LastCollidedTransform != null)
-        {
-            LastCollidedTransform.position = TargetPoint.position;
-        }
-        LastCollidedTransform = null;
-    }
+
+IEnumerator Teleport(Transform player)
+{
+    yield return new WaitForSeconds(HalfSceneTransitionLength);
+    player.position = TargetPoint.position;
+}
+
 }

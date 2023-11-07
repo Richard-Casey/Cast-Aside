@@ -17,7 +17,6 @@ public class GameSpecificCharacterController : MonoBehaviour
 
     void Start()
     {
-        TeleporterHandler.Teleported.AddListener(LockMovement);
         CameraManager.TransitionCompleted.AddListener(UnlockMovement);
         InputManager.CameraRotation.AddListener(RotateCamera);
         ObjectiveManager.ObjectiveComplete.AddListener(OnObjectivesComplete);
@@ -45,7 +44,6 @@ public class GameSpecificCharacterController : MonoBehaviour
     }
     void OnDestroy()
     {
-        TeleporterHandler.Teleported.RemoveListener(LockMovement);
         CameraManager.TransitionCompleted.RemoveListener(UnlockMovement);
         InputManager.CameraRotation.RemoveListener(RotateCamera);
         ObjectiveManager.ObjectiveComplete.RemoveListener(OnObjectivesComplete);
@@ -78,13 +76,13 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] float HeightOffset = 3;
     [SerializeField] float DistanceOFfset = 3;
     [SerializeField] float DistanceBeforeRehint = 25f;
-    Objective ClosestObjective;
+    [SerializeField] Objective ClosestObjective;
     bool PauseHintCounter = false;
     
     void Hint()
     {
 
-        if(!ClosestObjective && ObjectiveManager.AllCurrentActiveObjectives.Count > 0) FindClosestObjective();
+        if(!ClosestObjective || !ClosestObjective.GetComponent<Objective>().IsComplete() && ObjectiveManager.AllCurrentActiveObjectives.Count > 0) FindClosestObjective();
         if (!ClosestObjective) return;
         if (Vector3.Distance(ClosestObjective.transform.position, transform.position) > DistanceBeforeRehint)
         {
@@ -306,7 +304,7 @@ public class GameSpecificCharacterController : MonoBehaviour
         StartCoroutine(PlayTransitionAfterDeath());
     }
 
-    IEnumerator PlayTransitionAfterDeath()
+    public IEnumerator PlayTransitionAfterDeath()
     {
         yield return new WaitForSeconds(DeathAnimationLength);
         SceneTransitions.PlayTransition?.Invoke(SceneTransitions.AnimationsTypes.CircleSwipe);

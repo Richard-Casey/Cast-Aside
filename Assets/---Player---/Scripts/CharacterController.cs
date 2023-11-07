@@ -25,7 +25,7 @@ public class CharacterController : MonoBehaviour
     public bool HasAnimator { private set; get;}
     public bool HasRigidbody { private set; get; }
     public bool isGrounded { private set; get; }
-    public bool isSloped { private set; get; }
+    public bool isSloped;
     public bool isIdle { private set; get; }
     public bool isMoveable { private set; get; }
     public bool _jumped { private set; get; }
@@ -34,6 +34,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] bool CanKneel = false;
     [SerializeField] bool IgnoreXZRotations = true;
     [SerializeField] bool UseUpAxis = false;
+
     #endregion
 
     #region LayerMasks
@@ -110,7 +111,7 @@ public class CharacterController : MonoBehaviour
     public float CrouchedHeight = 1.1f;
     public bool LockMovement = false;
     Vector3 DefaultLookForward = -Vector3.one;
-
+    [SerializeField] Vector3 CurrentGroundNormal = Vector3.zero;
 
     [Header("Animations",order = 1)]
     public float RotationSmoothTime = .07f;
@@ -189,8 +190,7 @@ public class CharacterController : MonoBehaviour
             }else if (isGrounded && !isSloped)
             {//Handle Regular Movement
                 Vector3 TargetVelocity =
-                    Vector3.ClampMagnitude((_inputDirection * MultipliedTargetMoveSpeed * Time.fixedDeltaTime) + Vector3.down,
-                        MultipliedTargetMoveSpeed / 50);
+                    Vector3.ClampMagnitude((_inputDirection * MultipliedTargetMoveSpeed * Time.fixedDeltaTime) + Vector3.down, MultipliedTargetMoveSpeed / 50);
                  Vector3 newVelocity = Vector3.MoveTowards(rb.velocity, TargetVelocity, TargetMoveSpeed);
                 Vector3 Diffrence = newVelocity - rb.velocity;
 
@@ -199,6 +199,13 @@ public class CharacterController : MonoBehaviour
             }
             else if (isGrounded && isSloped)
             {//Handle Sloped Movement
+                Vector3 TargetVelocity = Vector3.ClampMagnitude((Vector3.ProjectOnPlane(_inputDirection,CurrentGroundNormal) * MultipliedTargetMoveSpeed * Time.fixedDeltaTime) + Vector3.down, MultipliedTargetMoveSpeed / 50); 
+                Vector3 newVelocity = Vector3.MoveTowards(rb.velocity, TargetVelocity, TargetMoveSpeed);
+                Vector3 Diffrence = newVelocity - rb.velocity;
+              
+              rb.AddForce(Diffrence, ForceMode.VelocityChange);
+              
+              
 
 
             }
@@ -285,6 +292,22 @@ public class CharacterController : MonoBehaviour
     bool GroundCheck()
     {
         bool returnValue = Physics.CheckSphere(transform.position + Offset, Radius, GroundLayer);
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitData, 15f, GroundLayer))
+        {
+            if (Vector3.Angle(Vector3.up, hitData.normal) > 20)
+            {
+                isSloped = true;
+                CurrentGroundNormal = hitData.normal;
+            }
+            else
+            {
+                isSloped = false;
+            }
+        }
+        else
+        {
+            isSloped = false;
+        }
         if (HasAnimator) Animator.SetBool(GroundedID, returnValue);
         return returnValue;
     }
