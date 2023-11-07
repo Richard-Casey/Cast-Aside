@@ -13,9 +13,9 @@ public class SaveLoadManager : MonoBehaviour
     public void SaveSettings(float masterVolume, float sfxVolume, float musicVolume, int resolutionIndex,
         bool isFullscreen, int qualityIndex)
     {
-        PlayerPrefs.SetFloat("MasterVolume", masterVolume);
-        PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
-        PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+        //PlayerPrefs.SetFloat("MasterVolume", masterVolume);
+        //PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
+        //PlayerPrefs.SetFloat("MusicVolume", musicVolume);
         PlayerPrefs.SetInt("ResolutionIndex", resolutionIndex);
         PlayerPrefs.SetInt("IsFullscreen", isFullscreen ?  1 : 0);
         PlayerPrefs.SetInt("QualityIndex", qualityIndex);
@@ -26,22 +26,22 @@ public class SaveLoadManager : MonoBehaviour
     // Loading the settings
     public void LoadSettings()
     {
-        if (PlayerPrefs.HasKey("Master"))
-        {
-            float masterVolume = PlayerPrefs.GetFloat("Master");
-        }
+        //if (PlayerPrefs.HasKey("Master"))
+        //{
+        //    float masterVolume = PlayerPrefs.GetFloat("Master");
+        //}
 
-        if (PlayerPrefs.HasKey("SFX"))
-        {
-            float sfxVolume = PlayerPrefs.GetFloat("SFX");
-            // Set your SFX volume here
-        }
+        //if (PlayerPrefs.HasKey("SFX"))
+        //{
+        //    float sfxVolume = PlayerPrefs.GetFloat("SFX");
+        //    // Set your SFX volume here
+        //}
 
-        if (PlayerPrefs.HasKey("Music"))
-        {
-            float musicVolume = PlayerPrefs.GetFloat("Music");
-            // Set your music volume here
-        }
+        //if (PlayerPrefs.HasKey("Music"))
+        //{
+        //    float musicVolume = PlayerPrefs.GetFloat("Music");
+        //    // Set your music volume here
+        //}
 
         if (PlayerPrefs.HasKey("ResolutionIndex"))
         {
@@ -62,23 +62,23 @@ public class SaveLoadManager : MonoBehaviour
         }
     }
 
-    public void SaveMasterVolume(float masterVolume)
-    {
-        PlayerPrefs.SetFloat("Master", masterVolume);
-        PlayerPrefs.Save();
-    }
+    //public void SaveMasterVolume(float masterVolume)
+    //{
+    //    PlayerPrefs.SetFloat("Master", masterVolume);
+    //    PlayerPrefs.Save();
+    //}
 
-    public void SaveMusicVolume(float musicVolume)
-    {
-        PlayerPrefs.SetFloat("Music", musicVolume);
-        PlayerPrefs.Save();
-    }
+    //public void SaveMusicVolume(float musicVolume)
+    //{
+    //    PlayerPrefs.SetFloat("Music", musicVolume);
+    //    PlayerPrefs.Save();
+    //}
 
-    public void SaveSFXVolume(float sfxVolume)
-    {
-        PlayerPrefs.SetFloat("SFX", sfxVolume);
-        PlayerPrefs.Save();
-    }
+    //public void SaveSFXVolume(float sfxVolume)
+    //{
+    //    PlayerPrefs.SetFloat("SFX", sfxVolume);
+    //    PlayerPrefs.Save();
+    //}
 
     public void SaveResolutionIndex(int resolutionIndex)
     {
