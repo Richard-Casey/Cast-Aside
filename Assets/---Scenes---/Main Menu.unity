@@ -8798,6 +8798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetPoint: {fileID: 0}
+  HalfSceneTransitionLength: 0.5
 --- !u!65 &1052880434
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9085,6 +9086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetPoint: {fileID: 0}
+  HalfSceneTransitionLength: 0.5
 --- !u!65 &1119676623
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9246,10 +9248,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773ce6c4f90c6b442acc47b31572cd5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: 564decac7a3c056499214c1d4f13d5d5, type: 2}
-  masterVolumeParameterName: MasterVolume
-  musicVolumeParameterName: MusicVolume
-  sfxVolumeParameterName: SFXVolume
 --- !u!1 &1147451024
 GameObject:
   m_ObjectHideFlags: 0
@@ -9525,6 +9523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetPoint: {fileID: 0}
+  HalfSceneTransitionLength: 0.5
 --- !u!65 &1167978569
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14663,6 +14662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetPoint: {fileID: 0}
+  HalfSceneTransitionLength: 0.5
 --- !u!65 &1863251570
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16649,6 +16649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetPoint: {fileID: 0}
+  HalfSceneTransitionLength: 0.5
 --- !u!65 &2100666020
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16717,6 +16718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetPoint: {fileID: 0}
+  HalfSceneTransitionLength: 0.5
 --- !u!65 &2107114871
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public class InputManager : MonoBehaviour
 
     public static UnityEvent<GameObject> Interaction = new UnityEvent<GameObject>();
     public static UnityEvent<int> CameraRotation = new UnityEvent<int>();
+    public static UnityEvent onPausePress = new UnityEvent();
 
     #endregion
 
@@ -33,6 +34,7 @@ public class InputManager : MonoBehaviour
     public bool    isInteract            { private set; get; }
     public bool    isAttack1             { private set; get; }
     public bool    isAttack2             { private set; get; }
+    public bool onPause { private set; get; }
     #region Attack
 
     //void OnAttack1(InputValue value) => SetAttack1(value.isPressed);
@@ -69,7 +71,13 @@ public class InputManager : MonoBehaviour
         isInteract = value;
         if(value)Interaction?.Invoke(this.gameObject);
     }
+    public void OnPause(InputAction.CallbackContext value) => SetPause(value.started);
 
+    private void SetPause(bool value)
+    {
+        onPause = value;
+        if (value) onPausePress?.Invoke();
+    }
 
     public void Update()
     {
