@@ -893,6 +893,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ST_Env_Block_01
       objectReference: {fileID: 0}
+    - target: {fileID: 124014, guid: d66ffebe1cd03e043880df40b6d48c14, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 452044, guid: d66ffebe1cd03e043880df40b6d48c14, type: 3}
       propertyPath: m_RootOrder
       value: 0
