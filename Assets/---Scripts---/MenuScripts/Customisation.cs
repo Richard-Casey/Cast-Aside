@@ -45,7 +45,10 @@ public class Customisation : MonoBehaviour
     {
         for (int i = 0; i < prefabSelectors.Count; i++)
         {
-            prefabSelectors[i].UpdateVisualRepresentation((IsPrefabUnlocked(i)));
+            if (prefabSelectors[i] != null && prefabSelectors[i].gameObject.activeInHierarchy)
+            {
+                prefabSelectors[i].UpdateVisualRepresentation((IsPrefabUnlocked(i)));
+            }
         }
     }
 
@@ -102,7 +105,9 @@ public class Customisation : MonoBehaviour
     public void ConfirmSelection()
     {
         Debug.Log("ConfirmSelection called. Current index: " + currentPlayerIndex);
-        // Instantiate the selected prefab
+        PlayerPrefs.SetInt("SelectedPrefab", currentPlayerIndex);
+        PlayerPrefs.Save();
+
         Destroy(currentPlayer);
         currentPlayer = Instantiate(playerPrefabs[currentPlayerIndex], playerParent.position, Quaternion.identity, playerParent);
     }
