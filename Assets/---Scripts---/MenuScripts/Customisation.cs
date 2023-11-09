@@ -45,7 +45,7 @@ public class Customisation : MonoBehaviour
     {
         for (int i = 0; i < prefabSelectors.Count; i++)
         {
-            if (prefabSelectors[i] != null && prefabSelectors[i].gameObject.activeInHierarchy)
+            if (prefabSelectors[i] != null && prefabSelectors[i].gameObject.activeInHierarchy) // I think this was the issue
             {
                 prefabSelectors[i].UpdateVisualRepresentation((IsPrefabUnlocked(i)));
             }
