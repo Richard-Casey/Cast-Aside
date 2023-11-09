@@ -72,7 +72,7 @@ public class PrefabSelector : MonoBehaviour, IPointerClickHandler, IPointerEnter
         else
         {
             Debug.Log("This prefab is locked.");
-            lockedText.text = "Item is locked, find it in game to unlock";
+            lockedText.text = "Item is locked, unlock by finding chests in-game!";
             lockedText.gameObject.SetActive(true);
         }
     }
