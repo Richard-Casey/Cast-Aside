@@ -3,7 +3,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.AI;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class GameSpecificCharacterController : MonoBehaviour
 {
@@ -14,9 +16,11 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] Animator Animator;
 
     [SerializeField] InputManager Input;
+    [SerializeField] LineRenderer lineRenderer;
 
     void Start()
     {
+        renderer = transform.AddComponent<LineRenderer>();
         CameraManager.TransitionCompleted.AddListener(UnlockMovement);
         InputManager.CameraRotation.AddListener(RotateCamera);
         ObjectiveManager.ObjectiveComplete.AddListener(OnObjectivesComplete);
@@ -77,13 +81,15 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] float DistanceOFfset = 3;
     [SerializeField] float DistanceBeforeRehint = 25f;
     [SerializeField] Objective ClosestObjective;
+
     bool PauseHintCounter = false;
-    
+    LineRenderer renderer;
     void Hint()
     {
 
         if(!ClosestObjective || !ClosestObjective.GetComponent<Objective>().IsComplete() && ObjectiveManager.AllCurrentActiveObjectives.Count > 0) FindClosestObjective();
         if (!ClosestObjective) return;
+
         if (Vector3.Distance(ClosestObjective.transform.position, transform.position) > DistanceBeforeRehint)
         {
             PauseHintCounter = false;
@@ -96,10 +102,19 @@ public class GameSpecificCharacterController : MonoBehaviour
         {
             return;
         }
-        var hint = Instantiate(PuzzleHint, transform.position, Quaternion.identity);
-        hint.GetComponent<PuzzleHint>().SetTarget(ClosestObjective.transform,transform);
-        TimeSinceLastObjective = 0;
-        PauseHintCounter = true;
+        //var hint = Instantiate(PuzzleHint, transform.position, Quaternion.identity);
+        //hint.GetComponent<PuzzleHint>().SetTarget(ClosestObjective.transform,transform);
+        //TimeSinceLastObjective = 0;
+        //PauseHintCounter = true;
+
+
+        //NavMeshPath path = new NavMeshPath();
+
+        //NavMesh.FindClosestEdge(ClosestObjective.transform.position,out NavMeshHit objPos, NavMesh.AllAreas);
+        //NavMesh.FindClosestEdge(transform.position, out NavMeshHit playerpos, NavMesh.AllAreas);
+        //NavMesh.CalculatePath(playerpos.position, objPos.position,NavMesh.AllAreas,path);
+        //renderer.positionCount = path.corners.Length;
+        //renderer.SetPositions(path.corners);
 
 
         /*
