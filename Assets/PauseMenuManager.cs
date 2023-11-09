@@ -109,6 +109,7 @@ public class PauseMenuManager : MonoBehaviour
 
     public void ReturnToMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("Main Menu");
     }
     public void ShowOptions()
@@ -125,7 +126,7 @@ public class PauseMenuManager : MonoBehaviour
     public void HideMainMenu()
     {
         MainMenu.SetActive(false);
-
+        Time.timeScale = 1;
     }
 
     public void HideOptions()
