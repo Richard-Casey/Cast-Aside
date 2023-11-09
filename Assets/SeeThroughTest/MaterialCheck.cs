@@ -9,6 +9,16 @@ public class MaterialCheck : MonoBehaviour
     {
     }
 
+    private void OnDisable()
+    {
+        Shader.SetGlobalFloat("_Size", 0);
+    }
+
+    void OnApplicationQuit()
+    {
+        Shader.SetGlobalFloat("_Size", 0);
+    }
+
     public LayerMask mask;
     public Camera camera;
     public CameraManager camManager;
