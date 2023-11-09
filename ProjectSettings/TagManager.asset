@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Sphere
   - Water
+  - AudioManager
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,10 @@ public class MenuButtons : MonoBehaviour
 
     public AudioSource buttonAudioSource;
 
-
+    private void Awake()
+    {
+        buttonAudioSource = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioSource>();
+    }
 
     public void StartButton()
     {
