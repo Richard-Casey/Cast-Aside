@@ -14,6 +14,8 @@ public class PuzzleHint : MonoBehaviour
     [SerializeField] float DistanceFromTarget;
     [SerializeField] float MaxDistanceFromPlayer;
     [SerializeField] float CorrectionSpeed = 1f;
+
+    LineRenderer rend;
     public void SetTarget(Transform Target , Transform Player)
     {
         if (ThisAgent )
@@ -30,7 +32,8 @@ public class PuzzleHint : MonoBehaviour
     public void FixedUpdate()
     {
         if (!Player || !ThisAgent) return;
-        
+        if (!rend) rend = transform.AddComponent<LineRenderer>();
+        if (rend.numCornerVertices < 1) rend.SetPositions(ThisAgent.path.corners);
         float distance = Vector3.Distance(transform.position, Player.position);
         if (distance > DistanceFromPlayer)
         {
