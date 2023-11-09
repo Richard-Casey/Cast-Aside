@@ -8,6 +8,7 @@ public class MenuButtons : MonoBehaviour
     public GameObject optionsMenu;
     public GameObject mainMenu;
     public GameObject customisationMenu;
+    public GameObject controlsMenu;
 
     public AudioSource buttonAudioSource;
 
@@ -31,6 +32,7 @@ public class MenuButtons : MonoBehaviour
     {
         buttonAudioSource.Play();
         mainMenu.SetActive(false);
+        controlsMenu.SetActive(false);
         optionsMenu.SetActive(true);
         
     }
@@ -40,6 +42,7 @@ public class MenuButtons : MonoBehaviour
         
         mainMenu.SetActive(true);
         optionsMenu.SetActive(false);
+        controlsMenu.SetActive(false);
         buttonAudioSource.Play();
     }
 
@@ -47,6 +50,7 @@ public class MenuButtons : MonoBehaviour
     {
         buttonAudioSource.Play();
         mainMenu.SetActive(false);
+        controlsMenu.SetActive(false);
         customisationMenu.SetActive(true);
         
     }
@@ -55,6 +59,27 @@ public class MenuButtons : MonoBehaviour
     {
         
         mainMenu.SetActive(true);
+        customisationMenu.SetActive(false);
+        controlsMenu.SetActive(false);
+        optionsMenu.SetActive(false);
+        buttonAudioSource.Play();
+    }
+
+    public void OpenControlsCanvas()
+    {
+        buttonAudioSource.Play();
+        mainMenu.SetActive(false);
+        customisationMenu.SetActive(false);
+        optionsMenu.SetActive(false);
+        controlsMenu.SetActive(true);
+
+    }
+
+    public void CloseControlsCanvas()
+    {
+        mainMenu.SetActive(true);
+        optionsMenu.SetActive(false);
+        controlsMenu.SetActive(false);
         customisationMenu.SetActive(false);
         buttonAudioSource.Play();
     }
