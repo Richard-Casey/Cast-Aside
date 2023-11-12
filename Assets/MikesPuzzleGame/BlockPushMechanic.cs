@@ -353,6 +353,7 @@ public class BlockPushMechanic : MonoBehaviour
         TransformPoint.x -= CellSize * GridDimensions.x / 2f;
         TransformPoint.z -= CellSize * GridDimensions.x / 2f;
 
+
         //Find Cell Player Is In
         Vector3 PlayerPositionLocal = Interactor.transform.position - TransformPoint;
 
@@ -514,13 +515,13 @@ public class BlockPushMechanic : MonoBehaviour
 
     #region Lists
 
-    List<GameObject> Pillars = new List<GameObject>();
-    Dictionary<Vector2Int, BlockData> PushableBlocks = new Dictionary<Vector2Int, BlockData>();
-    Dictionary<colors, Vector2> Targets = new Dictionary<colors, Vector2>();
+    [SerializeField] List<GameObject> Pillars = new List<GameObject>();
+    [SerializeField] Dictionary<Vector2Int, BlockData> PushableBlocks = new Dictionary<Vector2Int, BlockData>();
+    [SerializeField] Dictionary<colors, Vector2> Targets = new Dictionary<colors, Vector2>();
 
     [SerializeField] List<bool> CubesInShadow = new List<bool>();
-    static Bounds[,] CellBounds;
-    (GameObject, Material)[,] FloorParts;
+    [SerializeField]static Bounds[,] CellBounds;
+    [SerializeField] (GameObject, Material)[,] FloorParts;
 
     #endregion
 

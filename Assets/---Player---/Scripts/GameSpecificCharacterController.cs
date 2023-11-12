@@ -18,11 +18,21 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] InputManager Input;
     [SerializeField] LineRenderer lineRenderer;
 
+    [SerializeField] Texture2D CurrentCursorTexture;
+    [SerializeField] Texture2D grabTexture;
+    [SerializeField] Texture2D dragTexture;
+
+    public void SetCursor(Texture2D cursorTexture)
+    {
+        Cursor.SetCursor(cursorTexture,cursorTexture.Size() / 2f,CursorMode.Auto);
+        CurrentCursorTexture = cursorTexture;
+    }
+
     void Start()
     {
+        SetCursor(grabTexture);
         renderer = transform.AddComponent<LineRenderer>();
         CameraManager.TransitionCompleted.AddListener(UnlockMovement);
-        InputManager.CameraRotation.AddListener(RotateCamera);
         ObjectiveManager.ObjectiveComplete.AddListener(OnObjectivesComplete);
         OnDeath.AddListener(OnPlayerDeath);
         DealDamage.AddListener(OnTakeDamage);
@@ -49,7 +59,6 @@ public class GameSpecificCharacterController : MonoBehaviour
     void OnDestroy()
     {
         CameraManager.TransitionCompleted.RemoveListener(UnlockMovement);
-        InputManager.CameraRotation.RemoveListener(RotateCamera);
         ObjectiveManager.ObjectiveComplete.RemoveListener(OnObjectivesComplete);
         OnDeath.RemoveListener(OnPlayerDeath);
         DealDamage.RemoveListener(OnTakeDamage);
@@ -70,7 +79,8 @@ public class GameSpecificCharacterController : MonoBehaviour
         Display();
     }
 
-    
+
+
 
     [Header("Puzzle Hints")]
     [SerializeField] [Tooltip("Time In Seconds")] float HintTime = 120f;
@@ -89,6 +99,7 @@ public class GameSpecificCharacterController : MonoBehaviour
 
         if(!ClosestObjective || !ClosestObjective.GetComponent<Objective>().IsComplete() && ObjectiveManager.AllCurrentActiveObjectives.Count > 0) FindClosestObjective();
         if (!ClosestObjective) return;
+
 
         if (Vector3.Distance(ClosestObjective.transform.position, transform.position) > DistanceBeforeRehint)
         {
@@ -169,27 +180,17 @@ public class GameSpecificCharacterController : MonoBehaviour
         TimeSinceLastRotation += Time.deltaTime;
 
         //Check if the user is trying to rotate or that a rotate is possible
-        if (CurrentHealth - HealthCostPerRotationFrame * Time.deltaTime < 0 || Input.RotateInput == 0) return;
+        if (CurrentHealth - HealthCostPerRotationFrame * Time.deltaTime < 0 || InputManager.RotateInput == 0) return;
 
         //Drain mana and roatate the sun by a fixed amount based on users input
         CurrentHealth -= HealthCostPerRotationFrame * Time.deltaTime;
         TimeSinceLastDamage = 0;
-        float HorizontalRotation = Input.RotateInput;
+        float HorizontalRotation = InputManager.RotateInput;
 
         Vector3 SunsRotation = SunTransform.eulerAngles;
         SunsRotation.y += HorizontalRotation * Time.deltaTime * RotationSpeed;
         SunTransform.eulerAngles = SunsRotation;
     }
-
-    [Header("Camera")]
-    [SerializeField] float CameraRotationStep = 90f;
-
-    void RotateCamera(int Direction)
-    {
-        Vector3 CamerasCurrentEuler = cameraManager.GetCameraEuler();
-        cameraManager.SetCameraRotationY(CamerasCurrentEuler.y + Direction * CameraRotationStep, .75f, Ease.InOutSine);
-    }
-
     #endregion
 
     #region ManaController
@@ -313,6 +314,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     public void OnPlayerDeath()
     {
         Dead = true;
+        CurrentHealth = MaxHealth;
         controller.enabled = false;
         //Play Dead Animation
         Animator.SetBool("IsDead",true);
@@ -338,6 +340,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     void OnRespawn()
     {
         controller.enabled = true;
+        Dead=false;
     }
 
     #endregion

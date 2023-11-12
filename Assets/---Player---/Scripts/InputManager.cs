@@ -11,7 +11,7 @@ public class InputManager : MonoBehaviour
     #region Events
 
     public static UnityEvent<GameObject> Interaction = new UnityEvent<GameObject>();
-    public static UnityEvent<int> CameraRotation = new UnityEvent<int>();
+    public static UnityEvent OnAttackRelease = new UnityEvent();
     public static UnityEvent onPausePress = new UnityEvent();
 
     #endregion
@@ -19,32 +19,26 @@ public class InputManager : MonoBehaviour
 
     //public Texture2D CrosshairTexture;
 
-    public Vector2 MouseInputDelta       { private set; get; }
-    public Vector2 MousePositionOnScreen { private set; get; }
-    public Vector2 MoveInput             { private set; get; }
-    public bool    ConfineMouseInput     { private set; get; }
-    public bool    IsSprining            { private set; get; }
-    public bool    IsJumping             { private set; get; }
-    public bool    IsKneel               { private set; get; }
-    public bool    IsCrouch              { private set; get; }
-    public float   RotateInput           { private set; get; }
-    public bool   CameraRotateLeftInput { private set; get; }
-    public bool   CameraRotateRightInput{ private set; get; }
-    public float   InOutInput            { private set; get; }
-    public bool    isInteract            { private set; get; }
-    public bool    isAttack1             { private set; get; }
-    public bool    isAttack2             { private set; get; }
-    public bool onPause { private set; get; }
+    public static Vector2 MouseInputDelta       { private set; get; }
+    public static Vector2 MousePositionOnScreen { private set; get; }
+    public static Vector2 MoveInput             { private set; get; }
+    public static bool ConfineMouseInput     { private set; get; }
+    public static bool IsSprining            { private set; get; }
+    public static bool IsJumping             { private set; get; }
+    public static bool IsKneel               { private set; get; }
+    public static bool IsCrouch              { private set; get; }
+    public static float RotateInput           { private set; get; }
+    public static bool CameraRotateLeftInput { private set; get; }
+    public static bool CameraRotateRightInput { private set; get; }
+    public static float InOutInput            { private set; get; }
+    public static bool isInteract            { private set; get; }
+    public static InputAction.CallbackContext isAttack1             { private set; get; }
+    public static bool isAttack2             { private set; get; }
+    public static bool onPause { private set; get; }
     #region Attack
 
-    //void OnAttack1(InputValue value) => SetAttack1(value.isPressed);
 
-    private void SetAttack1(bool value)
-    {
-        isAttack1 = value;
-    }
 
-    //void OnAttack2(InputValue value) => SetAttack2(value.isPressed);
 
     private void SetAttack2(bool value)
     {
@@ -53,8 +47,8 @@ public class InputManager : MonoBehaviour
 
     public void OnAttack1(InputAction.CallbackContext value)
     {
-        isAttack1 = value.performed;
-
+        if(value.canceled) OnAttackRelease?.Invoke();
+        isAttack1 = value;
     }
 
 
@@ -156,14 +150,13 @@ public class InputManager : MonoBehaviour
     {
         //add events
         CameraRotateRightInput = newInput;
-        if (newInput) CameraRotation?.Invoke(1);
+
     }
 
     public void OnCameraRotateRight(InputAction.CallbackContext value) => SetNewCameraRotateRight(value.started);
     private void SetNewCameraRotateRight(bool newInput)
     {
         CameraRotateRightInput = newInput;
-        if(newInput)CameraRotation?.Invoke(-1);
     }
 
     #endregion

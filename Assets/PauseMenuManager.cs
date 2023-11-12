@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -20,15 +22,24 @@ public class PauseMenuManager : MonoBehaviour
     [SerializeField] Slider Master;
     [SerializeField] Slider SFX;
     [SerializeField] Slider Music;
+
+    [SerializeField] TMP_Dropdown dropdown;
+    [SerializeField] Toggle FullscreenToggle;
     // Start is called before the first frame update
     public void Start()
     {
+        GetScreenRes();
         InputManager.onPausePress.AddListener(onPause);
 
         Master.onValueChanged.AddListener(SetMasterVolume);
         SFX.onValueChanged.AddListener(SetMusicVolume);
         Music.onValueChanged.AddListener(SetSFXVolume);
 
+        dropdown.onValueChanged.AddListener(ChangeResolution);
+
+        Master.value = PlayerPrefs.GetFloat(PlayerPrefsKeys.MasterVolume);
+        SFX.value = PlayerPrefs.GetFloat(PlayerPrefsKeys.SFXVolume);
+        Music.value = PlayerPrefs.GetFloat(PlayerPrefsKeys.MusicVolume);
     }
 
     public void OnDisable()
@@ -37,7 +48,7 @@ public class PauseMenuManager : MonoBehaviour
         Master.onValueChanged.RemoveListener(SetMasterVolume);
         SFX.onValueChanged.RemoveListener(SetMusicVolume);
         Music.onValueChanged.RemoveListener(SetSFXVolume);
-
+        dropdown.onValueChanged.RemoveListener(ChangeResolution);
     }
 
     public void SetMasterVolume(float volume)
@@ -85,6 +96,28 @@ public class PauseMenuManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    //Dictionary<string,Vector2> Resolutio
+    public void ChangeResolution(int index)
+    {
+        string OptionAsString = dropdown.options[index].text;
+        string[] Components = OptionAsString.Split("x");
+
+        if(!int.TryParse(Components[0], out int width)) return;
+        if(!int.TryParse(Components[1], out int height)) return;
+        Screen.SetResolution(width,height, FullscreenToggle.isOn);
+        Debug.Log(Screen.currentResolution);
+    }
+
+
+    public void GetScreenRes()
+    {
+        List<TMP_Dropdown.OptionData> Options = new List<TMP_Dropdown.OptionData>();
+        foreach (var res in Screen.resolutions)
+        {
+            Options.Add(new TMP_Dropdown.OptionData(res.width.ToString() + "x" + res.height.ToString()));
+        }
+        dropdown.options = Options;
+    }
 
     public void ShowMainMenu()
     {
@@ -92,15 +125,6 @@ public class PauseMenuManager : MonoBehaviour
 
         Vector3 InitalPos = mainMenuRectTransform.transform.position;
         MainMenu.SetActive(true);
-        /*mainMenuRectTransform.transform.position = new Vector3(3000, MainMenu.transform.localPosition.y, MainMenu.transform.position.z);
-        mainMenuRectTransform.transform.DOLocalMove(InitalPos, 1f);
-        */
-
-        /*
-        mainMenuRectTransform.anchoredPosition = mainMenuRectTransform.anchoredPosition + (Vector2.up * Screen.currentResolution.height);
-
-        DOTween.To(() => mainMenuRectTransform.anchoredPosition, x => mainMenuRectTransform.anchoredPosition = x, mainMenuRectTransform.anchoredPosition - (Vector2.up * Screen.currentResolution.height), 2);
-        */
 
     }
 

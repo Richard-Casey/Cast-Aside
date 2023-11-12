@@ -14,7 +14,7 @@ public class ObjectiveManager : MonoBehaviour
 
     #region Refrences
 
-    [SerializeField] public static List<Objective> AllCurrentActiveObjectives;
+    [SerializeField] public static List<Objective> AllCurrentActiveObjectives = new List<Objective>();
     [SerializeField] private bool _debugCompleteAll = false;
     [SerializeField] private GameObject CompletionParticle;
     [SerializeField] private TaskDisplay taskDisplayer;

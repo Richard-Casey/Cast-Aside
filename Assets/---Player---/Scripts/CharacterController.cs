@@ -141,46 +141,46 @@ public class CharacterController : MonoBehaviour
 
     void Move()
     {
-        isIdle = Input.MoveInput.sqrMagnitude < IdleThreshold;
+        isIdle = InputManager.MoveInput.sqrMagnitude < IdleThreshold;
 
         isMoveable = (Animator.GetCurrentAnimatorStateInfo(0).IsTag("Moveable")&& !LockMovement);
 
-        _inputDirection = Input.MoveInput.x * CameraPivot.right +
-                          Input.MoveInput.y * new Vector3(CameraPivot.forward.x, 0, CameraPivot.forward.z);
+        _inputDirection = InputManager.MoveInput.x * CameraPivot.right +
+                          InputManager.MoveInput.y * new Vector3(CameraPivot.forward.x, 0, CameraPivot.forward.z);
 
         if (UseUpAxis)
         {
-            _inputDirection = Input.MoveInput.x * CameraPivot.right +
-                Input.MoveInput.y * Camera.up;
+            _inputDirection = InputManager.MoveInput.x * CameraPivot.right +
+                InputManager.MoveInput.y * Camera.up;
 
         }
         if (IgnoreXZRotations)
         {
-            _inputDirection = Input.MoveInput.x * CameraPivot.right +
-                              Input.MoveInput.y * new Vector3(DefaultLookForward.x, 0, DefaultLookForward.z);
+            _inputDirection = InputManager.MoveInput.x * CameraPivot.right +
+                              InputManager.MoveInput.y * new Vector3(DefaultLookForward.x, 0, DefaultLookForward.z);
         }
 
         _inputDirection = _inputDirection.normalized;
 
         _velocity = Vector2.right * rb.velocity.x + Vector2.up * rb.velocity.z;
 
-        NewTargetMoveSpeed = Input.IsSprining ? RunSpeed : WalkSpeed;
+        NewTargetMoveSpeed = InputManager.IsSprining ? RunSpeed : WalkSpeed;
 
         TargetMoveSpeed = Mathf.Lerp(TargetMoveSpeed, NewTargetMoveSpeed, Time.deltaTime * AccelerationTime);
 
         float MultipliedTargetMoveSpeed = TargetMoveSpeed * MovementMultiplier;
 
-        if (Input.IsCrouch && CanCrouch)
-            MultipliedTargetMoveSpeed = Input.IsSprining ? MultipliedTargetMoveSpeed * CrouchRunMultiplier : MultipliedTargetMoveSpeed * CrouchWalkMultiplier;
+        if (InputManager.IsCrouch && CanCrouch)
+            MultipliedTargetMoveSpeed = InputManager.IsSprining ? MultipliedTargetMoveSpeed * CrouchRunMultiplier : MultipliedTargetMoveSpeed * CrouchWalkMultiplier;
 
 
-        NewAnimationTimeScale = Input.IsCrouch ? CrouchedAnimationTimeScale : StandingAnimationTimeScale;
+        NewAnimationTimeScale = InputManager.IsCrouch ? CrouchedAnimationTimeScale : StandingAnimationTimeScale;
         CurrentAnimationTimeScale = Mathf.Lerp(CurrentAnimationTimeScale, NewAnimationTimeScale, Time.deltaTime);
         _animationBlend = Mathf.Lerp(_animationBlend, _velocity.normalized.magnitude * NewAnimationTimeScale, Time.fixedDeltaTime * CurrentAnimationTimeScale);
         if(_animationBlend < .01f) _animationBlend = 0f;
 
         //Normal Grounded Input
-        if (isGrounded && !_jumped && !(Input.IsKneel && CanKneel) )
+        if (isGrounded && !_jumped && !(InputManager.IsKneel && CanKneel) )
         {
             //Handle Deceleration
             if (_inputDirection.magnitude == 0f && _velocity.magnitude >= IdleThreshold)
@@ -224,9 +224,9 @@ public class CharacterController : MonoBehaviour
             rb.AddForce(Diffrence, ForceMode.VelocityChange);
             rb.AddForce(Vector3.up * Gravity , ForceMode.Acceleration);
         }
-        
+
         //Rotate Player In Direction Of Movement
-        if (Input.MoveInput != Vector2.zero)
+        if (InputManager.MoveInput != Vector2.zero)
         {
             Vector3 RotationInputDirection = new Vector3(_inputDirection.x, 0, _inputDirection.z).normalized;
             float _targetRotation = Mathf.Atan2(RotationInputDirection.x, RotationInputDirection.z) * Mathf.Rad2Deg + CameraPivot.forward.y;
@@ -247,13 +247,13 @@ public class CharacterController : MonoBehaviour
         if (HasAnimator)
         {
             Animator.SetFloat(SpeedID,Mathf.Clamp(_animationBlend * rb.velocity.magnitude * 1.2f,0f,TargetMoveSpeed));
-            Animator.SetFloat(MotionSpeedID,Input.MoveInput.magnitude);
-            Animator.SetBool(KneelID,Input.IsKneel && CanKneel);
-            Animator.SetBool(CrouchedID, Input.IsCrouch && CanCrouch);
+            Animator.SetFloat(MotionSpeedID,InputManager.MoveInput.magnitude);
+            Animator.SetBool(KneelID,InputManager.IsKneel && CanKneel);
+            Animator.SetBool(CrouchedID, InputManager.IsCrouch && CanCrouch);
         }
 
-        collider.height = Input.IsCrouch ? CrouchedHeight : Height;
-        collider.center = Input.IsCrouch ? new Vector3(0, CrouchedHeight / 2f, 0) : new Vector3(0, Height / 2f, 0);
+        collider.height = InputManager.IsCrouch ? CrouchedHeight : Height;
+        collider.center = InputManager.IsCrouch ? new Vector3(0, CrouchedHeight / 2f, 0) : new Vector3(0, Height / 2f, 0);
     }
     [Header("Jumping", order = 1)]
     public float JumpCooldown = .7f;
@@ -262,7 +262,7 @@ public class CharacterController : MonoBehaviour
     float CurrentJumpCooldown = 0f;
     void Jump()
     {
-        if (isGrounded && Input.IsJumping && Animator.GetCurrentAnimatorStateInfo(0).IsTag("Moveable"))
+        if (isGrounded && InputManager.IsJumping && Animator.GetCurrentAnimatorStateInfo(0).IsTag("Moveable"))
         {
             //Add Force
             rb.AddForce(transform.up * JumpMultiplier, ForceMode.Impulse);
@@ -328,11 +328,11 @@ public class CharacterController : MonoBehaviour
     Cinemachine3rdPersonFollow _cameraFollow;
     /*void Look()
     {
-        CameraPivot.transform.eulerAngles = new Vector3(CameraPivot.transform.eulerAngles.x, CameraPivot.transform.eulerAngles.y + (Input.RotateInput * RotationSensitivity),
+        CameraPivot.transform.eulerAngles = new Vector3(CameraPivot.transform.eulerAngles.x, CameraPivot.transform.eulerAngles.y + (InputManager.RotateInput * RotationSensitivity),
                 CameraPivot.transform.eulerAngles.z);
-        _cameraFollow.CameraDistance -= Input.InOutInput * ZoomSensitivity;
+        _cameraFollow.CameraDistance -= InputManager.InOutInput * ZoomSensitivity;
         _cameraFollow.CameraDistance = Mathf.Clamp(_cameraFollow.CameraDistance, MinZoom, MaxZoom);
-        _cameraFollow.ShoulderOffset.z -= Input.InOutInput * ZoomSensitivity;
+        _cameraFollow.ShoulderOffset.z -= InputManager.InOutInput * ZoomSensitivity;
         _cameraFollow.ShoulderOffset.z = Mathf.Clamp(_cameraFollow.ShoulderOffset.z, CameraOffsetMin, CameraOffsetMax);
 
 

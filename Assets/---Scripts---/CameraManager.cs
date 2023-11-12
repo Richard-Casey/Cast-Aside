@@ -7,6 +7,8 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 using DG.Tweening;
+using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 
 public class CameraManager : MonoBehaviour
 {
@@ -38,17 +40,53 @@ public class CameraManager : MonoBehaviour
         transform.position = PlayerTransform.position + _cameraOffset;
         _currentPositon = transform.position;
     }
-    
 
-    private float Round(float Input, int RoundTo)
+
+    void OnEnable()
     {
-        return (Input / RoundTo) * RoundTo;
+        InputManager.OnAttackRelease.AddListener(SnapRotation);
     }
+
+    void OnDisable()
+    {
+        InputManager.OnAttackRelease.RemoveListener(SnapRotation);
+    }
+
+    private float Round(float Input, float RoundTo)
+    {
+        return Mathf.Round(Input / RoundTo) * RoundTo;
+    }
+
+
+    //Handle CameraRotationAndSnapping
+
+    bool isBusy = false;
+    bool isRotating = false;
+    [SerializeField]float RotateSpeed = 2f;
+    [SerializeField] float RotationSnapAngle = 45;
+    void HandleRotation()
+    {
+        isRotating = (InputManager.isAttack1.started || InputManager.isAttack1.performed);
+        if (isRotating && !isBusy)
+        {
+            transform.Rotate(new Vector3(0,InputManager.MouseInputDelta.x * RotateSpeed , 0),Space.World);
+            transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
+        }
+    }
+
+    void SnapRotation()
+    {
+        isBusy = true;
+        Vector3 SnappedVector = new Vector3(transform.eulerAngles.x, Round(transform.eulerAngles.y, RotationSnapAngle),transform.eulerAngles.z);
+        transform.DORotate(SnappedVector, .5f).SetEase(Ease.OutBounce).OnComplete(() => isBusy = false);
+    }
+
 
     public void Update()
     {
+        HandleRotation();
 
-        
+        //Handle moving the cameras position
         if (_shouldAutoUpdate)
         {
             Vector3 TargetPosition = PlayerTransform.position;
@@ -75,12 +113,18 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+
     public void SetCameraPosition(Transform target)
     {
         _shouldAutoUpdate = false;
         transform.DOMove(target.position,_transitionTime,false);
         transform.DORotate(target.eulerAngles, _transitionTime);
     }
+
+    #region RotationFunctions
+
+    
+
 
     public void SetCameraRotationX(float Rotation)
     {
@@ -136,4 +180,5 @@ public class CameraManager : MonoBehaviour
         _currentCameraOffset = _cameraOffset;
         transform.DORotate(_cameraDefultRotation, _transitionTime).SetEase(_easeType);
     }
+    #endregion
 }

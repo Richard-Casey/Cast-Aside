@@ -45,6 +45,7 @@ public class MaterialCheck : MonoBehaviour
 
         Shader.SetGlobalFloat("_Size", CurrentSize);
 
+
         var Distance = (transform.position - camera.transform.position).magnitude - 1;
         var Direction = -camera.transform.forward;
         var ray = new Ray(transform.position + Direction + Vector3.up, Direction);
