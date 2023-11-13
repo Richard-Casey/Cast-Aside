@@ -248,6 +248,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             }
             else
             {
+
                 PerformInteractiveRebind(action, bindingIndex);
             }
         }

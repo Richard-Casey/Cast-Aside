@@ -4,12 +4,16 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenuManager : MonoBehaviour
 {
+
+    public static UnityEvent OnPause = new UnityEvent();
+    public static UnityEvent OnUnpause = new UnityEvent();
     [SerializeField] GameObject pauseSymbolImage;
     [SerializeField] Image background;
     [SerializeField] Color backgroundColor;
@@ -17,6 +21,7 @@ public class PauseMenuManager : MonoBehaviour
     [SerializeField] GameObject MainMenu;
     [SerializeField] GameObject OptionsMenu;
     [SerializeField] GameObject ConfirmQuit;
+    [SerializeField] GameObject ControlsMenu;
 
     [SerializeField] AudioMixer mixer;
     [SerializeField] Slider Master;
@@ -134,11 +139,22 @@ public class PauseMenuManager : MonoBehaviour
     public void ReturnToMenu()
     {
         Time.timeScale = 1;
+        OnUnpause?.Invoke();
         SceneManager.LoadScene("Main Menu");
     }
     public void ShowOptions()
     {
         OptionsMenu.SetActive(true);
+    }
+
+    public void ShowControls()
+    {
+        ControlsMenu.SetActive(true);
+    }
+
+    public void HideControls()
+    {
+        ControlsMenu.SetActive(false);
     }
 
     public void ShowConfirmQuit()
@@ -165,6 +181,8 @@ public class PauseMenuManager : MonoBehaviour
 
     public void onUnpause()
     {
+        OnUnpause?.Invoke();
+
         //Invert the function called when unpausing
         InputManager.onPausePress.AddListener(onPause);
         InputManager.onPausePress.RemoveListener(onUnpause);
@@ -188,6 +206,8 @@ public class PauseMenuManager : MonoBehaviour
 
     public void onPause()
     {
+        OnPause?.Invoke();
+
         //Invert the function called when unpausing
         InputManager.onPausePress.RemoveListener(onPause);
         InputManager.onPausePress.AddListener(onUnpause);

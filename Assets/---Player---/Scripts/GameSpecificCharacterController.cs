@@ -6,6 +6,7 @@ using System.Collections;
 using UnityEngine.AI;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public class GameSpecificCharacterController : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] CharacterController controller;
     [SerializeField] Animator Animator;
 
+
+    [SerializeField] InputActionAsset pi;
     [SerializeField] InputManager Input;
     [SerializeField] LineRenderer lineRenderer;
 
@@ -36,6 +39,23 @@ public class GameSpecificCharacterController : MonoBehaviour
         ObjectiveManager.ObjectiveComplete.AddListener(OnObjectivesComplete);
         OnDeath.AddListener(OnPlayerDeath);
         DealDamage.AddListener(OnTakeDamage);
+
+
+        PauseMenuManager.OnPause.AddListener(DisablePlayerInputForRebinding);
+        PauseMenuManager.OnUnpause.AddListener(EnablePlayerInputForRebinding);
+    }
+
+
+    void DisablePlayerInputForRebinding()
+    {
+        PauseManaDrain = true;
+        pi.Disable();
+    }
+
+    void EnablePlayerInputForRebinding()
+    {
+        PauseManaDrain = false;
+        pi.Enable();
     }
 
     public CameraManager GetCameraManager()
