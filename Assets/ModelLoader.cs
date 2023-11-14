@@ -10,7 +10,7 @@ public class ModelLoader : MonoBehaviour
     void Start()
     {
         // Load all the player prefabs from the Resources/PlayerPrefabs folder into the array
-        playerPrefabs = Resources.LoadAll<GameObject>("PlayerPrefabs/PlayablePlayerPrefabs"); 
+        playerPrefabs = Resources.LoadAll<GameObject>("PlayablePlayerPrefabs"); 
         // Instantiate the initial player prefab
         Instantiate(playerPrefabs[PlayerPrefs.GetInt("SelectedPrefab")], transform.position, Quaternion.identity, transform);
     }

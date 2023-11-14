@@ -39,7 +39,7 @@ public class GameSpecificCharacterController : MonoBehaviour
         ObjectiveManager.ObjectiveComplete.AddListener(OnObjectivesComplete);
         OnDeath.AddListener(OnPlayerDeath);
         DealDamage.AddListener(OnTakeDamage);
-
+        EnablePlayerInputForRebinding();
 
         PauseMenuManager.OnPause.AddListener(DisablePlayerInputForRebinding);
         PauseMenuManager.OnUnpause.AddListener(EnablePlayerInputForRebinding);

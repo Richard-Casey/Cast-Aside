@@ -1,9 +1,12 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class MenuButtons : MonoBehaviour
 {
+    public InputActionAsset pia;
 
     public GameObject optionsMenu;
     public GameObject mainMenu;
@@ -40,6 +43,11 @@ public class MenuButtons : MonoBehaviour
         
     }
 
+    public void PlayerButtonPress()
+    {
+        buttonAudioSource.Play();
+    }
+
     public void CloseOptionsMenu()
     {
         
@@ -70,6 +78,7 @@ public class MenuButtons : MonoBehaviour
 
     public void OpenControlsCanvas()
     {
+        pia.Disable();
         buttonAudioSource.Play();
         mainMenu.SetActive(false);
         customisationMenu.SetActive(false);
@@ -80,6 +89,7 @@ public class MenuButtons : MonoBehaviour
 
     public void CloseControlsCanvas()
     {
+        pia.Enable();
         mainMenu.SetActive(true);
         optionsMenu.SetActive(false);
         controlsMenu.SetActive(false);
