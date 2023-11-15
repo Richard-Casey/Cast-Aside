@@ -111,7 +111,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] float DistanceOFfset = 3;
     [SerializeField] float DistanceBeforeRehint = 25f;
     [SerializeField] Objective ClosestObjective;
-
+    GameObject previousHint;
     bool PauseHintCounter = false;
     LineRenderer renderer;
     void Hint()
@@ -133,10 +133,11 @@ public class GameSpecificCharacterController : MonoBehaviour
         {
             return;
         }
-        //var hint = Instantiate(PuzzleHint, transform.position, Quaternion.identity);
-        //hint.GetComponent<PuzzleHint>().SetTarget(ClosestObjective.transform,transform);
-        //TimeSinceLastObjective = 0;
-        //PauseHintCounter = true;
+        if(previousHint)Destroy(previousHint);
+        previousHint = Instantiate(PuzzleHint, transform.position, Quaternion.identity);
+        previousHint.GetComponent<PuzzleHint>().SetTarget(ClosestObjective.transform,transform);
+        TimeSinceLastObjective = 0;
+        PauseHintCounter = true;
 
 
         //NavMeshPath path = new NavMeshPath();

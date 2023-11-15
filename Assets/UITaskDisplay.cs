@@ -1,44 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UITaskDisplay : MonoBehaviour
 {
-    [SerializeField] GameObject TaskDisplayPrefab;
-    [SerializeField] Transform UICamera;
-    [SerializeField] Transform TaskDisplayPos;
 
-    [SerializeField] private float ObjectWidth = 3f;
-    [SerializeField] private float ObjectSpacing = .5f;
-    [SerializeField] float scale = .2f;
-  
+    [SerializeField] List<GameObject> ColumnParts = new List<GameObject>();
+    [SerializeField] int CurrentPartIndex = 0;
+    [SerializeField] float BlockHeight = 3f;
+    
 
     void Start()
     {
+        ObjectiveManager.ObjectiveComplete.AddListener(OnObjectiveComplete);
+    }
 
-        int index = 0;
-        foreach (var objective in TaskDisplay.Colors)
+    //.SetColor("_EmissionColor", TargetMaterials[(int)PushableBlocks[CellLocationOfPlayer].color].color * 2f))
+    void OnObjectiveComplete(Objective completedObjective)
+    {
+        GameObject columPart = ColumnParts[CurrentPartIndex];
+
+        MeshRenderer renderer = columPart.GetComponent<MeshRenderer>();
+        if (renderer != null)
         {
-            Vector3 PosToSpawn  = Vector3.zero;
-            PosToSpawn.x -= (TaskDisplay.Colors.Count / 2f);
-            PosToSpawn.x += index * (ObjectWidth + ObjectSpacing);
-
-            GameObject display = GameObject.Instantiate(TaskDisplayPrefab,TaskDisplayPos);
-            display.transform.localPosition = PosToSpawn;
-            display.transform.rotation = Quaternion.LookRotation(-transform.forward,Vector3.up);
-            display.layer = LayerMask.NameToLayer("UI");
-            display.transform.localScale = new Vector3(scale, scale, scale);
-
-            Light[] lightsInChild = display.GetComponentsInChildren<Light>();
-
-            lightsInChild[0].color = objective.Value;
-            lightsInChild[1].color = objective.Value;
-
-            lightsInChild[0].enabled = false;
-            lightsInChild[1].enabled = false;
-            index++; 
+            renderer.material.SetColor("_EmissionColor", TaskDisplay.Colors[completedObjective] * 10f);
         }
+
+        columPart.SetActive(true);
+
+        for (int i = 0; i <= CurrentPartIndex; i++)
+        {
+            ColumnParts[i].transform.DOLocalMoveY(BlockHeight + ColumnParts[i].transform.localPosition.y, 1);
+        }
+
+        CurrentPartIndex++;
     }
 
 
