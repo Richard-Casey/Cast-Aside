@@ -25,11 +25,19 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] Texture2D grabTexture;
     [SerializeField] Texture2D dragTexture;
 
+
     public void SetCursor(Texture2D cursorTexture)
     {
-        Cursor.SetCursor(cursorTexture,cursorTexture.Size() / 2f,CursorMode.Auto);
+        Vector2 hotspot = new Vector2(cursorTexture.width / 2f, cursorTexture.height / 2f);
+        Cursor.SetCursor(cursorTexture, hotspot, CursorMode.Auto);
         CurrentCursorTexture = cursorTexture;
     }
+
+    //public void SetCursor(Texture2D cursorTexture)
+    //{
+    //    Cursor.SetCursor(cursorTexture,cursorTexture.Size() / 2f,CursorMode.Auto);
+    //    CurrentCursorTexture = cursorTexture;
+    //}
 
     void Start()
     {
