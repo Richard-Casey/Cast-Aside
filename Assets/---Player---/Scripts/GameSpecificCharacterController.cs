@@ -60,6 +60,17 @@ public class GameSpecificCharacterController : MonoBehaviour
         pi.Disable();
     }
 
+
+    public void DisableMana()
+    {
+        PauseManaDrain = true;
+    }
+
+    public void EnableMana()
+    {
+        PauseManaDrain = false;
+    }
+
     void EnablePlayerInputForRebinding()
     {
         PauseManaDrain = false;
