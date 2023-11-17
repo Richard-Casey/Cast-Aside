@@ -19,6 +19,10 @@ public class SpeechBubble : MonoBehaviour
         textMeshPro.text = DialougeToSay[CurrentText];
     }
 
+    public void FixedUpdate()
+    {
+    }
+
     public void ShowNextText()
     {
         CurrentText++;
