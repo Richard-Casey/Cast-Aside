@@ -16,6 +16,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] CharacterController controller;
     [SerializeField] Animator Animator;
 
+    [SerializeField] bool debugMode = false;
 
     [SerializeField] InputActionAsset pi;
     [SerializeField] InputManager Input;
@@ -317,7 +318,7 @@ public class GameSpecificCharacterController : MonoBehaviour
 
     public void OnTakeDamage(float Damage)
     {
-        if(Dead)return;
+        if(Dead || debugMode) return;
         float DamageTaken = Mathf.Clamp(Damage, 0, MaxDamage);
 
         //Stop Negative and zero damage

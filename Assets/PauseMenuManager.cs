@@ -187,6 +187,7 @@ public class PauseMenuManager : MonoBehaviour
         InputManager.onPausePress.AddListener(onPause);
         InputManager.onPausePress.RemoveListener(onUnpause);
 
+        InputManager.SetCursorState(false);
 
         //Disable All Menus
         MainMenu.SetActive(false);

@@ -33,12 +33,19 @@ public class InputManager : MonoBehaviour
     public static float InOutInput            { private set; get; }
     public static bool isInteract            { private set; get; }
     public static InputAction.CallbackContext isAttack1             { private set; get; }
+    public static bool IsAttack1Clicked { set; get; }
     public static bool isAttack2             { private set; get; }
+    public static InputAction.CallbackContext isReloading { private set; get; }
     public static bool onPause { private set; get; }
+
+    public static bool isPaused { private set; get; }
     #region Attack
 
 
-
+    public void Start()
+    {
+        SetCursorState(false);
+    }
 
     private void SetAttack2(bool value)
     {
@@ -47,7 +54,11 @@ public class InputManager : MonoBehaviour
 
     public void OnAttack1(InputAction.CallbackContext value)
     {
-        if(value.canceled) OnAttackRelease?.Invoke();
+        if (value.canceled) OnAttackRelease?.Invoke();
+        if (value.started)
+        {
+            IsAttack1Clicked = true;
+        }
         isAttack1 = value;
     }
 
@@ -55,6 +66,13 @@ public class InputManager : MonoBehaviour
     public void OnAttack2(InputAction.CallbackContext value)
     {
         SetAttack2(value.performed);
+    }
+
+    public void OnReload(InputAction.CallbackContext value) => SetReload(value);
+
+    private void SetReload(InputAction.CallbackContext value)
+    {
+        isReloading = value;
     }
 
 
@@ -70,7 +88,12 @@ public class InputManager : MonoBehaviour
     private void SetPause(bool value)
     {
         onPause = value;
-        if (value) onPausePress?.Invoke();
+
+        if (value)
+        {
+            onPausePress?.Invoke();
+            SetCursorState(true);
+        }
     }
 
     public void Update()
@@ -81,14 +104,12 @@ public class InputManager : MonoBehaviour
     #endregion
 
     #region Focus
-    private void OnApplicationFocus(bool hasFocus) => SetCursorState(false);
-    private void OnApplicationPause() => SetCursorState(true);
-
-    private void SetCursorState(bool newState)
+    public static void SetCursorState(bool newState)
     {
         ConfineMouseInput = newState;
-        Cursor.lockState = newState ? CursorLockMode.None : CursorLockMode.Confined;
-        //Cursor.SetCursor(CrosshairTexture, new Vector2(CrosshairTexture.width/2f, CrosshairTexture.height/2f),CursorMode.Auto);
+        Cursor.lockState = newState ? CursorLockMode.None : CursorLockMode.Locked;
+        isPaused = newState;
+        
     }
 
     #endregion

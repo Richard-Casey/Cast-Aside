@@ -145,10 +145,10 @@ public class CharacterController : MonoBehaviour
 
         isMoveable = (Animator.GetCurrentAnimatorStateInfo(0).IsTag("Moveable")&& !LockMovement);
 
-        _inputDirection = InputManager.MoveInput.x * CameraPivot.right +
-                          InputManager.MoveInput.y * new Vector3(CameraPivot.forward.x, 0, CameraPivot.forward.z);
+        _inputDirection = InputManager.MoveInput.x * Camera.right +
+                          InputManager.MoveInput.y * new Vector3(Camera.forward.x, 0, Camera.forward.z);
 
-        if (UseUpAxis)
+        /*if (UseUpAxis)
         {
             _inputDirection = InputManager.MoveInput.x * CameraPivot.right +
                 InputManager.MoveInput.y * Camera.up;
@@ -158,7 +158,7 @@ public class CharacterController : MonoBehaviour
         {
             _inputDirection = InputManager.MoveInput.x * CameraPivot.right +
                               InputManager.MoveInput.y * new Vector3(DefaultLookForward.x, 0, DefaultLookForward.z);
-        }
+        }*/
 
         _inputDirection = _inputDirection.normalized;
 
