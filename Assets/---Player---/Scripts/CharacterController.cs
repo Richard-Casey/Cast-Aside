@@ -77,6 +77,7 @@ public class CharacterController : MonoBehaviour
 
     void Update()
     {
+        
         Jump();
         isGrounded = GroundCheck();
     }
@@ -179,6 +180,9 @@ public class CharacterController : MonoBehaviour
         _animationBlend = Mathf.Lerp(_animationBlend, _velocity.normalized.magnitude * NewAnimationTimeScale, Time.fixedDeltaTime * CurrentAnimationTimeScale);
         if(_animationBlend < .01f) _animationBlend = 0f;
 
+
+        
+
         //Normal Grounded Input
         if (isGrounded && !_jumped && !(InputManager.IsKneel && CanKneel) )
         {
@@ -195,6 +199,7 @@ public class CharacterController : MonoBehaviour
                 Vector3 Diffrence = newVelocity - rb.velocity;
 
                 rb.AddForce(Diffrence, ForceMode.VelocityChange);
+                
 
             }
             else if (isGrounded && isSloped)
@@ -204,7 +209,6 @@ public class CharacterController : MonoBehaviour
                 Vector3 Diffrence = newVelocity - rb.velocity;
               
               rb.AddForce(Diffrence, ForceMode.VelocityChange);
-              
               
 
 

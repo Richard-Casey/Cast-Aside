@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class MathUtil
@@ -11,6 +13,12 @@ public static class MathUtil
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
+
+    public static List<T> Shuffle<T>(List<T> listToShuffle)
+    {
+        List<T> Shuffled = listToShuffle.OrderBy(i => Guid.NewGuid()).ToList();
+        return Shuffled;
+    } 
 
     public static Vector3 FindClosestPointOnLine(Vector3 a, Vector3 b, Vector3 point)
     {

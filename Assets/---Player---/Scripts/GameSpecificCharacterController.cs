@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem;
 
@@ -290,6 +291,8 @@ public class GameSpecificCharacterController : MonoBehaviour
     [SerializeField] float HalfSceneTransitionLength = .5f;
     [SerializeField] Transform MostRecentSpawnPoint = null;
     [SerializeField] Vector3 FallBackSpawnPosition;
+    [SerializeField] GameObject DamageNumbersPrefab;
+    [SerializeField]
     public void RechargeHealth()
     {
         TimeSinceLastDamage += Time.deltaTime;
@@ -315,14 +318,35 @@ public class GameSpecificCharacterController : MonoBehaviour
         }
     }
 
+    float DamageTakenThisSecond = 0f;
+    float t = 0;
+
     public void OnTakeDamage(float Damage)
     {
+        //Stop damage if already dead
         if(Dead)return;
-        float DamageTaken = Mathf.Clamp(Damage, 0, MaxDamage);
 
         //Stop Negative and zero damage
+        float DamageTaken = Mathf.Clamp(Damage, 0, MaxDamage);
         if (!(DamageTaken > 0)) return;
+
         CurrentHealth = Mathf.Clamp(CurrentHealth - DamageTaken, 0, MaxHealth);
+
+        DamageTakenThisSecond += DamageTaken;
+        t += Time.deltaTime;
+        
+        //spawn damage numbers
+        if (t >= 1)
+        {
+            t = 0;
+            var Number = GameObject.Instantiate(DamageNumbersPrefab, transform.position + Vector3.up, Quaternion.identity);
+            Number.GetComponent<TextMeshPro>().text = (DamageTakenThisSecond * 10f).ToString("#.#");
+            Destroy(Number, 1.2f);
+            DamageTakenThisSecond = 0f;
+        }
+
+        
+
 
         TimeSinceLastDamage = 0f;
 
@@ -334,13 +358,13 @@ public class GameSpecificCharacterController : MonoBehaviour
 
     [Header("Shadow-Tick-Damage")]
     [SerializeField] ShadowCube shadowDetection;
-    [SerializeField] float HealthDrainPerSecond = .1f;
+    [SerializeField] Vector2 HealthDrainPerSecond;
 
     public void ListenForShadow()
     {
         if (!shadowDetection.InShadow && !PauseManaDrain)
         {
-            OnTakeDamage(HealthDrainPerSecond * Time.deltaTime);
+            OnTakeDamage(Random.Range(HealthDrainPerSecond.x, HealthDrainPerSecond.y) * Time.deltaTime);
             TimeSinceLastDamage = 0f;
         }
     }

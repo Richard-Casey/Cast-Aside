@@ -270,7 +270,7 @@ public class BlockPushMechanic : MonoBehaviour
         {
             for (int x = 0; x < GridDimensions.x; x++)
             {
-                Vector3 PosToSpawn = CellBounds[y, x].center + Vector3.up;
+                Vector3 PosToSpawn = CellBounds[y, x].center;
                 GameObject ItemToSpawn;
                 BlockStartingPositions[y, x] = new BlockData(y * GridDimensions.x + x,
                     BlockStartPosTypes[y * GridDimensions.x + x], new Vector2(x, y));
