@@ -18,6 +18,7 @@ public class ObjectiveManager : MonoBehaviour
     [SerializeField] private bool _debugCompleteAll = false;
     [SerializeField] private GameObject CompletionParticle;
     [SerializeField] private TaskDisplay taskDisplayer;
+    [SerializeField] GameObject completionPoint;
     #endregion Refrences
 
     #region Events
@@ -65,6 +66,7 @@ public class ObjectiveManager : MonoBehaviour
     private void OnAllTasksCompleted()
     {
         AllObjectivesComplete?.Invoke();
+        completionPoint.SetActive(true);
     }
 
     //called when a single task has been completed via a public event
