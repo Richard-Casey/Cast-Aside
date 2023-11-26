@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c1afc3c8e5bc6af4caff4dcd936dabfa
+guid: 11356d94eecd21345b62e8e6db1df2c9
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,28 +7,33 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Body
+      name: BirdBeak
     second: {fileID: 2100000, guid: fbcbd5bc55f89f245abffd47c19c173a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Cornea
+      name: BirdBody
     second: {fileID: 2100000, guid: c7967b005fddd6842bd85402b6d6ff7c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: EyeLids
-    second: {fileID: 2100000, guid: 7a78786632e5ed1418671557c23e8761, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Retina
-    second: {fileID: 2100000, guid: 7a78786632e5ed1418671557c23e8761, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Teeth
+      name: BirdEyelids
     second: {fileID: 2100000, guid: c7967b005fddd6842bd85402b6d6ff7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BirdHeadDecor
+    second: {fileID: 2100000, guid: c42adcbc7795d07458944b9fc5105ab1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BirdNoseHole
+    second: {fileID: 2100000, guid: c42adcbc7795d07458944b9fc5105ab1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BirdPupils
+    second: {fileID: 2100000, guid: fbcbd5bc55f89f245abffd47c19c173a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -114,7 +119,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: BaseBone
+    rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -122,7 +127,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0

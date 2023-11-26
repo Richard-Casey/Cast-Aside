@@ -8,37 +8,37 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: DogBody
-    second: {fileID: 2100000, guid: 41a8befdd7a9be143a9b35595c249929, type: 2}
+    second: {fileID: 2100000, guid: fbcbd5bc55f89f245abffd47c19c173a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: DogCornea
-    second: {fileID: 2100000, guid: cfdedfe90a1e2454d81cb7244d5de3f7, type: 2}
+    second: {fileID: 2100000, guid: c7967b005fddd6842bd85402b6d6ff7c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: DogEar
-    second: {fileID: 2100000, guid: f769345ed6057b44b8a49ca30569eef8, type: 2}
+    second: {fileID: 2100000, guid: c42adcbc7795d07458944b9fc5105ab1, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: DogEyelids
-    second: {fileID: 2100000, guid: 41a8befdd7a9be143a9b35595c249929, type: 2}
+    second: {fileID: 2100000, guid: fbcbd5bc55f89f245abffd47c19c173a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: DogHeadDecor
-    second: {fileID: 2100000, guid: 823df3965683089419e650bbd1cc5289, type: 2}
+    second: {fileID: 2100000, guid: 5d3409e43c995584b8ed913491c8edbe, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: DogIris
-    second: {fileID: 2100000, guid: f769345ed6057b44b8a49ca30569eef8, type: 2}
+    second: {fileID: 2100000, guid: 5d3409e43c995584b8ed913491c8edbe, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: DogNose
-    second: {fileID: 2100000, guid: f769345ed6057b44b8a49ca30569eef8, type: 2}
+    second: {fileID: 2100000, guid: c42adcbc7795d07458944b9fc5105ab1, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -48,12 +48,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: DogTeeth
-    second: {fileID: 2100000, guid: 3535c2b4f6f9fbd4884e3477ec584126, type: 2}
+    second: {fileID: 2100000, guid: c7967b005fddd6842bd85402b6d6ff7c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Dogtongue
-    second: {fileID: 2100000, guid: f769345ed6057b44b8a49ca30569eef8, type: 2}
+    second: {fileID: 2100000, guid: c42adcbc7795d07458944b9fc5105ab1, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
