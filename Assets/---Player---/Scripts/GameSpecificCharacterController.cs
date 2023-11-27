@@ -363,7 +363,7 @@ public class GameSpecificCharacterController : MonoBehaviour
     public void ListenForShadow()
     {
         if (PauseManaDrain) return;
-        if (!shadowDetection.InShadow )
+        if (!shadowDetection.InShadow && !PauseManaDrain )
         {
             OnTakeDamage(Random.Range(HealthDrainPerSecond.x, HealthDrainPerSecond.y) * Time.deltaTime);
             TimeSinceLastDamage = 0f;
