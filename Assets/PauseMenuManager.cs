@@ -243,11 +243,13 @@ public class PauseMenuManager : MonoBehaviour
     public void ToggleFullscreen()
     {
         Screen.fullScreen = !Screen.fullScreen;
+        
+    }
 
-
-
-
-
+    public void ReexD()
+    {
+        Debug.Log("Hellop");
+        Debug.Log(" ");
     }
 
 }

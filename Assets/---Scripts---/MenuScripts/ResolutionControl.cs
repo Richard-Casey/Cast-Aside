@@ -14,7 +14,7 @@ public class ResolutionControl : MonoBehaviour
         string CurrentRes = Screen.currentResolution.width.ToString() + "x" + Screen.currentResolution.height.ToString();
 
 
-        resolutionDropdown.ClearOptions();
+        
 
         List<TMP_Dropdown.OptionData> Options = new List<TMP_Dropdown.OptionData>();
 
@@ -24,6 +24,7 @@ public class ResolutionControl : MonoBehaviour
             Options.Add(new TMP_Dropdown.OptionData(option));
         }
 
+        resolutionDropdown.ClearOptions();
         resolutionDropdown.options = Options;
 
         for (int i = 0; i < resolutionDropdown.options.Count; i++)

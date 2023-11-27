@@ -23,7 +23,7 @@ public class MenuButtons : MonoBehaviour
     public void StartButton()
     {
         Debug.Log("Start Button pressed - loading game");
-        SceneManager.LoadScene("TutorialScene");
+        SceneManager.LoadSceneAsync("TransitionScene");
         buttonAudioSource.Play();
     }
 
