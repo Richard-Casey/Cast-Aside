@@ -11,17 +11,31 @@ public class ResolutionControl : MonoBehaviour
     void Start()
     {
         resolutions = Screen.resolutions;
+        string CurrentRes = Screen.currentResolution.width.ToString() + "x" + Screen.currentResolution.height.ToString();
+
+
         resolutionDropdown.ClearOptions();
 
-        List<string> options = new List<string>();
+        List<TMP_Dropdown.OptionData> Options = new List<TMP_Dropdown.OptionData>();
 
         for (int i = 0; i < resolutions.Length; i++)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
-            options.Add(option);
+            string option = resolutions[i].width.ToString() + "x" + resolutions[i].height.ToString();
+            Options.Add(new TMP_Dropdown.OptionData(option));
         }
 
-        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.options = Options;
+
+        for (int i = 0; i < resolutionDropdown.options.Count; i++)
+        {
+            if (resolutionDropdown.options[i].text == CurrentRes)
+            {
+                resolutionDropdown.value = i; 
+                return;
+
+            }
+        }
+
     }
 
     public void SetResolution(int resolutionIndex)

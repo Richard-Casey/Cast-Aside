@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -122,6 +123,17 @@ public class PauseMenuManager : MonoBehaviour
             Options.Add(new TMP_Dropdown.OptionData(res.width.ToString() + "x" + res.height.ToString()));
         }
         dropdown.options = Options;
+
+        string CurrentRes = Screen.currentResolution.width.ToString() + "x" + Screen.currentResolution.height.ToString();
+
+        for (int i = 0; i < dropdown.options.Count; i++)
+        {
+            if (dropdown.options[i].text == CurrentRes)
+            {
+                dropdown.value = i;
+                return;
+            }
+        }
     }
 
     public void ShowMainMenu()
@@ -223,6 +235,16 @@ public class PauseMenuManager : MonoBehaviour
             //Stop the game running
             Time.timeScale = 0f;
         });
+
+
+
+    }
+
+    public void ToggleFullscreen()
+    {
+        Screen.fullScreen = !Screen.fullScreen;
+
+
 
 
 
