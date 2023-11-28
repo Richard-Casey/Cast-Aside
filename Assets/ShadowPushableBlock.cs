@@ -21,7 +21,8 @@ public class ShadowPushableBlock : MonoBehaviour
 
     public void Push()
     {
-        rb.AddForce(MovementStrength * MathUtil.Flatten(GameSpecificCharacterController.CurrentSunForward,Vector3.up),ForceMode.Impulse);
+        rb.AddForce(MovementStrength * MathUtil.Flatten(GameSpecificCharacterController.CurrentSunForward,Vector3.up) + (Vector3.down * 40f),ForceMode.Impulse);
+
     }
 
     public void ResetBlock()
