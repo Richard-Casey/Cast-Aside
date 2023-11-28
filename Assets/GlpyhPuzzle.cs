@@ -14,10 +14,12 @@ public class GlpyhPuzzle : MonoBehaviour
     [SerializeField] Objective thisObjective;
 
     [SerializeField] Material ShadowMaterial;
+    [SerializeField] Material CorrectMaterial;
     [SerializeField] Material NonShadowMaterial;
 
     [SerializeField] float GlyphMoveSpeed = 2f;
     [SerializeField] float HeldGlyphOffset = 6f;
+    [SerializeField] float correctShowTime = 2f;
 
     [SerializeField] GameObject[] CurrentEnteredGlyphCombo = new GameObject[4];
 
@@ -158,7 +160,26 @@ public class GlpyhPuzzle : MonoBehaviour
     {
         IsPuzzleReseting = true;
         glyphsPlaced = 0;
+
+        for (int i = 0; i < CurrentEnteredGlyphCombo.Length; i++)
+        {
+            if (CurrentEnteredGlyphCombo[i] == SpawnedGlyphs[i])
+            {
+                CurrentEnteredGlyphCombo[i].GetComponent<MeshRenderer>().material = CorrectMaterial;
+            }
+            else
+            {
+                CurrentEnteredGlyphCombo[i].GetComponent<MeshRenderer>().material = NonShadowMaterial;
+            }
+        }
+
         CurrentEnteredGlyphCombo = new GameObject[4];
+        StartCoroutine(WaitForAndReturn(correctShowTime));
+    }
+
+    IEnumerator WaitForAndReturn(float t)
+    {
+        yield return new WaitForSeconds(t);
         foreach (var glyph in SpawnedGlyphs)
         {
             glyph.transform.parent = transform;

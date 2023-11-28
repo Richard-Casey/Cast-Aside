@@ -31,13 +31,13 @@ public class Glyph : MonoBehaviour
         if(puzzleManager.IsPuzzleReseting) return;
 
         //Pick up
-        if (isPlayerColliding && !CurrentlyHeld)
+        if (!isInDropOff && isPlayerColliding && !CurrentlyHeld)
         {
             CurrentlyHeld = true;
             GlpyhPuzzle.OnGlyphPickup?.Invoke(gameObject, Player.transform);
         }
         //Drop
-        else if (isPlayerColliding && CurrentlyHeld && !puzzleManager.PlayerInDropOff)
+        else if (!isInDropOff&&isPlayerColliding && CurrentlyHeld && !puzzleManager.PlayerInDropOff)
         {
             CurrentlyHeld = false;
             transform.DOMove(initalPosition, 2f);
@@ -46,12 +46,15 @@ public class Glyph : MonoBehaviour
         //Place in holder
         else if (isPlayerColliding && CurrentlyHeld && puzzleManager.PlayerInDropOff)
         {
-            
+            isInDropOff = true;
         }
     }
 
+    public bool isInDropOff = false;
+
     public void ResetPosition()
     {
+        isInDropOff = false;
         transform.DOMove(initalPosition,1f).OnComplete(() => puzzleManager.IsPuzzleReseting = false);
     }
 }
