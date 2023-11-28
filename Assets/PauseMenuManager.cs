@@ -35,6 +35,7 @@ public class PauseMenuManager : MonoBehaviour
     public void Start()
     {
         GetScreenRes();
+        notePlayerPrefs();
         InputManager.onPausePress.AddListener(onPause);
 
         Master.onValueChanged.AddListener(SetMasterVolume);
@@ -152,6 +153,14 @@ public class PauseMenuManager : MonoBehaviour
     {
         Time.timeScale = 1;
         OnUnpause?.Invoke();
+
+
+        //restore player prefs on leave
+        for (int i = 0; i < PlayerPrefsStore.Count; i++)
+        {
+            PlayerPrefs.SetInt("Prefab_" + i.ToString(), PlayerPrefsStore[i]);
+        }
+
         SceneManager.LoadScene("Main Menu");
     }
     public void ShowOptions()
@@ -190,6 +199,25 @@ public class PauseMenuManager : MonoBehaviour
     {
         ConfirmQuit.SetActive(false);
     }
+
+    List<int> PlayerPrefsStore = new List<int>();
+    public void notePlayerPrefs()
+    {
+        bool end = false;
+        int i = 0;
+        while (end == false)
+        {
+            int value = PlayerPrefs.GetInt("Prefab_" + i.ToString(),-1);
+            if (value != -1)
+            {
+                PlayerPrefsStore.Add(value);
+                i++;
+                continue;
+            }
+            end = true;
+            return;
+        }
+    } 
 
     public void onUnpause()
     {
