@@ -27,6 +27,24 @@ public class MenuButtons : MonoBehaviour
         buttonAudioSource.Play();
     }
 
+    public void ResetProgress()
+    {
+        bool end = false;
+        int i = 1;
+        while (end == false)
+        {
+            int value = PlayerPrefs.GetInt("Prefab_" + i.ToString(), -1);
+            if (value != -1)
+            {
+                PlayerPrefs.SetInt("Prefab_" + i.ToString(),0);
+                i++;
+                continue;
+            }
+            end = true;
+            return;
+        }
+    }
+
     public void ExitButton()
     {
         Debug.Log("Exiting Game");
