@@ -11,7 +11,7 @@ public class GlyphTurnIn : MonoBehaviour
 
     [SerializeField] public Transform GlyphHolderPosition;
     [SerializeField] GlpyhPuzzle manager;
-
+    public bool hasGlyph = false;
 
     void Start()
     {
@@ -20,7 +20,7 @@ public class GlyphTurnIn : MonoBehaviour
 
     void OnPlayerInteraction(GameObject Player)
     {
-        if (isPlayerInCollider)
+        if (isPlayerInCollider && !hasGlyph)
         {
             GlpyhPuzzle.OnGlyphPlace?.Invoke(ID);
         }

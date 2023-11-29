@@ -124,8 +124,9 @@ public class GlpyhPuzzle : MonoBehaviour
     [SerializeField] int glyphsPlaced = 0;
     void GlyphPlace(int ID)
     {
-        if (!IsPlayerHoldingGlyph) return;
+        if (!IsPlayerHoldingGlyph || TurnIns[ID - 1].hasGlyph) return;
         CurrentEnteredGlyphCombo[ID-1] = HeldGlpyh;
+        TurnIns[ID - 1].hasGlyph = true;
         HeldGlpyh.transform.parent = TurnIns[ID-1].transform;
         HeldGlpyh.transform.DOLocalMove(TurnIns[ID-1].GlyphHolderPosition.localPosition, 1f).OnComplete(() =>
         {
@@ -160,6 +161,11 @@ public class GlpyhPuzzle : MonoBehaviour
     {
         IsPuzzleReseting = true;
         glyphsPlaced = 0;
+
+        foreach (var turnIn in TurnIns)
+        {
+            turnIn.hasGlyph = false;
+        }
 
         for (int i = 0; i < CurrentEnteredGlyphCombo.Length; i++)
         {
